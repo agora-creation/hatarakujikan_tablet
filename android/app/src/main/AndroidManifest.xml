@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.agoracreation.hatarakujikan_tablet">
    <application
-        android:label="hatarakujikan_tablet"
+        android:label="はたらくじかんforタブレット"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
+import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/screens/splash.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
-  ]).then((_) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
+  ]).then((_) {
     runApp(MyApp());
   });
 }
@@ -18,19 +21,24 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: GroupProvider()),
       ],
-      supportedLocales: [
-        const Locale('ja'),
-      ],
-      locale: const Locale('ja'),
-      title: 'はたらくじかん',
-      theme: theme(),
-      home: SplashController(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('ja'),
+        ],
+        locale: const Locale('ja'),
+        title: 'はたらくじかん',
+        theme: theme(),
+        home: SplashController(),
+      ),
     );
   }
 }
@@ -38,6 +46,6 @@ class MyApp extends StatelessWidget {
 class SplashController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SplashScreen();
   }
 }

@@ -30,8 +30,8 @@ class SplashScreen extends StatelessWidget {
                   Center(
                     child: Image.asset(
                       'assets/images/logo.png',
-                      width: 100.0,
-                      height: 100.0,
+                      width: 200.0,
+                      height: 200.0,
                     ),
                   ),
                   Column(
@@ -41,8 +41,8 @@ class SplashScreen extends StatelessWidget {
                       Text('for タブレット', style: kSubTitleTextStyle),
                     ],
                   ),
-                  SizedBox(height: 32.0),
-                  Loading(size: 32.0, color: Colors.white),
+                  SizedBox(height: 40.0),
+                  Loading(size: 40.0, color: Colors.white),
                 ],
               ),
             ),

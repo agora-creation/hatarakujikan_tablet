@@ -36,11 +36,11 @@ const BoxDecoration kBottomBorderDecoration = BoxDecoration(
 
 const TextStyle kTitleTextStyle = TextStyle(
   color: Colors.white,
-  fontSize: 32.0,
+  fontSize: 40.0,
   fontWeight: FontWeight.bold,
 );
 
 const TextStyle kSubTitleTextStyle = TextStyle(
   color: Colors.white,
-  fontSize: 16.0,
+  fontSize: 24.0,
 );

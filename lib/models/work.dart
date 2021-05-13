@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/models/breaks.dart';
 
 class WorkModel {
@@ -46,24 +45,5 @@ class WorkModel {
       converted.add(BreaksModel.fromMap(data));
     }
     return converted;
-  }
-
-  String workTime() {
-    String _result = '00:00';
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    // 出勤時間と退勤時間の差を求める
-    Duration _diff = _endedAt.difference(_startedAt);
-    String _minutes = twoDigits(_diff.inMinutes.remainder(60));
-    String _workTime = '${twoDigits(_diff.inHours)}:$_minutes';
-    // 休憩の合計時間を求める
-    String _breaksTime = '00:00';
-    if (breaks.length > 0) {
-      for (BreaksModel _break in breaks) {
-        _breaksTime = addTime(_breaksTime, _break.breakTime());
-      }
-    }
-    // 勤務時間と休憩の合計時間の差を求める
-    _result = subTime(_workTime, _breaksTime);
-    return _result;
   }
 }
