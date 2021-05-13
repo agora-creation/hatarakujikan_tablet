@@ -2,7 +2,7 @@
     package="com.agoracreation.hatarakujikan_tablet">
    <application
         android:label="hatarakujikan_tablet"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
