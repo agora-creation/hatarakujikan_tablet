@@ -7,17 +7,9 @@ class GroupService {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   Future<GroupModel> select({String groupId}) async {
-    GroupModel _group;
-    await _firebaseFirestore
-        .collection(_collection)
-        .doc(groupId)
-        .get()
-        .then((value) {
-      _group = GroupModel.fromSnapshot(value);
-    }).catchError((e) {
-      _group = null;
-    });
-    return _group;
+    DocumentSnapshot snapshot =
+        await _firebaseFirestore.collection(_collection).doc(groupId).get();
+    return GroupModel.fromSnapshot(snapshot);
   }
 
   Future<List<GroupModel>> selectList({List<GroupsModel> groups}) async {

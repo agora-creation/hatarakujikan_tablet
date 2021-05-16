@@ -10,6 +10,7 @@ class UserModel {
   String _lastWorkId;
   String _lastBreakId;
   List<GroupsModel> groups;
+  String _token;
   DateTime _createdAt;
 
   String get id => _id;
@@ -19,6 +20,7 @@ class UserModel {
   int get workLv => _workLv;
   String get lastWorkId => _lastWorkId;
   String get lastBreakId => _lastBreakId;
+  String get token => _token;
   DateTime get createdAt => _createdAt;
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -30,6 +32,7 @@ class UserModel {
     _lastWorkId = snapshot.data()['lastWorkId'] ?? '';
     _lastBreakId = snapshot.data()['lastBreakId'] ?? '';
     groups = _convertGroups(snapshot.data()['groups']) ?? [];
+    _token = snapshot.data()['token'];
     _createdAt = snapshot.data()['createdAt'].toDate();
   }
 

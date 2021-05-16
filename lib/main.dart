@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/screens/login.dart';
 import 'package:hatarakujikan_tablet/screens/splash.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: GroupProvider()),
+        ChangeNotifierProvider.value(value: GroupProvider.initialize()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -46,6 +47,17 @@ class MyApp extends StatelessWidget {
 class SplashController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SplashScreen();
+    final groupProvider = Provider.of<GroupProvider>(context);
+    switch (groupProvider.status) {
+      case Status.Uninitialized:
+        return SplashScreen();
+      case Status.Unauthenticated:
+      case Status.Authenticating:
+        return LoginScreen();
+      case Status.Authenticated:
+        return LoginScreen();
+      default:
+        return LoginScreen();
+    }
   }
 }
