@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                           labelText: 'ログイン',
                           labelColor: Colors.white,
                           backgroundColor: Colors.blue,
-                          labelFontSize: 18.0,
+                          labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
                             if (!await groupProvider.signIn()) {
