@@ -95,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                           labelColor: Colors.white,
                           backgroundColor: Colors.blue,
                           labelFontSize: 18.0,
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          padding: EdgeInsets.symmetric(vertical: 18.0),
                           onPressed: () async {
                             if (!await groupProvider.signIn()) {
                               showDialog(
@@ -109,7 +109,10 @@ class LoginScreen extends StatelessWidget {
                               return;
                             }
                             groupProvider.clearController();
-                            overlayScreen(context, GroupSelect());
+                            overlayScreen(
+                              context,
+                              GroupSelect(groupProvider: groupProvider),
+                            );
                           },
                         ),
                       ],

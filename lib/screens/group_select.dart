@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
+import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/screens/home.dart';
 
 class GroupSelect extends StatelessWidget {
   final GroupProvider groupProvider;
@@ -21,7 +24,10 @@ class GroupSelect extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            onPressed: () {
+              groupProvider.signOut();
+              Navigator.of(context, rootNavigator: true).pop();
+            },
             icon: Icon(Icons.close, color: Colors.white),
           ),
         ],
@@ -30,12 +36,17 @@ class GroupSelect extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
         itemCount: groupProvider.groups.length,
         itemBuilder: (_, index) {
+          GroupModel _group = groupProvider.groups[index];
           return Container(
             decoration: kBottomBorderDecoration,
             child: ListTile(
-              title: Text('アゴラ・クリエーションで利用開始する'),
+              title: Text('${_group.name}'),
               trailing: Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: () {
+                groupProvider.setGroup(_group);
+                Navigator.of(context, rootNavigator: true).pop();
+                changeScreen(context, HomeScreen());
+              },
             ),
           );
         },

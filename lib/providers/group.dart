@@ -31,9 +31,9 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearGroups() {
+  void setGroup(GroupModel group) {
     _groups.clear();
-    notifyListeners();
+    _group = group;
   }
 
   Future<bool> signIn() async {
@@ -48,6 +48,7 @@ class GroupProvider with ChangeNotifier {
         password: password.text.trim(),
       )
           .then((value) async {
+        _group = null;
         _groups = await _groupService.selectList(adminUserId: value.user.uid);
       });
       return true;
@@ -62,6 +63,7 @@ class GroupProvider with ChangeNotifier {
   Future signOut() async {
     _auth.signOut();
     _status = Status.Unauthenticated;
+    _groups.clear();
     _group = null;
     notifyListeners();
     return Future.delayed(Duration.zero);
@@ -82,8 +84,13 @@ class GroupProvider with ChangeNotifier {
       _status = Status.Unauthenticated;
     } else {
       _fUser = firebaseUser;
-      _status = Status.Authenticated;
-      _group = await _groupService.select(groupId: _group.id);
+      if (_group == null) {
+        _status = Status.Unauthenticated;
+        _groups.clear();
+      } else {
+        _status = Status.Authenticated;
+        _group = await _groupService.select(groupId: _group.id);
+      }
     }
     notifyListeners();
   }
