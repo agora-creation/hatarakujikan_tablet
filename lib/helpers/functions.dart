@@ -25,6 +25,7 @@ void changeScreen(BuildContext context, Widget widget) {
 void overlayScreen(BuildContext context, Widget widget) {
   showMaterialModalBottomSheet(
     expand: true,
+    enableDrag: false,
     context: context,
     builder: (context) => widget,
   );

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/screens/group_select.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_tablet/widgets/error_message.dart';
 import 'package:hatarakujikan_tablet/widgets/loading.dart';
@@ -92,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                           labelText: 'ログイン',
                           labelColor: Colors.white,
                           backgroundColor: Colors.blue,
-                          labelFontSize: 16.0,
+                          labelFontSize: 18.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
                             if (!await groupProvider.signIn()) {
@@ -107,6 +109,7 @@ class LoginScreen extends StatelessWidget {
                               return;
                             }
                             groupProvider.clearController();
+                            overlayScreen(context, GroupSelect());
                           },
                         ),
                       ],

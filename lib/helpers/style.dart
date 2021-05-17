@@ -12,7 +12,7 @@ ThemeData theme() {
       textTheme: TextTheme(
         headline6: TextStyle(
           color: Colors.black54,
-          fontSize: 18.0,
+          fontSize: 20.0,
         ),
       ),
       iconTheme: IconThemeData(color: Colors.black54),

@@ -31,6 +31,11 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearGroups() {
+    _groups.clear();
+    notifyListeners();
+  }
+
   Future<bool> signIn() async {
     if (email.text == null) return false;
     if (password.text == null) return false;
@@ -42,8 +47,8 @@ class GroupProvider with ChangeNotifier {
         email: email.text.trim(),
         password: password.text.trim(),
       )
-          .then((value) {
-        //group select
+          .then((value) async {
+        _groups = await _groupService.selectList(adminUserId: value.user.uid);
       });
       return true;
     } catch (e) {

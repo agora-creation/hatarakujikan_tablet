@@ -32,21 +32,21 @@ class CustomTextFormField extends StatelessWidget {
       maxLines: maxLines,
       style: TextStyle(
         color: labelColor,
-        fontSize: 14.0,
+        fontSize: 16.0,
       ),
       cursorColor: labelColor,
       decoration: InputDecoration(
         labelText: labelText,
         prefixIcon: Icon(
           prefixIconData,
-          size: 18.0,
+          size: 20.0,
           color: labelColor,
         ),
         suffixIcon: GestureDetector(
           onTap: onTap,
           child: Icon(
             suffixIconData,
-            size: 18.0,
+            size: 20.0,
             color: labelColor,
           ),
         ),
