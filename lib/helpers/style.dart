@@ -6,7 +6,7 @@ ThemeData theme() {
     fontFamily: 'NotoSansJP',
     appBarTheme: AppBarTheme(
       color: Color(0xFFFEFFFA),
-      elevation: 5.0,
+      elevation: 3.0,
       centerTitle: false,
       brightness: Brightness.light,
       textTheme: TextTheme(
@@ -24,6 +24,16 @@ ThemeData theme() {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 }
+
+const BoxDecoration kWorkButtonDecoration = BoxDecoration(
+  boxShadow: [
+    BoxShadow(
+      color: Colors.black26,
+      blurRadius: 4.0,
+      offset: Offset(4.0, 4.0),
+    ),
+  ],
+);
 
 const BoxDecoration kBottomBorderDecoration = BoxDecoration(
   border: Border(

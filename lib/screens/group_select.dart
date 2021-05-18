@@ -33,7 +33,7 @@ class GroupSelect extends StatelessWidget {
         ],
       ),
       body: ListView.builder(
-        padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+        padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
         itemCount: groupProvider.groups.length,
         itemBuilder: (_, index) {
           GroupModel _group = groupProvider.groups[index];
@@ -42,7 +42,7 @@ class GroupSelect extends StatelessWidget {
             child: ListTile(
               title: Text('${_group.name}'),
               trailing: Icon(Icons.chevron_right),
-              onTap: () {
+              onTap: () async {
                 groupProvider.setGroup(_group);
                 Navigator.of(context, rootNavigator: true).pop();
                 changeScreen(context, HomeScreen());

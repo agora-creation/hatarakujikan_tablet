@@ -28,7 +28,7 @@ class SettingScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
-        padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+        padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
         children: [
           SizedBox(height: 16.0),
           Text('アプリ情報'),
@@ -44,8 +44,6 @@ class SettingScreen extends StatelessWidget {
             labelText: 'ログアウト',
             labelColor: Colors.blue,
             borderColor: Colors.blue,
-            labelFontSize: 18.0,
-            padding: EdgeInsets.symmetric(vertical: 16.0),
             onPressed: () {
               groupProvider.signOut();
               changeScreen(context, LoginScreen());

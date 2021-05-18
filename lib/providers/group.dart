@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:hatarakujikan_tablet/services/group.dart';
 
@@ -10,7 +11,7 @@ class GroupProvider with ChangeNotifier {
   FirebaseAuth _auth;
   User _fUser;
   GroupService _groupService = GroupService();
-  List<GroupModel> _groups;
+  List<GroupModel> _groups = [];
   GroupModel _group;
 
   Status get status => _status;
@@ -31,9 +32,11 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setGroup(GroupModel group) {
+  void setGroup(GroupModel group) async {
     _groups.clear();
     _group = group;
+    await setPrefs(group.id);
+    notifyListeners();
   }
 
   Future<bool> signIn() async {
@@ -48,7 +51,7 @@ class GroupProvider with ChangeNotifier {
         password: password.text.trim(),
       )
           .then((value) async {
-        _group = null;
+        _groups.clear();
         _groups = await _groupService.selectList(adminUserId: value.user.uid);
       });
       return true;
@@ -65,6 +68,7 @@ class GroupProvider with ChangeNotifier {
     _status = Status.Unauthenticated;
     _groups.clear();
     _group = null;
+    await removePrefs();
     notifyListeners();
     return Future.delayed(Duration.zero);
   }
@@ -75,7 +79,10 @@ class GroupProvider with ChangeNotifier {
   }
 
   Future reloadGroupModel() async {
-    _group = await _groupService.select(groupId: _group.id);
+    String _groupId = await getPrefs();
+    if (_groupId != "") {
+      _group = await _groupService.select(groupId: _groupId);
+    }
     notifyListeners();
   }
 
@@ -84,12 +91,15 @@ class GroupProvider with ChangeNotifier {
       _status = Status.Unauthenticated;
     } else {
       _fUser = firebaseUser;
-      if (_group == null) {
+      String _groupId = await getPrefs();
+      if (_groupId == '') {
         _status = Status.Unauthenticated;
         _groups.clear();
+        _group = null;
       } else {
         _status = Status.Authenticated;
-        _group = await _groupService.select(groupId: _group.id);
+        _groups.clear();
+        _group = await _groupService.select(groupId: _groupId);
       }
     }
     notifyListeners();
