@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
-import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/screens/clock.dart';
 import 'package:hatarakujikan_tablet/screens/setting.dart';
 import 'package:hatarakujikan_tablet/screens/work_button.dart';
+import 'package:hatarakujikan_tablet/widgets/custom_head_list_tile.dart';
+import 'package:hatarakujikan_tablet/widgets/custom_user_list_tile.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -87,44 +88,12 @@ class _HomeScreenState extends State<HomeScreen> {
             flex: 1,
             child: Column(
               children: [
-                Container(
-                  decoration: kBottomBorderDecoration,
-                  child: ListTile(
-                    title: Text(
-                      'スタッフ一覧',
-                      style: TextStyle(color: Colors.black54),
-                    ),
-                  ),
-                ),
+                CustomHeadListTile(),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 100,
+                    itemCount: 15,
                     itemBuilder: (_, index) {
-                      return Container(
-                        decoration: kBottomBorderDecoration,
-                        child: ListTile(
-                          title: Text(
-                            'テスト $index',
-                            style: TextStyle(fontSize: 24.0),
-                          ),
-                          trailing: Chip(
-                            backgroundColor: Colors.blue,
-                            padding: EdgeInsets.all(8.0),
-                            label: Text(
-                              '出勤中',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                              ),
-                            ),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 16.0,
-                            horizontal: 24.0,
-                          ),
-                          onTap: () {},
-                        ),
-                      );
+                      return CustomUserListTile();
                     },
                   ),
                 ),
