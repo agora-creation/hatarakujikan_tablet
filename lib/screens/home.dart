@@ -1,13 +1,16 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
+import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/screens/clock.dart';
 import 'package:hatarakujikan_tablet/screens/setting.dart';
 import 'package:hatarakujikan_tablet/screens/work_button.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_head_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_user_list_tile.dart';
+import 'package:hatarakujikan_tablet/widgets/loading.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +20,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String dateText = '';
-  String timeText = '';
+  String dateText = '----/--/-- (-)';
+  String timeText = '--:--:--';
+  UserModel selectUser;
 
   void _onTimer(Timer timer) {
     var _now = DateTime.now();
@@ -43,6 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
+    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+        .collection('user')
+        .orderBy('createdAt', descending: true)
+        .snapshots();
+    List<UserModel> users = [];
 
     return Scaffold(
       appBar: AppBar(
@@ -72,13 +81,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Clock(
                       dateText: dateText,
                       timeText: timeText,
-                      messageText: 'スタッフを選んでください',
+                      messageText: selectUser == null
+                          ? 'スタッフを選んでください'
+                          : 'おはようございます、${selectUser.name}さん',
                     ),
                   ),
                 ),
                 Container(
                   color: Colors.teal.shade100,
-                  padding: EdgeInsets.all(32.0),
+                  padding: EdgeInsets.all(40),
                   child: WorkButton(),
                 ),
               ],
@@ -90,10 +101,32 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 CustomHeadListTile(),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 15,
-                    itemBuilder: (_, index) {
-                      return CustomUserListTile();
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: _stream,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Loading(size: 40.0, color: Colors.teal);
+                      }
+                      users.clear();
+                      for (DocumentSnapshot user in snapshot.data.docs) {
+                        users.add(UserModel.fromSnapshot(user));
+                      }
+                      return ListView.builder(
+                        itemCount: users.length,
+                        itemBuilder: (_, index) {
+                          return CustomUserListTile(
+                            user: users[index],
+                            selected: users[index].id == selectUser?.id,
+                            onTap: () {
+                              if (users[index].id == selectUser?.id) {
+                                setState(() => selectUser = null);
+                              } else {
+                                setState(() => selectUser = users[index]);
+                              }
+                            },
+                          );
+                        },
+                      );
                     },
                   ),
                 ),

@@ -9,9 +9,15 @@ class UserService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<UserModel> select({String userId}) async {
-    DocumentSnapshot snapshot =
-        await _firebaseFirestore.collection(_collection).doc(userId).get();
-    return UserModel.fromSnapshot(snapshot);
+  Future<List<UserModel>> selectList({String groupId}) async {
+    List<UserModel> _users = [];
+    QuerySnapshot snapshot = await _firebaseFirestore
+        .collection(_collection)
+        .orderBy('createdAt', descending: true)
+        .get();
+    for (DocumentSnapshot _user in snapshot.docs) {
+      _users.add(UserModel.fromSnapshot(_user));
+    }
+    return _users;
   }
 }
