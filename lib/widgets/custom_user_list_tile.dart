@@ -18,7 +18,7 @@ class CustomUserListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        tileColor: selected ? Colors.teal.shade200 : Colors.white,
+        tileColor: selected ? Colors.teal.shade200 : Color(0xFFFEFFFA),
         title: Text(
           user.name,
           style: TextStyle(
