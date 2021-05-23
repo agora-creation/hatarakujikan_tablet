@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             child: groupProvider.status == Status.Authenticating
-                ? Loading(size: 40.0, color: Colors.white)
+                ? Loading(color: Colors.white)
                 : SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     padding:

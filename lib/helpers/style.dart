@@ -26,6 +26,7 @@ ThemeData theme() {
 }
 
 const BoxDecoration kWorkButtonDecoration = BoxDecoration(
+  color: Color(0xFFFEFFFA),
   boxShadow: [
     BoxShadow(
       color: Colors.black26,

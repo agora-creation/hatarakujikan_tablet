@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/screens/home.dart';
 import 'package:hatarakujikan_tablet/screens/login.dart';
 import 'package:hatarakujikan_tablet/screens/splash.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: GroupProvider.initialize()),
+        ChangeNotifierProvider.value(value: WorkProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

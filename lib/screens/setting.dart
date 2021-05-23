@@ -5,7 +5,6 @@ import 'package:hatarakujikan_tablet/screens/company.dart';
 import 'package:hatarakujikan_tablet/screens/login.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_setting_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/round_border_button.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class SettingScreen extends StatelessWidget {
   final GroupProvider groupProvider;
@@ -31,17 +30,6 @@ class SettingScreen extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
         children: [
-          SizedBox(height: 16.0),
-          Text('会社/組織のQRコード'),
-          SizedBox(height: 8.0),
-          Divider(height: 1.0, color: Colors.grey),
-          Center(
-            child: QrImage(
-              data: '${groupProvider.group.id}',
-              version: QrVersions.auto,
-              size: 200.0,
-            ),
-          ),
           SizedBox(height: 16.0),
           Text('アプリ情報'),
           SizedBox(height: 8.0),

@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/screens/clock.dart';
+import 'package:hatarakujikan_tablet/screens/qrcode.dart';
 import 'package:hatarakujikan_tablet/screens/setting.dart';
 import 'package:hatarakujikan_tablet/screens/work_button.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_head_list_tile.dart';
@@ -20,9 +22,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Stream<QuerySnapshot> _stream;
   String dateText = '----/--/-- (-)';
   String timeText = '--:--:--';
-  UserModel selectUser;
 
   void _onTimer(Timer timer) {
     var _now = DateTime.now();
@@ -47,10 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
-    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
-        .collection('user')
-        .orderBy('createdAt', descending: true)
-        .snapshots();
+    final workProvider = Provider.of<WorkProvider>(context);
+    if (groupProvider.group?.id != '') {
+      _stream = FirebaseFirestore.instance
+          .collection('user')
+          .where('groups', arrayContains: groupProvider.group?.id)
+          .orderBy('name', descending: false)
+          .snapshots();
+    }
     List<UserModel> users = [];
 
     return Scaffold(
@@ -58,6 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
         title: Text(groupProvider.group?.name ?? ''),
         actions: [
+          IconButton(
+            onPressed: () => overlayScreen(
+              context,
+              QrcodeScreen(groupProvider: groupProvider),
+            ),
+            icon: Icon(Icons.qr_code),
+          ),
           IconButton(
             onPressed: () => overlayScreen(
               context,
@@ -81,16 +94,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Clock(
                       dateText: dateText,
                       timeText: timeText,
-                      messageText: selectUser == null
-                          ? 'スタッフを選んでください'
-                          : 'おはようございます、${selectUser.name}さん',
+                      messageText: groupProvider.selectUser == null
+                          ? '右側のスタッフを選んでください'
+                          : 'おはようございます、${groupProvider.selectUser?.name}さん',
                     ),
                   ),
                 ),
                 Container(
                   color: Colors.teal.shade100,
                   padding: EdgeInsets.all(40),
-                  child: WorkButton(),
+                  child: WorkButton(
+                    groupProvider: groupProvider,
+                    workProvider: workProvider,
+                  ),
                 ),
               ],
             ),
@@ -105,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     stream: _stream,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Loading(size: 40.0, color: Colors.teal);
+                        return Loading(color: Colors.teal);
                       }
                       users.clear();
                       for (DocumentSnapshot user in snapshot.data.docs) {
@@ -116,12 +132,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (_, index) {
                           return CustomUserListTile(
                             user: users[index],
-                            selected: users[index].id == selectUser?.id,
+                            selected:
+                                users[index].id == groupProvider.selectUser?.id,
                             onTap: () {
-                              if (users[index].id == selectUser?.id) {
-                                setState(() => selectUser = null);
+                              if (users[index].id ==
+                                  groupProvider.selectUser?.id) {
+                                groupProvider.clearUser();
                               } else {
-                                setState(() => selectUser = users[index]);
+                                groupProvider.setUser(users[index]);
                               }
                             },
                           );
