@@ -40,8 +40,10 @@ android {
         applicationId "com.agoracreation.hatarakujikan_tablet"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+//        versionCode flutterVersionCode.toInteger()
+        versionCode 1
+//        versionName flutterVersionName
+        versionName '1.0'
         multiDexEnabled true
     }
 
@@ -74,5 +76,7 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:28.0.0')
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-analytics'
 }
