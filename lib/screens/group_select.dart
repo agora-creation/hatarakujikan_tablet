@@ -5,10 +5,25 @@ import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/screens/home.dart';
 
-class GroupSelect extends StatelessWidget {
+class GroupSelect extends StatefulWidget {
   final GroupProvider groupProvider;
 
   GroupSelect({@required this.groupProvider});
+
+  @override
+  _GroupSelectState createState() => _GroupSelectState();
+}
+
+class _GroupSelectState extends State<GroupSelect> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.groupProvider.groups.length == 1) {
+      widget.groupProvider.setGroup(widget.groupProvider.groups.first);
+      Navigator.of(context, rootNavigator: true).pop();
+      changeScreen(context, HomeScreen());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +40,7 @@ class GroupSelect extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              groupProvider.signOut();
+              widget.groupProvider.signOut();
               Navigator.of(context, rootNavigator: true).pop();
             },
             icon: Icon(Icons.close, color: Colors.white),
@@ -34,16 +49,16 @@ class GroupSelect extends StatelessWidget {
       ),
       body: ListView.builder(
         padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-        itemCount: groupProvider.groups.length,
+        itemCount: widget.groupProvider.groups.length,
         itemBuilder: (_, index) {
-          GroupModel _group = groupProvider.groups[index];
+          GroupModel _group = widget.groupProvider.groups[index];
           return Container(
             decoration: kBottomBorderDecoration,
             child: ListTile(
               title: Text('${_group.name}'),
               trailing: Icon(Icons.chevron_right),
-              onTap: () async {
-                groupProvider.setGroup(_group);
+              onTap: () {
+                widget.groupProvider.setGroup(_group);
                 Navigator.of(context, rootNavigator: true).pop();
                 changeScreen(context, HomeScreen());
               },

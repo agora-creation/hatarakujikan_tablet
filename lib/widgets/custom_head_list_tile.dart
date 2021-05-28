@@ -9,9 +9,9 @@ class CustomHeadListTile extends StatelessWidget {
       child: ListTile(
         title: Row(
           children: [
-            Icon(Icons.group, color: Colors.black54),
+            Icon(Icons.dialpad, color: Colors.black54),
             SizedBox(width: 16.0),
-            Text('スタッフ一覧', style: TextStyle(color: Colors.black54)),
+            Text('暗証番号を入力してください', style: TextStyle(color: Colors.black54)),
           ],
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 24.0),

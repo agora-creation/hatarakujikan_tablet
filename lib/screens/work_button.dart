@@ -15,205 +15,203 @@ class WorkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: kWorkButtonDecoration,
-      child: Row(
-        children: [
-          Expanded(
-            child: groupProvider.selectUser != null &&
-                    groupProvider.selectUser?.workLv == 0
-                ? TextButton(
-                    onPressed: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (_) => WorkStartDialog(
-                          groupProvider: groupProvider,
-                          workProvider: workProvider,
+    return groupProvider.selectUser != null
+        ? Container(
+            decoration: kWorkButtonDecoration,
+            child: Row(
+              children: [
+                Expanded(
+                  child: groupProvider.selectUser?.workLv == 0
+                      ? TextButton(
+                          onPressed: () {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => WorkStartDialog(
+                                groupProvider: groupProvider,
+                                workProvider: workProvider,
+                              ),
+                            );
+                          },
+                          child: Text(
+                            '出勤',
+                            style: TextStyle(
+                              color: Color(0xFFFEFFFA),
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            padding: EdgeInsets.all(32.0),
+                          ),
+                        )
+                      : TextButton(
+                          onPressed: null,
+                          child: Text(
+                            '出勤',
+                            style: TextStyle(
+                              color: Color(0xFFFEFFFA),
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            padding: EdgeInsets.all(32.0),
+                          ),
                         ),
-                      );
-                    },
-                    child: Text(
-                      '出勤',
-                      style: TextStyle(
-                        color: Color(0xFFFEFFFA),
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: EdgeInsets.all(32.0),
-                    ),
-                  )
-                : TextButton(
-                    onPressed: null,
-                    child: Text(
-                      '出勤',
-                      style: TextStyle(
-                        color: Color(0xFFFEFFFA),
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: EdgeInsets.all(32.0),
-                    ),
-                  ),
-          ),
-          SizedBox(width: 1.0),
-          Expanded(
-            child: groupProvider.selectUser != null &&
-                    groupProvider.selectUser?.workLv == 1
-                ? TextButton(
-                    onPressed: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (_) => WorkEndDialog(
-                          groupProvider: groupProvider,
-                          workProvider: workProvider,
+                ),
+                SizedBox(width: 1.0),
+                Expanded(
+                  child: groupProvider.selectUser?.workLv == 1
+                      ? TextButton(
+                          onPressed: () {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => WorkEndDialog(
+                                groupProvider: groupProvider,
+                                workProvider: workProvider,
+                              ),
+                            );
+                          },
+                          child: Text(
+                            '退勤',
+                            style: TextStyle(
+                              color: Color(0xFFFEFFFA),
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            padding: EdgeInsets.all(32.0),
+                          ),
+                        )
+                      : TextButton(
+                          onPressed: null,
+                          child: Text(
+                            '退勤',
+                            style: TextStyle(
+                              color: Color(0xFFFEFFFA),
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            padding: EdgeInsets.all(32.0),
+                          ),
                         ),
-                      );
-                    },
-                    child: Text(
-                      '退勤',
-                      style: TextStyle(
-                        color: Color(0xFFFEFFFA),
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: EdgeInsets.all(32.0),
-                    ),
-                  )
-                : TextButton(
-                    onPressed: null,
-                    child: Text(
-                      '退勤',
-                      style: TextStyle(
-                        color: Color(0xFFFEFFFA),
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: EdgeInsets.all(32.0),
-                    ),
-                  ),
-          ),
-          SizedBox(width: 1.0),
-          Expanded(
-            child: groupProvider.selectUser != null &&
-                    groupProvider.selectUser?.workLv == 1
-                ? TextButton(
-                    onPressed: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (_) => BreakStartDialog(
-                          groupProvider: groupProvider,
-                          workProvider: workProvider,
+                ),
+                SizedBox(width: 1.0),
+                Expanded(
+                  child: groupProvider.selectUser?.workLv == 1
+                      ? TextButton(
+                          onPressed: () {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => BreakStartDialog(
+                                groupProvider: groupProvider,
+                                workProvider: workProvider,
+                              ),
+                            );
+                          },
+                          child: Text(
+                            '休憩開始',
+                            style: TextStyle(
+                              color: Color(0xFFFEFFFA),
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            padding: EdgeInsets.all(32.0),
+                          ),
+                        )
+                      : TextButton(
+                          onPressed: null,
+                          child: Text(
+                            '休憩開始',
+                            style: TextStyle(
+                              color: Color(0xFFFEFFFA),
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            padding: EdgeInsets.all(32.0),
+                          ),
                         ),
-                      );
-                    },
-                    child: Text(
-                      '休憩開始',
-                      style: TextStyle(
-                        color: Color(0xFFFEFFFA),
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: EdgeInsets.all(32.0),
-                    ),
-                  )
-                : TextButton(
-                    onPressed: null,
-                    child: Text(
-                      '休憩開始',
-                      style: TextStyle(
-                        color: Color(0xFFFEFFFA),
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: EdgeInsets.all(32.0),
-                    ),
-                  ),
-          ),
-          SizedBox(width: 1.0),
-          Expanded(
-            child: groupProvider.selectUser != null &&
-                    groupProvider.selectUser?.workLv == 2
-                ? TextButton(
-                    onPressed: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (_) => BreakEndDialog(
-                          groupProvider: groupProvider,
-                          workProvider: workProvider,
+                ),
+                SizedBox(width: 1.0),
+                Expanded(
+                  child: groupProvider.selectUser?.workLv == 2
+                      ? TextButton(
+                          onPressed: () {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => BreakEndDialog(
+                                groupProvider: groupProvider,
+                                workProvider: workProvider,
+                              ),
+                            );
+                          },
+                          child: Text(
+                            '休憩終了',
+                            style: TextStyle(
+                              color: Colors.orange,
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Color(0xFFFEFFFA),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(color: Colors.orange, width: 1),
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            padding: EdgeInsets.all(32.0),
+                          ),
+                        )
+                      : TextButton(
+                          onPressed: null,
+                          child: Text(
+                            '休憩終了',
+                            style: TextStyle(
+                              color: Color(0xFFFEFFFA),
+                              fontSize: 24.0,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            padding: EdgeInsets.all(32.0),
+                          ),
                         ),
-                      );
-                    },
-                    child: Text(
-                      '休憩終了',
-                      style: TextStyle(
-                        color: Colors.orange,
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Color(0xFFFEFFFA),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.orange, width: 1),
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: EdgeInsets.all(32.0),
-                    ),
-                  )
-                : TextButton(
-                    onPressed: null,
-                    child: Text(
-                      '休憩終了',
-                      style: TextStyle(
-                        color: Color(0xFFFEFFFA),
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      padding: EdgeInsets.all(32.0),
-                    ),
-                  ),
-          ),
-        ],
-      ),
-    );
+                ),
+              ],
+            ),
+          )
+        : Container();
   }
 }
 

@@ -1,63 +1,19 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
-import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/screens/clock.dart';
+import 'package:hatarakujikan_tablet/screens/keypad.dart';
 import 'package:hatarakujikan_tablet/screens/qrcode.dart';
 import 'package:hatarakujikan_tablet/screens/setting.dart';
 import 'package:hatarakujikan_tablet/screens/work_button.dart';
-import 'package:hatarakujikan_tablet/widgets/custom_head_list_tile.dart';
-import 'package:hatarakujikan_tablet/widgets/custom_user_list_tile.dart';
-import 'package:hatarakujikan_tablet/widgets/loading.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  Stream<QuerySnapshot> _stream;
-  String dateText = '----/--/-- (-)';
-  String timeText = '--:--:--';
-
-  void _onTimer(Timer timer) {
-    var _now = DateTime.now();
-    var _dateFormat = DateFormat('yyyy/MM/dd (E)', 'ja');
-    var _timeFormat = DateFormat('HH:mm:ss');
-    var _dateText = _dateFormat.format(_now);
-    var _timeText = _timeFormat.format(_now);
-    if (mounted) {
-      setState(() {
-        dateText = _dateText;
-        timeText = _timeText;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Timer.periodic(Duration(seconds: 1), _onTimer);
-  }
-
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
     final workProvider = Provider.of<WorkProvider>(context);
-    if (groupProvider.group?.id != '') {
-      _stream = FirebaseFirestore.instance
-          .collection('user')
-          .where('groups', arrayContains: groupProvider.group?.id)
-          .orderBy('name', descending: false)
-          .snapshots();
-    }
-    List<UserModel> users = [];
 
     return Scaffold(
       appBar: AppBar(
@@ -91,13 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     color: Colors.teal.shade100,
                     width: double.infinity,
-                    child: Clock(
-                      dateText: dateText,
-                      timeText: timeText,
-                      messageText: groupProvider.selectUser == null
-                          ? '右側のスタッフを選んでください'
-                          : 'おはようございます、${groupProvider.selectUser?.name}さん',
-                    ),
+                    child: Clock(groupProvider: groupProvider),
                   ),
                 ),
                 Container(
@@ -113,43 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             flex: 1,
-            child: Column(
-              children: [
-                CustomHeadListTile(),
-                Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: _stream,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Loading(color: Colors.teal);
-                      }
-                      users.clear();
-                      for (DocumentSnapshot user in snapshot.data.docs) {
-                        users.add(UserModel.fromSnapshot(user));
-                      }
-                      return ListView.builder(
-                        itemCount: users.length,
-                        itemBuilder: (_, index) {
-                          return CustomUserListTile(
-                            user: users[index],
-                            selected:
-                                users[index].id == groupProvider.selectUser?.id,
-                            onTap: () {
-                              if (users[index].id ==
-                                  groupProvider.selectUser?.id) {
-                                groupProvider.clearUser();
-                              } else {
-                                groupProvider.setUser(users[index]);
-                              }
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+            child: Keypad(groupProvider: groupProvider),
           ),
         ],
       ),
