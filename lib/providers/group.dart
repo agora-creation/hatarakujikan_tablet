@@ -4,6 +4,7 @@ import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:hatarakujikan_tablet/services/group.dart';
+import 'package:hatarakujikan_tablet/services/user.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -12,6 +13,7 @@ class GroupProvider with ChangeNotifier {
   FirebaseAuth _auth;
   User _fUser;
   GroupService _groupService = GroupService();
+  UserService _userService = UserService();
   List<GroupModel> _groups = [];
   GroupModel _group;
 
@@ -23,7 +25,7 @@ class GroupProvider with ChangeNotifier {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool isHidden = false;
-  UserModel selectUser;
+  UserModel currentUser;
 
   GroupProvider.initialize() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onStateChanged);
@@ -38,16 +40,6 @@ class GroupProvider with ChangeNotifier {
     _groups.clear();
     _group = group;
     await setPrefs(group.id);
-    notifyListeners();
-  }
-
-  void setUser(UserModel user) {
-    selectUser = user;
-    notifyListeners();
-  }
-
-  void clearUser() {
-    selectUser = null;
     notifyListeners();
   }
 
@@ -114,6 +106,35 @@ class GroupProvider with ChangeNotifier {
         _group = await _groupService.select(groupId: _groupId);
       }
     }
+    notifyListeners();
+  }
+
+  Future<bool> selectUser({String workPassword}) async {
+    try {
+      UserModel _user = await _userService.select(workPassword: workPassword);
+      if (_user != null) {
+        currentUser = _user;
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future<void> reloadUser() async {
+    if (currentUser != null) {
+      currentUser =
+          await _userService.select(workPassword: currentUser.workPassword);
+      notifyListeners();
+    }
+  }
+
+  void clearUser() {
+    currentUser = null;
     notifyListeners();
   }
 }

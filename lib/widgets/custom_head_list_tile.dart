@@ -7,14 +7,15 @@ class CustomHeadListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
+        leading: Text('日付', style: TextStyle(color: Colors.black45)),
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(Icons.dialpad, color: Colors.black54),
-            SizedBox(width: 16.0),
-            Text('暗証番号を入力してください', style: TextStyle(color: Colors.black54)),
+            Text('出勤', style: TextStyle(color: Colors.black45, fontSize: 16.0)),
+            Text('退勤', style: TextStyle(color: Colors.black45, fontSize: 16.0)),
+            Text('勤務', style: TextStyle(color: Colors.black45, fontSize: 16.0)),
           ],
         ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 24.0),
       ),
     );
   }

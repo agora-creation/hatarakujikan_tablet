@@ -59,14 +59,14 @@ class _ClockState extends State<Clock> {
         ),
         SizedBox(height: 16.0),
         Text(
-          widget.groupProvider.selectUser == null
+          widget.groupProvider.currentUser == null
               ? '右のテンキーからログインしてください'
-              : 'おはようございます、${widget.groupProvider.selectUser?.name}さん',
+              : 'おはようございます、${widget.groupProvider.currentUser?.name}さん',
           style: TextStyle(fontSize: 26.0),
         ),
-        widget.groupProvider.selectUser != null
+        widget.groupProvider.currentUser != null
             ? Text(
-                '下のボタンを押してください',
+                '下のボタンから選んで押してください',
                 style: TextStyle(fontSize: 26.0),
               )
             : Container(),

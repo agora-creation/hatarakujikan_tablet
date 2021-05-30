@@ -3,6 +3,7 @@ import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/screens/clock.dart';
+import 'package:hatarakujikan_tablet/screens/history.dart';
 import 'package:hatarakujikan_tablet/screens/keypad.dart';
 import 'package:hatarakujikan_tablet/screens/qrcode.dart';
 import 'package:hatarakujikan_tablet/screens/setting.dart';
@@ -63,7 +64,9 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: Keypad(groupProvider: groupProvider),
+            child: groupProvider.currentUser == null
+                ? Keypad(groupProvider: groupProvider)
+                : History(groupProvider: groupProvider),
           ),
         ],
       ),

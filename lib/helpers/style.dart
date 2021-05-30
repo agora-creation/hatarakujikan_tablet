@@ -36,6 +36,15 @@ const BoxDecoration kWorkButtonDecoration = BoxDecoration(
   ],
 );
 
+const BoxDecoration kTopBorderDecoration = BoxDecoration(
+  border: Border(
+    top: BorderSide(
+      width: 1.0,
+      color: Color(0xFFE0E0E0),
+    ),
+  ),
+);
+
 const BoxDecoration kBottomBorderDecoration = BoxDecoration(
   border: Border(
     bottom: BorderSide(

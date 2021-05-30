@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hatarakujikan_tablet/models/user.dart';
 
 class UserService {
   String _collection = 'user';
@@ -6,5 +7,18 @@ class UserService {
 
   void update(Map<String, dynamic> values) {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
+  }
+
+  Future<UserModel> select({String workPassword}) async {
+    UserModel _user;
+    QuerySnapshot snapshot = await _firebaseFirestore
+        .collection(_collection)
+        .where('workPassword', isEqualTo: workPassword)
+        .orderBy('createdAt', descending: true)
+        .get();
+    if (snapshot.docs.length > 0) {
+      _user = UserModel.fromSnapshot(snapshot.docs.first);
+    }
+    return _user;
   }
 }
