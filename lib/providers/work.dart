@@ -24,6 +24,7 @@ class WorkProvider with ChangeNotifier {
         'endedLat': 0.0,
         'endedLon': 0.0,
         'breaks': [],
+        'deviceId': '',
         'createdAt': DateTime.now(),
       });
       _userService.update({
