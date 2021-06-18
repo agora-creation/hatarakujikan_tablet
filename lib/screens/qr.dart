@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QrcodeScreen extends StatelessWidget {
+class QrScreen extends StatelessWidget {
   final GroupProvider groupProvider;
 
-  QrcodeScreen({@required this.groupProvider});
+  QrScreen({@required this.groupProvider});
 
   @override
   Widget build(BuildContext context) {

@@ -3,11 +3,11 @@ import 'package:hatarakujikan_tablet/helpers/style.dart';
 
 class CustomHeaderListTile extends StatelessWidget {
   final IconData iconData;
-  final String labelText;
+  final String label;
 
   CustomHeaderListTile({
     this.iconData,
-    this.labelText,
+    this.label,
   });
 
   @override
@@ -19,7 +19,7 @@ class CustomHeaderListTile extends StatelessWidget {
           children: [
             Icon(iconData, color: Colors.black54),
             SizedBox(width: 16.0),
-            Text(labelText, style: TextStyle(color: Colors.black54)),
+            Text(label, style: TextStyle(color: Colors.black54)),
           ],
         ),
       ),

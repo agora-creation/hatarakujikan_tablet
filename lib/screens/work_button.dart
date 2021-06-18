@@ -37,7 +37,7 @@ class WorkButton extends StatelessWidget {
                             '出勤',
                             style: TextStyle(
                               color: Color(0xFFFEFFFA),
-                              fontSize: 24.0,
+                              fontSize: 20.0,
                             ),
                           ),
                           style: TextButton.styleFrom(
@@ -54,7 +54,7 @@ class WorkButton extends StatelessWidget {
                             '出勤',
                             style: TextStyle(
                               color: Color(0xFFFEFFFA),
-                              fontSize: 24.0,
+                              fontSize: 20.0,
                             ),
                           ),
                           style: TextButton.styleFrom(
@@ -84,7 +84,7 @@ class WorkButton extends StatelessWidget {
                             '退勤',
                             style: TextStyle(
                               color: Color(0xFFFEFFFA),
-                              fontSize: 24.0,
+                              fontSize: 20.0,
                             ),
                           ),
                           style: TextButton.styleFrom(
@@ -101,7 +101,7 @@ class WorkButton extends StatelessWidget {
                             '退勤',
                             style: TextStyle(
                               color: Color(0xFFFEFFFA),
-                              fontSize: 24.0,
+                              fontSize: 20.0,
                             ),
                           ),
                           style: TextButton.styleFrom(
@@ -131,7 +131,7 @@ class WorkButton extends StatelessWidget {
                             '休憩開始',
                             style: TextStyle(
                               color: Color(0xFFFEFFFA),
-                              fontSize: 24.0,
+                              fontSize: 20.0,
                             ),
                           ),
                           style: TextButton.styleFrom(
@@ -148,7 +148,7 @@ class WorkButton extends StatelessWidget {
                             '休憩開始',
                             style: TextStyle(
                               color: Color(0xFFFEFFFA),
-                              fontSize: 24.0,
+                              fontSize: 20.0,
                             ),
                           ),
                           style: TextButton.styleFrom(
@@ -178,7 +178,7 @@ class WorkButton extends StatelessWidget {
                             '休憩終了',
                             style: TextStyle(
                               color: Colors.orange,
-                              fontSize: 24.0,
+                              fontSize: 20.0,
                             ),
                           ),
                           style: TextButton.styleFrom(
@@ -196,7 +196,7 @@ class WorkButton extends StatelessWidget {
                             '休憩終了',
                             style: TextStyle(
                               color: Color(0xFFFEFFFA),
-                              fontSize: 24.0,
+                              fontSize: 20.0,
                             ),
                           ),
                           style: TextButton.styleFrom(
@@ -249,8 +249,8 @@ class WorkStartDialog extends StatelessWidget {
             children: [
               CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                backgroundColor: Colors.grey,
-                labelText: 'キャンセル',
+                color: Colors.grey,
+                label: 'キャンセル',
               ),
               CustomTextButton(
                 onPressed: () async {
@@ -263,8 +263,8 @@ class WorkStartDialog extends StatelessWidget {
                   groupProvider.reloadUser();
                   Navigator.pop(context);
                 },
-                backgroundColor: Colors.blue,
-                labelText: 'はい',
+                color: Colors.blue,
+                label: 'はい',
               ),
             ],
           ),
@@ -308,8 +308,8 @@ class WorkEndDialog extends StatelessWidget {
             children: [
               CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                backgroundColor: Colors.grey,
-                labelText: 'キャンセル',
+                color: Colors.grey,
+                label: 'キャンセル',
               ),
               CustomTextButton(
                 onPressed: () async {
@@ -322,8 +322,8 @@ class WorkEndDialog extends StatelessWidget {
                   groupProvider.reloadUser();
                   Navigator.pop(context);
                 },
-                backgroundColor: Colors.blue,
-                labelText: 'はい',
+                color: Colors.blue,
+                label: 'はい',
               ),
             ],
           ),
@@ -367,8 +367,8 @@ class BreakStartDialog extends StatelessWidget {
             children: [
               CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                backgroundColor: Colors.grey,
-                labelText: 'キャンセル',
+                color: Colors.grey,
+                label: 'キャンセル',
               ),
               CustomTextButton(
                 onPressed: () async {
@@ -381,8 +381,8 @@ class BreakStartDialog extends StatelessWidget {
                   groupProvider.reloadUser();
                   Navigator.pop(context);
                 },
-                backgroundColor: Colors.blue,
-                labelText: 'はい',
+                color: Colors.blue,
+                label: 'はい',
               ),
             ],
           ),
@@ -426,8 +426,8 @@ class BreakEndDialog extends StatelessWidget {
             children: [
               CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                backgroundColor: Colors.grey,
-                labelText: 'キャンセル',
+                color: Colors.grey,
+                label: 'キャンセル',
               ),
               CustomTextButton(
                 onPressed: () async {
@@ -440,8 +440,8 @@ class BreakEndDialog extends StatelessWidget {
                   groupProvider.reloadUser();
                   Navigator.pop(context);
                 },
-                backgroundColor: Colors.blue,
-                labelText: 'はい',
+                color: Colors.blue,
+                label: 'はい',
               ),
             ],
           ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_header_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_keypad_button.dart';
-import 'package:hatarakujikan_tablet/widgets/error_message.dart';
+import 'package:hatarakujikan_tablet/widgets/error_dialog.dart';
 
 class Keypad extends StatefulWidget {
   final GroupProvider groupProvider;
@@ -14,7 +14,7 @@ class Keypad extends StatefulWidget {
 }
 
 class _KeypadState extends State<Keypad> {
-  String workPassword = '';
+  String recordPassword = '';
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class _KeypadState extends State<Keypad> {
       children: [
         CustomHeaderListTile(
           iconData: Icons.dialpad,
-          labelText: '暗証番号を入力してください',
+          label: '暗証番号を入力してください',
         ),
         Expanded(
           child: Container(
@@ -32,9 +32,9 @@ class _KeypadState extends State<Keypad> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  workPassword != ''
+                  recordPassword != ''
                       ? Text(
-                          workPassword,
+                          recordPassword,
                           style: TextStyle(
                             fontSize: 40.0,
                             fontWeight: FontWeight.bold,
@@ -64,77 +64,34 @@ class _KeypadState extends State<Keypad> {
                 Expanded(
                   child: CustomKeypadButton(
                     onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '7');
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '7');
                       }
                     },
-                    labelText: '7',
-                    backgroundColor: Color(0xFFFEFFFA),
+                    label: '7',
+                    color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
                     onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '8');
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '8');
                       }
                     },
-                    labelText: '8',
-                    backgroundColor: Color(0xFFFEFFFA),
+                    label: '8',
+                    color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
                     onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '9');
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '9');
                       }
                     },
-                    labelText: '9',
-                    backgroundColor: Color(0xFFFEFFFA),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            color: Colors.black,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: CustomKeypadButton(
-                    onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '4');
-                      }
-                    },
-                    labelText: '4',
-                    backgroundColor: Color(0xFFFEFFFA),
-                  ),
-                ),
-                Expanded(
-                  child: CustomKeypadButton(
-                    onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '5');
-                      }
-                    },
-                    labelText: '5',
-                    backgroundColor: Color(0xFFFEFFFA),
-                  ),
-                ),
-                Expanded(
-                  child: CustomKeypadButton(
-                    onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '6');
-                      }
-                    },
-                    labelText: '6',
-                    backgroundColor: Color(0xFFFEFFFA),
+                    label: '9',
+                    color: Color(0xFFFEFFFA),
                   ),
                 ),
               ],
@@ -150,34 +107,34 @@ class _KeypadState extends State<Keypad> {
                 Expanded(
                   child: CustomKeypadButton(
                     onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '1');
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '4');
                       }
                     },
-                    labelText: '1',
-                    backgroundColor: Color(0xFFFEFFFA),
+                    label: '4',
+                    color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
                     onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '2');
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '5');
                       }
                     },
-                    labelText: '2',
-                    backgroundColor: Color(0xFFFEFFFA),
+                    label: '5',
+                    color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
                     onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '3');
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '6');
                       }
                     },
-                    labelText: '3',
-                    backgroundColor: Color(0xFFFEFFFA),
+                    label: '6',
+                    color: Color(0xFFFEFFFA),
                   ),
                 ),
               ],
@@ -193,51 +150,91 @@ class _KeypadState extends State<Keypad> {
                 Expanded(
                   child: CustomKeypadButton(
                     onPressed: () {
-                      setState(() => workPassword = '');
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '1');
+                      }
                     },
-                    labelText: '訂正',
-                    backgroundColor: Color(0xFFFFCDD2),
+                    label: '1',
+                    color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
                     onPressed: () {
-                      if (workPassword.length < 8) {
-                        setState(() => workPassword += '0');
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '2');
                       }
                     },
-                    labelText: '0',
-                    backgroundColor: Color(0xFFFEFFFA),
+                    label: '2',
+                    color: Color(0xFFFEFFFA),
+                  ),
+                ),
+                Expanded(
+                  child: CustomKeypadButton(
+                    onPressed: () {
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '3');
+                      }
+                    },
+                    label: '3',
+                    color: Color(0xFFFEFFFA),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            color: Colors.black,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: CustomKeypadButton(
+                    onPressed: () {
+                      setState(() => recordPassword = '');
+                    },
+                    label: '訂正',
+                    color: Color(0xFFFFCDD2),
+                  ),
+                ),
+                Expanded(
+                  child: CustomKeypadButton(
+                    onPressed: () {
+                      if (recordPassword.length < 8) {
+                        setState(() => recordPassword += '0');
+                      }
+                    },
+                    label: '0',
+                    color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
                     onPressed: () async {
-                      if (workPassword == '') {
+                      if (recordPassword == '') {
                         showDialog(
                           barrierDismissible: false,
                           context: context,
-                          builder: (_) => ErrorMessage(
-                            message: '暗証番号を入力してください。',
-                          ),
+                          builder: (_) => ErrorDialog('暗証番号を入力してください。'),
                         );
                         return;
                       }
-                      if (!await widget.groupProvider
-                          .selectUser(workPassword: workPassword)) {
+                      if (!await widget.groupProvider.selectUser(
+                        recordPassword: recordPassword,
+                      )) {
                         showDialog(
                           barrierDismissible: false,
                           context: context,
-                          builder: (_) => ErrorMessage(
-                            message: '入力した暗証番号に該当するスタッフが見つかりませんでした。',
-                          ),
+                          builder: (_) => ErrorDialog('入力した暗証番号が間違っています。'),
                         );
                         return;
                       }
-                      setState(() => workPassword = '');
+                      setState(() => recordPassword = '');
                     },
-                    labelText: '確定',
-                    backgroundColor: Color(0xFFBBDEFB),
+                    label: '確定',
+                    color: Color(0xFFBBDEFB),
                   ),
                 ),
               ],

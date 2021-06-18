@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomKeypadButton extends StatelessWidget {
-  final String labelText;
-  final Color backgroundColor;
+  final String label;
+  final Color color;
   final Function onPressed;
 
   CustomKeypadButton({
-    this.labelText,
-    this.backgroundColor,
+    this.label,
+    this.color,
     this.onPressed,
   });
 
@@ -16,14 +16,14 @@ class CustomKeypadButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: Text(
-        labelText,
+        label,
         style: TextStyle(
           color: Colors.black54,
           fontSize: 32.0,
         ),
       ),
       style: TextButton.styleFrom(
-        backgroundColor: backgroundColor,
+        backgroundColor: color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,
         ),

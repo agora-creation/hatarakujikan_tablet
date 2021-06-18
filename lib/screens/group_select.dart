@@ -55,13 +55,13 @@ class _GroupSelectState extends State<GroupSelect> {
           return Container(
             decoration: kBottomBorderDecoration,
             child: ListTile(
-              title: Text('${_group.name}'),
-              trailing: Icon(Icons.chevron_right),
               onTap: () {
                 widget.groupProvider.setGroup(_group);
                 Navigator.of(context, rootNavigator: true).pop();
                 changeScreen(context, HomeScreen());
               },
+              title: Text('${_group.name}'),
+              trailing: Icon(Icons.chevron_right),
             ),
           );
         },

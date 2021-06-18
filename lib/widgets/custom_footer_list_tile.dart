@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 
 class CustomFooterListTile extends StatelessWidget {
-  final String labelText;
+  final String label;
   final Function onTap;
 
   CustomFooterListTile({
-    this.labelText,
+    this.label,
     this.onTap,
   });
 
@@ -18,7 +18,7 @@ class CustomFooterListTile extends StatelessWidget {
         onTap: onTap,
         leading: Icon(Icons.arrow_back, size: 24.0),
         title: Text(
-          labelText,
+          label,
           style: TextStyle(
             color: Colors.black54,
             fontSize: 24.0,

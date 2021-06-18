@@ -60,7 +60,7 @@ class _ClockState extends State<Clock> {
         SizedBox(height: 16.0),
         Text(
           widget.groupProvider.currentUser == null
-              ? '右のテンキーからログインしてください'
+              ? '右のテンキーから暗証番号を入力してください'
               : 'おはようございます、${widget.groupProvider.currentUser?.name}さん',
           style: TextStyle(fontSize: 26.0),
         ),

@@ -62,7 +62,7 @@ class _HistoryState extends State<History> {
       children: [
         CustomHeaderListTile(
           iconData: Icons.list,
-          labelText: '勤務履歴',
+          label: '勤務履歴',
         ),
         CustomHeadListTile(),
         Expanded(
@@ -90,8 +90,8 @@ class _HistoryState extends State<History> {
           ),
         ),
         CustomFooterListTile(
-          labelText: '$_currentSeconds秒後、入力に戻る',
           onTap: () => widget.groupProvider.clearUser(),
+          label: '$_currentSeconds秒後、入力に戻る',
         ),
       ],
     );

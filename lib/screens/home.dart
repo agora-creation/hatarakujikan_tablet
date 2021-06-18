@@ -5,7 +5,7 @@ import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/screens/clock.dart';
 import 'package:hatarakujikan_tablet/screens/history.dart';
 import 'package:hatarakujikan_tablet/screens/keypad.dart';
-import 'package:hatarakujikan_tablet/screens/qrcode.dart';
+import 'package:hatarakujikan_tablet/screens/qr.dart';
 import 'package:hatarakujikan_tablet/screens/setting.dart';
 import 'package:hatarakujikan_tablet/screens/work_button.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             onPressed: () => overlayScreen(
               context,
-              QrcodeScreen(groupProvider: groupProvider),
+              QrScreen(groupProvider: groupProvider),
             ),
             icon: Icon(Icons.qr_code),
           ),

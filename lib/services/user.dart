@@ -9,12 +9,12 @@ class UserService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<UserModel> select({String groupId, String workPassword}) async {
+  Future<UserModel> select({String groupId, String recordPassword}) async {
     UserModel _user;
     QuerySnapshot snapshot = await _firebaseFirestore
         .collection(_collection)
         .where('groups', arrayContains: groupId)
-        .where('workPassword', isEqualTo: workPassword)
+        .where('recordPassword', isEqualTo: recordPassword)
         .orderBy('createdAt', descending: true)
         .get();
     if (snapshot.docs.length > 0) {

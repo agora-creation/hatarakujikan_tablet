@@ -35,19 +35,19 @@ class SettingScreen extends StatelessWidget {
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
           CustomSettingListTile(
-            iconData: Icons.business_outlined,
-            title: '開発/運営会社',
             onTap: () => nextScreen(context, CompanyScreen()),
+            iconData: Icons.business_outlined,
+            label: '開発/運営会社',
           ),
           SizedBox(height: 24.0),
           RoundBorderButton(
-            labelText: 'ログアウト',
-            labelColor: Colors.blue,
-            borderColor: Colors.blue,
             onPressed: () {
               groupProvider.signOut();
               changeScreen(context, LoginScreen());
             },
+            label: 'ログアウト',
+            color: Colors.blue,
+            borderColor: Colors.blue,
           ),
         ],
       ),

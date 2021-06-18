@@ -109,11 +109,11 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> selectUser({String workPassword}) async {
+  Future<bool> selectUser({String recordPassword}) async {
     try {
       UserModel _user = await _userService.select(
         groupId: group.id,
-        workPassword: workPassword,
+        recordPassword: recordPassword,
       );
       if (_user != null) {
         currentUser = _user;
@@ -130,8 +130,9 @@ class GroupProvider with ChangeNotifier {
 
   Future<void> reloadUser() async {
     if (currentUser != null) {
-      currentUser =
-          await _userService.select(workPassword: currentUser.workPassword);
+      currentUser = await _userService.select(
+        recordPassword: currentUser?.recordPassword,
+      );
       notifyListeners();
     }
   }
