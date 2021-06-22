@@ -44,8 +44,8 @@ class LoginScreen extends StatelessWidget {
                         Center(
                           child: Image.asset(
                             'assets/images/logo.png',
-                            width: 200.0,
-                            height: 200.0,
+                            width: 180.0,
+                            height: 180.0,
                           ),
                         ),
                         Column(
@@ -53,6 +53,11 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             Text('はたらくじかん', style: kTitleTextStyle),
                             Text('for タブレット', style: kSubTitleTextStyle),
+                            SizedBox(height: 8.0),
+                            Text(
+                              '会社/組織の管理者アカウントのみログインできます。',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ],
                         ),
                         SizedBox(height: 32.0),

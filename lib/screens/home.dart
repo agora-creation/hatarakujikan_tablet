@@ -7,6 +7,7 @@ import 'package:hatarakujikan_tablet/screens/history.dart';
 import 'package:hatarakujikan_tablet/screens/keypad.dart';
 import 'package:hatarakujikan_tablet/screens/qr.dart';
 import 'package:hatarakujikan_tablet/screens/setting.dart';
+import 'package:hatarakujikan_tablet/screens/users.dart';
 import 'package:hatarakujikan_tablet/screens/work_button.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,13 @@ class HomeScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: Text(groupProvider.group?.name ?? ''),
         actions: [
+          IconButton(
+            onPressed: () => overlayScreen(
+              context,
+              UsersScreen(groupProvider: groupProvider),
+            ),
+            icon: Icon(Icons.group),
+          ),
           IconButton(
             onPressed: () => overlayScreen(
               context,
