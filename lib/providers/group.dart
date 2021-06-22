@@ -131,6 +131,7 @@ class GroupProvider with ChangeNotifier {
   Future<void> reloadUser() async {
     if (currentUser != null) {
       currentUser = await _userService.select(
+        groupId: group.id,
         recordPassword: currentUser?.recordPassword,
       );
       notifyListeners();
