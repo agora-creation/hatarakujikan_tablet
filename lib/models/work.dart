@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/models/breaks.dart';
+import 'package:intl/intl.dart';
 
 class WorkModel {
   String _id;
@@ -9,9 +10,11 @@ class WorkModel {
   DateTime startedAt;
   double startedLat;
   double startedLon;
+  String startedDev;
   DateTime endedAt;
   double endedLat;
   double endedLon;
+  String endedDev;
   List<BreaksModel> breaks;
   DateTime _createdAt;
 
@@ -27,9 +30,11 @@ class WorkModel {
     startedAt = snapshot.data()['startedAt'].toDate();
     startedLat = snapshot.data()['startedLat'].toDouble();
     startedLon = snapshot.data()['startedLon'].toDouble();
+    startedDev = snapshot.data()['startedDev'] ?? '';
     endedAt = snapshot.data()['endedAt'].toDate();
     endedLat = snapshot.data()['endedLat'].toDouble();
     endedLon = snapshot.data()['endedLon'].toDouble();
+    endedDev = snapshot.data()['endedDev'] ?? '';
     breaks = _convertBreaks(snapshot.data()['breaks']) ?? [];
     _createdAt = snapshot.data()['createdAt'].toDate();
   }
@@ -42,18 +47,27 @@ class WorkModel {
     return converted;
   }
 
+  String startTime() {
+    String _time = '${DateFormat('HH:mm').format(startedAt)}';
+    return _time;
+  }
+
+  String endTime() {
+    String _time = '${DateFormat('HH:mm').format(endedAt)}';
+    return _time;
+  }
+
   String breakTime() {
-    String _result = '00:00';
+    String _time = '00:00';
     if (breaks.length > 0) {
       for (BreaksModel _break in breaks) {
-        _result = addTime(_result, _break.breakTime());
+        _time = addTime(_time, _break.breakTime());
       }
     }
-    return _result;
+    return _time;
   }
 
   String workTime() {
-    String _result = '00:00';
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     // 出勤時間と退勤時間の差を求める
     Duration _diff = endedAt.difference(startedAt);
@@ -67,7 +81,7 @@ class WorkModel {
       }
     }
     // 勤務時間と休憩の合計時間の差を求める
-    _result = subTime(_workTime, _breaksTime);
-    return _result;
+    _workTime = subTime(_workTime, _breaksTime);
+    return _workTime;
   }
 }

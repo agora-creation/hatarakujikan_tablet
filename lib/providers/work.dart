@@ -13,6 +13,7 @@ class WorkProvider with ChangeNotifier {
   Future<bool> workStart({
     String groupId,
     UserModel user,
+    String device,
   }) async {
     if (groupId == '') return false;
     if (user == null) return false;
@@ -25,9 +26,11 @@ class WorkProvider with ChangeNotifier {
         'startedAt': DateTime.now(),
         'startedLat': 0.0,
         'startedLon': 0.0,
+        'startedDev': device,
         'endedAt': DateTime.now(),
         'endedLat': 0.0,
         'endedLon': 0.0,
+        'endedDev': device,
         'breaks': [],
         'createdAt': DateTime.now(),
       });
@@ -46,6 +49,7 @@ class WorkProvider with ChangeNotifier {
   Future<bool> workEnd({
     String groupId,
     UserModel user,
+    String device,
   }) async {
     if (groupId == '') return false;
     if (user == null) return false;
@@ -59,6 +63,7 @@ class WorkProvider with ChangeNotifier {
         'endedAt': DateTime.now(),
         'endedLat': 0.0,
         'endedLon': 0.0,
+        'endedDev': device,
       });
       _userService.update({
         'id': user?.id,
@@ -75,6 +80,7 @@ class WorkProvider with ChangeNotifier {
   Future<bool> breakStart({
     String groupId,
     UserModel user,
+    String device,
   }) async {
     if (groupId == '') return false;
     if (user == null) return false;
@@ -93,9 +99,11 @@ class WorkProvider with ChangeNotifier {
         'startedAt': DateTime.now(),
         'startedLat': 0.0,
         'startedLon': 0.0,
+        'startedDev': device,
         'endedAt': DateTime.now(),
         'endedLat': 0.0,
         'endedLon': 0.0,
+        'endedDev': device,
       });
       _workService.update({
         'id': user?.lastWorkId,
@@ -116,6 +124,7 @@ class WorkProvider with ChangeNotifier {
   Future<bool> breakEnd({
     String groupId,
     UserModel user,
+    String device,
   }) async {
     if (groupId == '') return false;
     if (user == null) return false;
@@ -130,6 +139,7 @@ class WorkProvider with ChangeNotifier {
           breaks.endedAt = DateTime.now();
           breaks.endedLat = 0.0;
           breaks.endedLon = 0.0;
+          breaks.endedDev = device;
         }
         _breaks.add(breaks.toMap());
       }

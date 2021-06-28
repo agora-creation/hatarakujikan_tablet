@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/screens/company.dart';
+import 'package:hatarakujikan_tablet/screens/device.dart';
 import 'package:hatarakujikan_tablet/screens/login.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_setting_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/round_border_button.dart';
@@ -34,6 +35,11 @@ class SettingScreen extends StatelessWidget {
           Text('アプリ情報'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
+          CustomSettingListTile(
+            onTap: () => nextScreen(context, DeviceScreen()),
+            iconData: Icons.tablet,
+            label: '端末の名前変更',
+          ),
           CustomSettingListTile(
             onTap: () => nextScreen(context, CompanyScreen()),
             iconData: Icons.business_outlined,

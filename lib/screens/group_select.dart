@@ -15,14 +15,18 @@ class GroupSelect extends StatefulWidget {
 }
 
 class _GroupSelectState extends State<GroupSelect> {
-  @override
-  void initState() {
-    super.initState();
+  void _init() async {
     if (widget.groupProvider.groups.length == 1) {
-      widget.groupProvider.setGroup(widget.groupProvider.groups.first);
+      await widget.groupProvider.setGroup(widget.groupProvider.groups.first);
       Navigator.of(context, rootNavigator: true).pop();
       changeScreen(context, HomeScreen());
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
   }
 
   @override
@@ -55,8 +59,8 @@ class _GroupSelectState extends State<GroupSelect> {
           return Container(
             decoration: kBottomBorderDecoration,
             child: ListTile(
-              onTap: () {
-                widget.groupProvider.setGroup(_group);
+              onTap: () async {
+                await widget.groupProvider.setGroup(_group);
                 Navigator.of(context, rootNavigator: true).pop();
                 changeScreen(context, HomeScreen());
               },

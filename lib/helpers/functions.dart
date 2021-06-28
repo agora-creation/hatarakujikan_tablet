@@ -44,7 +44,7 @@ String randomString(int length) {
       return _randomChars.codeUnitAt(n);
     },
   );
-  return new String.fromCharCodes(codeUnits);
+  return String.fromCharCodes(codeUnits);
 }
 
 Future<String> getPrefs() async {
@@ -60,6 +60,21 @@ Future<void> setPrefs(String value) async {
 Future<void> removePrefs() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   _prefs.remove('groupId');
+}
+
+Future<String> getPrefsName() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  return _prefs.getString('name') ?? '';
+}
+
+Future<void> setPrefsName(String value) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  _prefs.setString('name', value);
+}
+
+Future<void> removePrefsName() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  _prefs.remove('name');
 }
 
 String addTime(String left, String right) {
