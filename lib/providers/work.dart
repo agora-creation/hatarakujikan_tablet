@@ -32,6 +32,7 @@ class WorkProvider with ChangeNotifier {
         'endedLon': 0.0,
         'endedDev': device,
         'breaks': [],
+        'state': '通常勤務',
         'createdAt': DateTime.now(),
       });
       _userService.update({
