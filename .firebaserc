@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "hatarakujikan"
+  },
+  "targets": {
+    "hatarakujikan": {
+      "hosting": {
+        "hatarakujikan-tablet": [
+          "hatarakujikan-tablet"
+        ]
+      }
+    }
+  }
+}
