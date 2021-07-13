@@ -5,8 +5,11 @@
   "targets": {
     "hatarakujikan": {
       "hosting": {
-        "hatarakujikan-tablet": [
-          "hatarakujikan-tablet"
+        "hatarakujikan": [
+          "hatarakujikan"
+        ],
+        "hatarakujikan-t": [
+          "hatarakujikan-t"
         ]
       }
     }
