@@ -15,7 +15,7 @@ class UsersScreen extends StatelessWidget {
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('user')
         .where('groups', arrayContains: groupProvider.group.id)
-        .orderBy('name', descending: false)
+        .orderBy('recordPassword', descending: false)
         .snapshots();
     List<UserModel> users = [];
 
