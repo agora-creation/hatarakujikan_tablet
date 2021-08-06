@@ -28,7 +28,7 @@ class _HistoryState extends State<History> {
     return Timer.periodic(Duration(seconds: 1), (timer) {
       if (_currentSeconds < 1) {
         timer.cancel();
-        widget.groupProvider.clearUser();
+        widget.groupProvider.currentUserClear();
       } else {
         setState(() => _currentSeconds -= 1);
       }
@@ -90,7 +90,7 @@ class _HistoryState extends State<History> {
           ),
         ),
         CustomFooterListTile(
-          onTap: () => widget.groupProvider.clearUser(),
+          onTap: () => widget.groupProvider.currentUserClear(),
           label: '$_currentSeconds秒後、入力に戻る',
         ),
       ],

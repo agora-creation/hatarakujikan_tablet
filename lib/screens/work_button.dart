@@ -263,7 +263,7 @@ class WorkStartDialog extends StatelessWidget {
                   )) {
                     return;
                   }
-                  groupProvider.reloadUser();
+                  groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
                 color: Colors.blue,
@@ -324,7 +324,7 @@ class WorkEndDialog extends StatelessWidget {
                   )) {
                     return;
                   }
-                  groupProvider.reloadUser();
+                  groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
                 color: Colors.blue,
@@ -385,7 +385,7 @@ class BreakStartDialog extends StatelessWidget {
                   )) {
                     return;
                   }
-                  groupProvider.reloadUser();
+                  groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
                 color: Colors.blue,
@@ -446,7 +446,7 @@ class BreakEndDialog extends StatelessWidget {
                   )) {
                     return;
                   }
-                  groupProvider.reloadUser();
+                  groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
                 color: Colors.blue,

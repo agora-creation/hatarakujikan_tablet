@@ -16,11 +16,13 @@ class GroupProvider with ChangeNotifier {
   UserService _userService = UserService();
   List<GroupModel> _groups = [];
   GroupModel _group;
+  UserModel _adminUser;
 
   Status get status => _status;
   User get fUser => _fUser;
   List<GroupModel> get groups => _groups;
   GroupModel get group => _group;
+  UserModel get adminUser => _adminUser;
 
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -109,7 +111,8 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> selectUser({String recordPassword}) async {
+  Future<bool> currentUserChange({String recordPassword}) async {
+    if (recordPassword == '') return false;
     try {
       UserModel _user = await _userService.select(
         groupId: group.id,
@@ -128,7 +131,7 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<void> reloadUser() async {
+  Future<void> currentUserReload() async {
     if (currentUser != null) {
       currentUser = await _userService.select(
         groupId: group.id,
@@ -138,7 +141,7 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  void clearUser() {
+  void currentUserClear() {
     currentUser = null;
     notifyListeners();
   }

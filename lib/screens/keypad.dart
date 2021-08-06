@@ -221,7 +221,7 @@ class _KeypadState extends State<Keypad> {
                         );
                         return;
                       }
-                      if (!await widget.groupProvider.selectUser(
+                      if (!await widget.groupProvider.currentUserChange(
                         recordPassword: recordPassword,
                       )) {
                         showDialog(

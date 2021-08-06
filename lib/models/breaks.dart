@@ -37,9 +37,11 @@ class BreaksModel {
 
   String breakTime() {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String _time = '00:00';
     // 休憩開始時間と休憩終了時間の差を求める
     Duration _diff = endedAt.difference(startedAt);
     String _minutes = twoDigits(_diff.inMinutes.remainder(60));
-    return '${twoDigits(_diff.inHours)}:$_minutes';
+    _time = '${twoDigits(_diff.inHours)}:$_minutes';
+    return _time;
   }
 }

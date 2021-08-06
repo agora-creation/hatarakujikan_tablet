@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
-import 'package:hatarakujikan_tablet/screens/company.dart';
 import 'package:hatarakujikan_tablet/screens/device.dart';
 import 'package:hatarakujikan_tablet/screens/login.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_setting_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/round_border_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingScreen extends StatelessWidget {
   final GroupProvider groupProvider;
@@ -41,7 +41,18 @@ class SettingScreen extends StatelessWidget {
             label: '端末の名前変更',
           ),
           CustomSettingListTile(
-            onTap: () => nextScreen(context, CompanyScreen()),
+            onTap: () async {
+              const url = 'https://www.agora-c.com/';
+              if (await canLaunch(url)) {
+                await launch(
+                  url,
+                  forceSafariVC: false,
+                  forceWebView: false,
+                );
+              } else {
+                throw 'このURLにはアクセスできません';
+              }
+            },
             iconData: Icons.business_outlined,
             label: '開発/運営会社',
           ),

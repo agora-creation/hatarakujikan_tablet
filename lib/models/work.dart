@@ -72,10 +72,11 @@ class WorkModel {
 
   String workTime() {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String _time = '00:00';
     // 出勤時間と退勤時間の差を求める
     Duration _diff = endedAt.difference(startedAt);
     String _minutes = twoDigits(_diff.inMinutes.remainder(60));
-    String _workTime = '${twoDigits(_diff.inHours)}:$_minutes';
+    _time = '${twoDigits(_diff.inHours)}:$_minutes';
     // 休憩の合計時間を求める
     String _breaksTime = '00:00';
     if (breaks.length > 0) {
@@ -84,7 +85,7 @@ class WorkModel {
       }
     }
     // 勤務時間と休憩の合計時間の差を求める
-    _workTime = subTime(_workTime, _breaksTime);
-    return _workTime;
+    _time = subTime(_time, _breaksTime);
+    return _time;
   }
 }
