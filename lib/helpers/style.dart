@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 ThemeData theme() {
   return ThemeData(
@@ -8,12 +9,10 @@ ThemeData theme() {
       color: Color(0xFFFEFFFA),
       elevation: 3.0,
       centerTitle: false,
-      brightness: Brightness.light,
-      textTheme: TextTheme(
-        headline6: TextStyle(
-          color: Colors.black54,
-          fontSize: 20.0,
-        ),
+      systemOverlayStyle: SystemUiOverlayStyle.light,
+      titleTextStyle: TextStyle(
+        color: Colors.black54,
+        fontSize: 20.0,
       ),
       iconTheme: IconThemeData(color: Colors.black54),
     ),

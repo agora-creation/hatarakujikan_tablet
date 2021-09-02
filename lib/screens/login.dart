@@ -4,7 +4,6 @@ import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/screens/select.dart';
-import 'package:hatarakujikan_tablet/widgets/custom_link_button.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_tablet/widgets/error_dialog.dart';
 import 'package:hatarakujikan_tablet/widgets/loading.dart';
@@ -107,14 +106,14 @@ class LoginScreen extends StatelessWidget {
                           color: Colors.white,
                           backgroundColor: Colors.blue,
                         ),
-                        SizedBox(height: 40.0),
-                        Center(
-                          child: CustomLinkButton(
-                            onTap: () {},
-                            label: '部署/事業所専用はここをクリック',
-                            color: Colors.white,
-                          ),
-                        ),
+                        // SizedBox(height: 40.0),
+                        // Center(
+                        //   child: CustomLinkButton(
+                        //     onTap: () {},
+                        //     label: '部署/事業所専用はここをクリック',
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

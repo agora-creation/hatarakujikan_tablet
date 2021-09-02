@@ -23,6 +23,12 @@ class HomeScreen extends StatelessWidget {
         title: Text(groupProvider.group?.name ?? ''),
         actions: [
           IconButton(
+            onPressed: () async {
+              await groupProvider.reloadUsers();
+            },
+            icon: Icon(Icons.refresh),
+          ),
+          IconButton(
             onPressed: () => overlayScreen(
               context,
               UsersScreen(groupProvider: groupProvider),
