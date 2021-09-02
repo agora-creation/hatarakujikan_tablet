@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_header_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_keypad_button.dart';
@@ -15,6 +16,16 @@ class Keypad extends StatefulWidget {
 
 class _KeypadState extends State<Keypad> {
   String recordPassword = '';
+
+  void _add(String num) {
+    if (recordPassword.length < 8) {
+      setState(() => recordPassword += num);
+    }
+  }
+
+  void _clear() {
+    setState(() => recordPassword = '');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +46,11 @@ class _KeypadState extends State<Keypad> {
                   recordPassword != ''
                       ? Text(
                           recordPassword,
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 8.0,
-                          ),
+                          style: kPasswordTextStyle,
                         )
                       : Text(
                           '00000000',
-                          style: TextStyle(
-                            color: Colors.black26,
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 8.0,
-                          ),
+                          style: kPassword2TextStyle,
                         ),
                 ],
               ),
@@ -63,33 +65,21 @@ class _KeypadState extends State<Keypad> {
               children: [
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '7');
-                      }
-                    },
+                    onPressed: () => _add('7'),
                     label: '7',
                     color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '8');
-                      }
-                    },
+                    onPressed: () => _add('8'),
                     label: '8',
                     color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '9');
-                      }
-                    },
+                    onPressed: () => _add('9'),
                     label: '9',
                     color: Color(0xFFFEFFFA),
                   ),
@@ -106,33 +96,21 @@ class _KeypadState extends State<Keypad> {
               children: [
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '4');
-                      }
-                    },
+                    onPressed: () => _add('4'),
                     label: '4',
                     color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '5');
-                      }
-                    },
+                    onPressed: () => _add('5'),
                     label: '5',
                     color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '6');
-                      }
-                    },
+                    onPressed: () => _add('6'),
                     label: '6',
                     color: Color(0xFFFEFFFA),
                   ),
@@ -149,33 +127,21 @@ class _KeypadState extends State<Keypad> {
               children: [
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '1');
-                      }
-                    },
+                    onPressed: () => _add('1'),
                     label: '1',
                     color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '2');
-                      }
-                    },
+                    onPressed: () => _add('2'),
                     label: '2',
                     color: Color(0xFFFEFFFA),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '3');
-                      }
-                    },
+                    onPressed: () => _add('3'),
                     label: '3',
                     color: Color(0xFFFEFFFA),
                   ),
@@ -192,20 +158,14 @@ class _KeypadState extends State<Keypad> {
               children: [
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      setState(() => recordPassword = '');
-                    },
+                    onPressed: () => _clear(),
                     label: '訂正',
                     color: Color(0xFFFFCDD2),
                   ),
                 ),
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () {
-                      if (recordPassword.length < 8) {
-                        setState(() => recordPassword += '0');
-                      }
-                    },
+                    onPressed: () => _add('0'),
                     label: '0',
                     color: Color(0xFFFEFFFA),
                   ),

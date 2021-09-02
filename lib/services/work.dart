@@ -18,9 +18,15 @@ class WorkService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<WorkModel> select({String workId}) async {
-    DocumentSnapshot snapshot =
-        await _firebaseFirestore.collection(_collection).doc(workId).get();
-    return WorkModel.fromSnapshot(snapshot);
+  Future<WorkModel> select({String id}) async {
+    WorkModel _work;
+    await _firebaseFirestore
+        .collection(_collection)
+        .doc(id)
+        .get()
+        .then((value) {
+      _work = WorkModel.fromSnapshot(value);
+    });
+    return _work;
   }
 }

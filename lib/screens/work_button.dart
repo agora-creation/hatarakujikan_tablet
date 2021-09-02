@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/providers/work.dart';
@@ -255,11 +254,9 @@ class WorkStartDialog extends StatelessWidget {
               ),
               CustomTextButton(
                 onPressed: () async {
-                  String _device = await getPrefsName() ?? '';
                   if (!await workProvider.workStart(
                     groupId: groupProvider.group?.id,
                     user: groupProvider.currentUser,
-                    device: _device,
                   )) {
                     return;
                   }
@@ -316,11 +313,9 @@ class WorkEndDialog extends StatelessWidget {
               ),
               CustomTextButton(
                 onPressed: () async {
-                  String _device = await getPrefsName() ?? '';
                   if (!await workProvider.workEnd(
                     groupId: groupProvider.group?.id,
                     user: groupProvider.currentUser,
-                    device: _device,
                   )) {
                     return;
                   }
@@ -377,11 +372,9 @@ class BreakStartDialog extends StatelessWidget {
               ),
               CustomTextButton(
                 onPressed: () async {
-                  String _device = await getPrefsName() ?? '';
                   if (!await workProvider.breakStart(
                     groupId: groupProvider.group?.id,
                     user: groupProvider.currentUser,
-                    device: _device,
                   )) {
                     return;
                   }
@@ -438,11 +431,9 @@ class BreakEndDialog extends StatelessWidget {
               ),
               CustomTextButton(
                 onPressed: () async {
-                  String _device = await getPrefsName() ?? '';
                   if (!await workProvider.breakEnd(
                     groupId: groupProvider.group?.id,
                     user: groupProvider.currentUser,
-                    device: _device,
                   )) {
                     return;
                   }

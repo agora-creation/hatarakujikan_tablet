@@ -25,6 +25,17 @@ ThemeData theme() {
   );
 }
 
+const BoxDecoration kLoginDecoration = BoxDecoration(
+  gradient: LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFF4DB6AC),
+      Color(0xFF009688),
+    ],
+  ),
+);
+
 const BoxDecoration kWorkButtonDecoration = BoxDecoration(
   color: Color(0xFFFEFFFA),
   boxShadow: [
@@ -63,4 +74,28 @@ const TextStyle kTitleTextStyle = TextStyle(
 const TextStyle kSubTitleTextStyle = TextStyle(
   color: Colors.white,
   fontSize: 24.0,
+);
+
+const TextStyle kDateTextStyle = TextStyle(
+  fontSize: 40.0,
+  letterSpacing: 4.0,
+);
+
+const TextStyle kTimeTextStyle = TextStyle(
+  fontSize: 80.0,
+  fontWeight: FontWeight.bold,
+  letterSpacing: 8.0,
+);
+
+const TextStyle kPasswordTextStyle = TextStyle(
+  fontSize: 40.0,
+  fontWeight: FontWeight.bold,
+  letterSpacing: 8.0,
+);
+
+const TextStyle kPassword2TextStyle = TextStyle(
+  color: Colors.black26,
+  fontSize: 40.0,
+  fontWeight: FontWeight.bold,
+  letterSpacing: 8.0,
 );

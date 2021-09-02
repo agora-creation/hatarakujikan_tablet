@@ -5,13 +5,19 @@ class GroupService {
   String _collection = 'group';
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  Future<GroupModel> select({String groupId}) async {
-    DocumentSnapshot snapshot =
-        await _firebaseFirestore.collection(_collection).doc(groupId).get();
-    return GroupModel.fromSnapshot(snapshot);
+  Future<GroupModel> select({String id}) async {
+    GroupModel _group;
+    await _firebaseFirestore
+        .collection(_collection)
+        .doc(id)
+        .get()
+        .then((value) {
+      _group = GroupModel.fromSnapshot(value);
+    });
+    return _group;
   }
 
-  Future<List<GroupModel>> selectList({String adminUserId}) async {
+  Future<List<GroupModel>> selectListAdminUser({String adminUserId}) async {
     List<GroupModel> _groups = [];
     QuerySnapshot snapshot = await _firebaseFirestore
         .collection(_collection)

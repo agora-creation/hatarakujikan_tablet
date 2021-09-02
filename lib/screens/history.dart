@@ -52,8 +52,9 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('work')
-        .where('groupId', isEqualTo: widget.groupProvider.group?.id)
-        .where('userId', isEqualTo: widget.groupProvider.currentUser?.id)
+        .where('groupId', isEqualTo: widget.groupProvider.group?.id ?? 'error')
+        .where('userId',
+            isEqualTo: widget.groupProvider.currentUser?.id ?? 'error')
         .orderBy('startedAt', descending: true)
         .snapshots();
     List<WorkModel> works = [];
@@ -73,8 +74,8 @@ class _HistoryState extends State<History> {
                 return Loading(color: Colors.teal);
               }
               works.clear();
-              for (DocumentSnapshot work in snapshot.data.docs) {
-                works.add(WorkModel.fromSnapshot(work));
+              for (DocumentSnapshot doc in snapshot.data.docs) {
+                works.add(WorkModel.fromSnapshot(doc));
               }
               if (works.length > 0) {
                 return ListView.builder(

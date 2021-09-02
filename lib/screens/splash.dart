@@ -13,16 +13,7 @@ class SplashScreen extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Container(
             height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF4DB6AC),
-                  Color(0xFF009688),
-                ],
-              ),
-            ),
+            decoration: kLoginDecoration,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

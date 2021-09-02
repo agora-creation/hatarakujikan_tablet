@@ -9,17 +9,20 @@ class UserService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<UserModel> select({String groupId, String recordPassword}) async {
-    UserModel _user;
-    QuerySnapshot snapshot = await _firebaseFirestore
-        .collection(_collection)
-        .where('groups', arrayContains: groupId)
-        .where('recordPassword', isEqualTo: recordPassword)
-        .orderBy('createdAt', descending: true)
-        .get();
-    if (snapshot.docs.length > 0) {
-      _user = UserModel.fromSnapshot(snapshot.docs.first);
+  Future<List<UserModel>> selectList({List<String> userIds}) async {
+    List<UserModel> _users = [];
+    for (String _id in userIds) {
+      await _firebaseFirestore
+          .collection(_collection)
+          .where('id', isEqualTo: _id)
+          .orderBy('recordPassword', descending: false)
+          .get()
+          .then((value) {
+        for (DocumentSnapshot _user in value.docs) {
+          _users.add(UserModel.fromSnapshot(_user));
+        }
+      });
     }
-    return _user;
+    return _users;
   }
 }

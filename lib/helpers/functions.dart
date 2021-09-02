@@ -47,35 +47,22 @@ String randomString(int length) {
   return String.fromCharCodes(codeUnits);
 }
 
-Future<String> getPrefs() async {
+Future<String> getPrefs({String key}) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  return _prefs.getString('groupId') ?? '';
+  return _prefs.getString(key) ?? '';
 }
 
-Future<void> setPrefs(String value) async {
+Future<void> setPrefs({String key, String value}) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  _prefs.setString('groupId', value);
+  _prefs.setString(key, value);
 }
 
-Future<void> removePrefs() async {
+Future<void> removePrefs({String key}) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  _prefs.remove('groupId');
+  _prefs.remove(key);
 }
 
-Future<String> getPrefsName() async {
-  SharedPreferences _prefs = await SharedPreferences.getInstance();
-  return _prefs.getString('name') ?? '';
-}
-
-Future<void> setPrefsName(String value) async {
-  SharedPreferences _prefs = await SharedPreferences.getInstance();
-  _prefs.setString('name', value);
-}
-
-Future<void> removePrefsName() async {
-  SharedPreferences _prefs = await SharedPreferences.getInstance();
-  _prefs.remove('name');
-}
+String twoDigits(int n) => n.toString().padLeft(2, '0');
 
 String addTime(String left, String right) {
   String twoDigits(int n) => n.toString().padLeft(2, '0');

@@ -10,11 +10,9 @@ class WorkModel {
   DateTime startedAt;
   double startedLat;
   double startedLon;
-  String startedDev;
   DateTime endedAt;
   double endedLat;
   double endedLon;
-  String endedDev;
   List<BreaksModel> breaks;
   String _state;
   DateTime _createdAt;
@@ -32,11 +30,9 @@ class WorkModel {
     startedAt = snapshot.data()['startedAt'].toDate();
     startedLat = snapshot.data()['startedLat'].toDouble();
     startedLon = snapshot.data()['startedLon'].toDouble();
-    startedDev = snapshot.data()['startedDev'] ?? '';
     endedAt = snapshot.data()['endedAt'].toDate();
     endedLat = snapshot.data()['endedLat'].toDouble();
     endedLon = snapshot.data()['endedLon'].toDouble();
-    endedDev = snapshot.data()['endedDev'] ?? '';
     breaks = _convertBreaks(snapshot.data()['breaks']) ?? [];
     _state = snapshot.data()['state'] ?? '';
     _createdAt = snapshot.data()['createdAt'].toDate();
@@ -71,21 +67,20 @@ class WorkModel {
   }
 
   String workTime() {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
     String _time = '00:00';
     // 出勤時間と退勤時間の差を求める
     Duration _diff = endedAt.difference(startedAt);
     String _minutes = twoDigits(_diff.inMinutes.remainder(60));
     _time = '${twoDigits(_diff.inHours)}:$_minutes';
     // 休憩の合計時間を求める
-    String _breaksTime = '00:00';
+    String _breakTime = '00:00';
     if (breaks.length > 0) {
       for (BreaksModel _break in breaks) {
-        _breaksTime = addTime(_breaksTime, _break.breakTime());
+        _breakTime = addTime(_breakTime, _break.breakTime());
       }
     }
     // 勤務時間と休憩の合計時間の差を求める
-    _time = subTime(_time, _breaksTime);
+    _time = subTime(_time, _breakTime);
     return _time;
   }
 }

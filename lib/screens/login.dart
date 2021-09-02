@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
-import 'package:hatarakujikan_tablet/screens/group_select.dart';
+import 'package:hatarakujikan_tablet/screens/select.dart';
+import 'package:hatarakujikan_tablet/widgets/custom_link_button.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_tablet/widgets/error_dialog.dart';
 import 'package:hatarakujikan_tablet/widgets/loading.dart';
@@ -22,22 +23,15 @@ class LoginScreen extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Container(
             height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF4DB6AC),
-                  Color(0xFF009688),
-                ],
-              ),
-            ),
+            decoration: kLoginDecoration,
             child: groupProvider.status == Status.Authenticating
                 ? Loading(color: Colors.white)
                 : SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 320.0, vertical: 80.0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 320.0,
+                      vertical: 80.0,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -55,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                             Text('for タブレット', style: kSubTitleTextStyle),
                             SizedBox(height: 8.0),
                             Text(
-                              '会社/組織の管理者アカウントのみログインできます。',
+                              '会社/組織専用',
                               style: TextStyle(color: Colors.white),
                             ),
                           ],
@@ -106,12 +100,20 @@ class LoginScreen extends StatelessWidget {
                             groupProvider.clearController();
                             overlayScreen(
                               context,
-                              GroupSelect(groupProvider: groupProvider),
+                              SelectScreen(groupProvider: groupProvider),
                             );
                           },
                           label: 'ログイン',
                           color: Colors.white,
                           backgroundColor: Colors.blue,
+                        ),
+                        SizedBox(height: 40.0),
+                        Center(
+                          child: CustomLinkButton(
+                            onTap: () {},
+                            label: '部署/事業所専用はここをクリック',
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
