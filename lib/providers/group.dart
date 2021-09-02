@@ -122,35 +122,36 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future reloadUsers() async {
+    _users = await _userService.selectList(userIds: _group.userIds);
+    _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
+    notifyListeners();
+  }
+
   Future<bool> currentUserChange({String recordPassword}) async {
-    // if (recordPassword == '') return false;
-    // try {
-    //   UserModel _user = await _userService.select(
-    //     groupId: group.id,
-    //     recordPassword: recordPassword,
-    //   );
-    //   if (_user != null) {
-    //     currentUser = _user;
-    //     notifyListeners();
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // } catch (e) {
-    //   print(e.toString());
-    //   return false;
-    // }
-    return false;
+    if (recordPassword == '') return false;
+    try {
+      UserModel _user = _users.singleWhere(
+        (e) => e.recordPassword == recordPassword,
+      );
+      if (_user != null) {
+        currentUser = await _userService.select(id: _user.id);
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
   }
 
   Future<void> currentUserReload() async {
-    // if (currentUser != null) {
-    //   currentUser = await _userService.select(
-    //     groupId: group.id,
-    //     recordPassword: currentUser?.recordPassword,
-    //   );
-    //   notifyListeners();
-    // }
+    if (currentUser != null) {
+      currentUser = await _userService.select(id: currentUser.id);
+      notifyListeners();
+    }
   }
 
   void currentUserClear() {

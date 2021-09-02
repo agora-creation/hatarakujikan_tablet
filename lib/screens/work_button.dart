@@ -260,6 +260,7 @@ class WorkStartDialog extends StatelessWidget {
                   )) {
                     return;
                   }
+                  groupProvider.reloadUsers();
                   groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
@@ -319,6 +320,7 @@ class WorkEndDialog extends StatelessWidget {
                   )) {
                     return;
                   }
+                  groupProvider.reloadUsers();
                   groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
@@ -378,6 +380,7 @@ class BreakStartDialog extends StatelessWidget {
                   )) {
                     return;
                   }
+                  groupProvider.reloadUsers();
                   groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
@@ -437,6 +440,7 @@ class BreakEndDialog extends StatelessWidget {
                   )) {
                     return;
                   }
+                  groupProvider.reloadUsers();
                   groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },

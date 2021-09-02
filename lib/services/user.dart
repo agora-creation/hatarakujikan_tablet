@@ -9,6 +9,18 @@ class UserService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
+  Future<UserModel> select({String id}) async {
+    UserModel _user;
+    await _firebaseFirestore
+        .collection(_collection)
+        .doc(id)
+        .get()
+        .then((value) {
+      _user = UserModel.fromSnapshot(value);
+    });
+    return _user;
+  }
+
   Future<List<UserModel>> selectList({List<String> userIds}) async {
     List<UserModel> _users = [];
     for (String _id in userIds) {
