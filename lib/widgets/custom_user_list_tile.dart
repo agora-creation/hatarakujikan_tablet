@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:hatarakujikan_tablet/helpers/style.dart';
+import 'package:hatarakujikan_tablet/models/user.dart';
+
+class CustomUserListTile extends StatelessWidget {
+  final UserModel user;
+
+  CustomUserListTile({this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget _workLv = Text('');
+    switch (user.workLv) {
+      case 0:
+        _workLv = Text('');
+        break;
+      case 1:
+        _workLv = Chip(
+          backgroundColor: Colors.blue,
+          label: Text('出勤中', style: TextStyle(color: Colors.white)),
+        );
+        break;
+      case 2:
+        _workLv = Chip(
+          backgroundColor: Colors.orange,
+          label: Text('休憩中', style: TextStyle(color: Colors.white)),
+        );
+        break;
+    }
+    return Container(
+      decoration: kBottomBorderDecoration,
+      child: ListTile(
+        title: Text('${user.name}'),
+        trailing: _workLv,
+      ),
+    );
+  }
+}

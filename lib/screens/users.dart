@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/widgets/custom_user_list_tile.dart';
 
 class UsersScreen extends StatelessWidget {
   final GroupProvider groupProvider;
@@ -29,29 +29,7 @@ class UsersScreen extends StatelessWidget {
         itemCount: groupProvider.users.length,
         itemBuilder: (_, index) {
           UserModel _user = groupProvider.users[index];
-          Widget _workLv;
-          if (_user.workLv == 0) {
-            _workLv = Text('');
-          } else if (_user.workLv == 1) {
-            _workLv = Chip(
-              backgroundColor: Colors.blue,
-              label: Text('出勤中', style: TextStyle(color: Colors.white)),
-            );
-          } else if (_user.workLv == 2) {
-            _workLv = Chip(
-              backgroundColor: Colors.orange,
-              label: Text('休憩中', style: TextStyle(color: Colors.white)),
-            );
-          } else {
-            _workLv = Text('');
-          }
-          return Container(
-            decoration: kBottomBorderDecoration,
-            child: ListTile(
-              title: Text('${_user.name}'),
-              trailing: _workLv,
-            ),
-          );
+          return CustomUserListTile(user: _user);
         },
       ),
     );

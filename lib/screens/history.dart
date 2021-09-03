@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_tablet/models/group.dart';
+import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:hatarakujikan_tablet/models/work.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_footer_list_tile.dart';
@@ -50,11 +52,12 @@ class _HistoryState extends State<History> {
 
   @override
   Widget build(BuildContext context) {
+    GroupModel _group = widget.groupProvider.group;
+    UserModel _user = widget.groupProvider.currentUser;
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('work')
-        .where('groupId', isEqualTo: widget.groupProvider.group?.id ?? 'error')
-        .where('userId',
-            isEqualTo: widget.groupProvider.currentUser?.id ?? 'error')
+        .where('groupId', isEqualTo: _group?.id ?? 'error')
+        .where('userId', isEqualTo: _user?.id ?? 'error')
         .orderBy('startedAt', descending: true)
         .snapshots();
     List<WorkModel> works = [];

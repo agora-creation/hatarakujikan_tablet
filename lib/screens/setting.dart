@@ -52,8 +52,8 @@ class SettingScreen extends StatelessWidget {
           ),
           SizedBox(height: 24.0),
           RoundBorderButton(
-            onPressed: () {
-              groupProvider.signOut();
+            onPressed: () async {
+              await groupProvider.signOut();
               changeScreen(context, LoginScreen());
             },
             label: 'ログアウト',

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
-import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/screens/home.dart';
+import 'package:hatarakujikan_tablet/widgets/custom_select_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/loading.dart';
 
 class SelectScreen extends StatefulWidget {
@@ -65,19 +65,15 @@ class _SelectScreenState extends State<SelectScreen> {
               itemCount: widget.groupProvider.groups.length,
               itemBuilder: (_, index) {
                 GroupModel _group = widget.groupProvider.groups[index];
-                return Container(
-                  decoration: kBottomBorderDecoration,
-                  child: ListTile(
-                    onTap: () async {
-                      setState(() => _isLoading = true);
-                      await widget.groupProvider.setGroup(_group);
-                      setState(() => _isLoading = false);
-                      Navigator.of(context, rootNavigator: true).pop();
-                      changeScreen(context, HomeScreen());
-                    },
-                    title: Text('${_group.name}'),
-                    trailing: Icon(Icons.chevron_right),
-                  ),
+                return CustomSelectListTile(
+                  onTap: () async {
+                    setState(() => _isLoading = true);
+                    await widget.groupProvider.setGroup(_group);
+                    setState(() => _isLoading = false);
+                    Navigator.of(context, rootNavigator: true).pop();
+                    changeScreen(context, HomeScreen());
+                  },
+                  label: '${_group.name}',
                 );
               },
             ),

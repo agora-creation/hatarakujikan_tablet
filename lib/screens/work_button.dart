@@ -3,6 +3,8 @@ import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_text_button.dart';
+import 'package:hatarakujikan_tablet/widgets/custom_work_background_button.dart';
+import 'package:hatarakujikan_tablet/widgets/custom_work_border_list_tile.dart';
 
 class WorkButton extends StatelessWidget {
   final GroupProvider groupProvider;
@@ -22,7 +24,7 @@ class WorkButton extends StatelessWidget {
               children: [
                 Expanded(
                   child: groupProvider.currentUser?.workLv == 0
-                      ? TextButton(
+                      ? CustomWorkBackgroundButton(
                           onPressed: () {
                             showDialog(
                               barrierDismissible: false,
@@ -33,43 +35,19 @@ class WorkButton extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Text(
-                            '出勤',
-                            style: TextStyle(
-                              color: Color(0xFFFEFFFA),
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            padding: EdgeInsets.all(32.0),
-                          ),
+                          label: '出勤',
+                          backgroundColor: Colors.blue,
                         )
-                      : TextButton(
+                      : CustomWorkBackgroundButton(
                           onPressed: null,
-                          child: Text(
-                            '出勤',
-                            style: TextStyle(
-                              color: Color(0xFFFEFFFA),
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            padding: EdgeInsets.all(32.0),
-                          ),
+                          label: '出勤',
+                          backgroundColor: Colors.grey,
                         ),
                 ),
                 SizedBox(width: 1.0),
                 Expanded(
                   child: groupProvider.currentUser?.workLv == 1
-                      ? TextButton(
+                      ? CustomWorkBackgroundButton(
                           onPressed: () {
                             showDialog(
                               barrierDismissible: false,
@@ -80,43 +58,19 @@ class WorkButton extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Text(
-                            '退勤',
-                            style: TextStyle(
-                              color: Color(0xFFFEFFFA),
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            padding: EdgeInsets.all(32.0),
-                          ),
+                          label: '退勤',
+                          backgroundColor: Colors.red,
                         )
-                      : TextButton(
+                      : CustomWorkBackgroundButton(
                           onPressed: null,
-                          child: Text(
-                            '退勤',
-                            style: TextStyle(
-                              color: Color(0xFFFEFFFA),
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            padding: EdgeInsets.all(32.0),
-                          ),
+                          label: '退勤',
+                          backgroundColor: Colors.grey,
                         ),
                 ),
                 SizedBox(width: 1.0),
                 Expanded(
                   child: groupProvider.currentUser?.workLv == 1
-                      ? TextButton(
+                      ? CustomWorkBackgroundButton(
                           onPressed: () {
                             showDialog(
                               barrierDismissible: false,
@@ -127,43 +81,19 @@ class WorkButton extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Text(
-                            '休憩開始',
-                            style: TextStyle(
-                              color: Color(0xFFFEFFFA),
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            padding: EdgeInsets.all(32.0),
-                          ),
+                          label: '休憩開始',
+                          backgroundColor: Colors.orange,
                         )
-                      : TextButton(
+                      : CustomWorkBackgroundButton(
                           onPressed: null,
-                          child: Text(
-                            '休憩開始',
-                            style: TextStyle(
-                              color: Color(0xFFFEFFFA),
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            padding: EdgeInsets.all(32.0),
-                          ),
+                          label: '休憩開始',
+                          backgroundColor: Colors.grey,
                         ),
                 ),
                 SizedBox(width: 1.0),
                 Expanded(
                   child: groupProvider.currentUser?.workLv == 2
-                      ? TextButton(
+                      ? CustomWorkBorderButton(
                           onPressed: () {
                             showDialog(
                               barrierDismissible: false,
@@ -174,38 +104,13 @@ class WorkButton extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Text(
-                            '休憩終了',
-                            style: TextStyle(
-                              color: Colors.orange,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Color(0xFFFEFFFA),
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.orange, width: 1),
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            padding: EdgeInsets.all(32.0),
-                          ),
+                          label: '休憩終了',
+                          color: Colors.orange,
                         )
-                      : TextButton(
+                      : CustomWorkBackgroundButton(
                           onPressed: null,
-                          child: Text(
-                            '休憩終了',
-                            style: TextStyle(
-                              color: Color(0xFFFEFFFA),
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            padding: EdgeInsets.all(32.0),
-                          ),
+                          label: '休憩終了',
+                          backgroundColor: Colors.grey,
                         ),
                 ),
               ],
