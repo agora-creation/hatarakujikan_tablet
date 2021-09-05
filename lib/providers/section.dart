@@ -2,26 +2,31 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/models/group.dart';
+import 'package:hatarakujikan_tablet/models/section.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:hatarakujikan_tablet/services/group.dart';
+import 'package:hatarakujikan_tablet/services/section.dart';
 import 'package:hatarakujikan_tablet/services/user.dart';
 
-enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
+enum Status2 { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
-class GroupProvider with ChangeNotifier {
-  Status _status = Status.Uninitialized;
+class SectionProvider with ChangeNotifier {
+  Status2 _status = Status2.Uninitialized;
   FirebaseAuth _auth;
   User _fUser;
   GroupService _groupService = GroupService();
+  SectionService _sectionService = SectionService();
   UserService _userService = UserService();
-  List<GroupModel> _groups = [];
   GroupModel _group;
+  List<SectionModel> _sections = [];
+  SectionModel _section;
   List<UserModel> _users = [];
 
-  Status get status => _status;
+  Status2 get status => _status;
   User get fUser => _fUser;
-  List<GroupModel> get groups => _groups;
   GroupModel get group => _group;
+  List<SectionModel> get sections => _sections;
+  SectionModel get section => _section;
   List<UserModel> get users => _users;
 
   TextEditingController email = TextEditingController();
@@ -29,7 +34,7 @@ class GroupProvider with ChangeNotifier {
   bool isHidden = false;
   UserModel currentUser;
 
-  GroupProvider.initialize() : _auth = FirebaseAuth.instance {
+  SectionProvider.initialize() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onStateChanged);
   }
 
@@ -38,12 +43,14 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setGroup(GroupModel group) async {
-    _groups.clear();
-    _group = group;
-    _users = await _userService.selectList(userIds: _group.userIds);
+  Future<void> setSection(SectionModel section) async {
+    _group = await _groupService.select(id: section.id);
+    _sections.clear();
+    _section = section;
+    _users.clear();
+    _users = await _userService.selectList(userIds: _section.userIds);
     _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
-    await setPrefs(key: 'groupId', value: group.id);
+    await setPrefs(key: 'sectionId', value: _section.id);
     notifyListeners();
   }
 
@@ -51,7 +58,7 @@ class GroupProvider with ChangeNotifier {
     if (email.text == null) return false;
     if (password.text == null) return false;
     try {
-      _status = Status.Authenticating;
+      _status = Status2.Authenticating;
       notifyListeners();
       await _auth
           .signInWithEmailAndPassword(
@@ -59,15 +66,15 @@ class GroupProvider with ChangeNotifier {
         password: password.text.trim(),
       )
           .then((value) async {
-        _groups.clear();
-        _groups = await _groupService.selectListAdminUser(
+        _sections.clear();
+        _sections = await _sectionService.selectListAdminUser(
           adminUserId: value.user.uid,
         );
-        _users.clear();
+        _group = await _groupService.select(id: _sections.first.groupId);
       });
       return true;
     } catch (e) {
-      _status = Status.Unauthenticated;
+      _status = Status2.Unauthenticated;
       notifyListeners();
       print(e.toString());
       return false;
@@ -76,11 +83,12 @@ class GroupProvider with ChangeNotifier {
 
   Future signOut() async {
     await _auth.signOut();
-    _status = Status.Unauthenticated;
-    _groups.clear();
+    _status = Status2.Unauthenticated;
     _group = null;
+    _sections.clear();
+    _section = null;
     _users.clear();
-    await removePrefs(key: 'groupId');
+    await removePrefs(key: 'sectionId');
     notifyListeners();
     return Future.delayed(Duration.zero);
   }
@@ -90,40 +98,45 @@ class GroupProvider with ChangeNotifier {
     password.text = '';
   }
 
-  Future reloadGroupModel() async {
-    String _groupId = await getPrefs(key: 'groupId');
-    if (_groupId != '') {
-      _group = await _groupService.select(id: _groupId);
-      _users = await _userService.selectList(userIds: _group.userIds);
+  Future<void> reloadSectionModel() async {
+    String _sectionId = await getPrefs(key: 'sectionId');
+    if (_sectionId != '') {
+      _section = await _sectionService.select(id: _sectionId);
+      _users.clear();
+      _users = await _userService.selectList(userIds: _section.userIds);
       _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
+      _group = await _groupService.select(id: _section.groupId);
     }
     notifyListeners();
   }
 
-  Future _onStateChanged(User firebaseUser) async {
+  Future<void> _onStateChanged(User firebaseUser) async {
     if (firebaseUser == null) {
-      _status = Status.Unauthenticated;
+      _status = Status2.Unauthenticated;
     } else {
       _fUser = firebaseUser;
-      String _groupId = await getPrefs(key: 'groupId');
-      if (_groupId == '') {
-        _status = Status.Unauthenticated;
-        _groups.clear();
+      String _sectionId = await getPrefs(key: 'sectionId');
+      if (_sectionId == '') {
+        _status = Status2.Unauthenticated;
         _group = null;
-        _users.clear();
+        _sections.clear();
+        _section = null;
       } else {
-        _status = Status.Authenticated;
-        _groups.clear();
-        _group = await _groupService.select(id: _groupId);
-        _users = await _userService.selectList(userIds: _group.userIds);
+        _status = Status2.Authenticated;
+        _sections.clear();
+        _section = await _sectionService.select(id: _sectionId);
+        _users.clear();
+        _users = await _userService.selectList(userIds: _section.userIds);
         _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
+        _group = await _groupService.select(id: _section.id);
       }
     }
     notifyListeners();
   }
 
-  Future reloadUsers() async {
-    _users = await _userService.selectList(userIds: _group.userIds);
+  Future<void> reloadUsers() async {
+    _users.clear();
+    _users = await _userService.selectList(userIds: _section.userIds);
     _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
     notifyListeners();
   }
