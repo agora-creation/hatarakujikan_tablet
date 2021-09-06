@@ -1,51 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
-import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/providers/section.dart';
 import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/screens/clock.dart';
-import 'package:hatarakujikan_tablet/screens/history.dart';
-import 'package:hatarakujikan_tablet/screens/keypad.dart';
 import 'package:hatarakujikan_tablet/screens/qr.dart';
-import 'package:hatarakujikan_tablet/screens/setting.dart';
+import 'package:hatarakujikan_tablet/screens/section/history.dart';
+import 'package:hatarakujikan_tablet/screens/section/keypad.dart';
+import 'package:hatarakujikan_tablet/screens/section/setting.dart';
+import 'package:hatarakujikan_tablet/screens/section/work_button.dart';
 import 'package:hatarakujikan_tablet/screens/users.dart';
-import 'package:hatarakujikan_tablet/screens/work_button.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class SectionHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final groupProvider = Provider.of<GroupProvider>(context);
+    final sectionProvider = Provider.of<SectionProvider>(context);
     final workProvider = Provider.of<WorkProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(groupProvider.group?.name ?? ''),
+        title: Text(
+          '${sectionProvider.group?.name} (${sectionProvider.section?.name})',
+        ),
         actions: [
           IconButton(
             onPressed: () async {
-              await groupProvider.reloadUsers();
+              await sectionProvider.reloadUsers();
             },
             icon: Icon(Icons.refresh),
           ),
           IconButton(
             onPressed: () => overlayScreen(
               context,
-              UsersScreen(users: groupProvider.users),
+              UsersScreen(users: sectionProvider.users),
             ),
             icon: Icon(Icons.group),
           ),
           IconButton(
             onPressed: () => overlayScreen(
               context,
-              QrScreen(group: groupProvider.group),
+              QrScreen(group: sectionProvider.group),
             ),
             icon: Icon(Icons.qr_code),
           ),
           IconButton(
             onPressed: () => overlayScreen(
               context,
-              SettingScreen(groupProvider: groupProvider),
+              SectionSettingScreen(sectionProvider: sectionProvider),
             ),
             icon: Icon(Icons.settings),
           ),
@@ -62,14 +64,14 @@ class HomeScreen extends StatelessWidget {
                   child: Container(
                     color: Colors.teal.shade100,
                     width: double.infinity,
-                    child: Clock(user: groupProvider.currentUser),
+                    child: Clock(user: sectionProvider.currentUser),
                   ),
                 ),
                 Container(
                   color: Colors.teal.shade100,
                   padding: EdgeInsets.all(40),
-                  child: WorkButton(
-                    groupProvider: groupProvider,
+                  child: SectionWorkButton(
+                    sectionProvider: sectionProvider,
                     workProvider: workProvider,
                   ),
                 ),
@@ -78,9 +80,9 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: groupProvider.currentUser == null
-                ? Keypad(groupProvider: groupProvider)
-                : History(groupProvider: groupProvider),
+            child: sectionProvider.currentUser == null
+                ? SectionKeypad(sectionProvider: sectionProvider)
+                : SectionHistory(sectionProvider: sectionProvider),
           ),
         ],
       ),

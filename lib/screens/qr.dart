@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrScreen extends StatelessWidget {
-  final GroupProvider groupProvider;
+  final GroupModel group;
 
-  QrScreen({@required this.groupProvider});
+  QrScreen({@required this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class QrScreen extends StatelessWidget {
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('${groupProvider.group.name}のQRコード'),
+        title: Text('${group.name}のQRコード'),
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
@@ -31,7 +31,7 @@ class QrScreen extends StatelessWidget {
             Expanded(
               child: Center(
                 child: QrImage(
-                  data: '${groupProvider.group.id}',
+                  data: '${group.id}',
                   version: QrVersions.auto,
                   size: 400.0,
                 ),
@@ -43,7 +43,7 @@ class QrScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'これは${groupProvider.group.name}の会社/組織IDが埋め込まれたQRコードです。別アプリ「はたらくじかん for スマートフォン」でこのQRコードを使用します。',
+                    'これは${group.name}の会社/組織IDが埋め込まれたQRコードです。別アプリ「はたらくじかん for スマートフォン」でこのQRコードを使用します。',
                   ),
                   SizedBox(height: 16.0),
                   Text(
@@ -55,7 +55,7 @@ class QrScreen extends StatelessWidget {
                   Text('③ 下部メニューの上の「会社/組織に入る(QRコード)」ボタンをタップする'),
                   Text('④ カメラが起動するので、枠内にこのQRコードを収めるように撮る'),
                   SizedBox(height: 16.0),
-                  groupProvider.group.qrSecurity
+                  group.qrSecurity
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

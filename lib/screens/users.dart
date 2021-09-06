@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
-import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_user_list_tile.dart';
 
 class UsersScreen extends StatelessWidget {
-  final GroupProvider groupProvider;
+  final List<UserModel> users;
 
-  UsersScreen({@required this.groupProvider});
+  UsersScreen({@required this.users});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +25,9 @@ class UsersScreen extends StatelessWidget {
       ),
       body: ListView.builder(
         padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-        itemCount: groupProvider.users.length,
+        itemCount: users.length,
         itemBuilder: (_, index) {
-          UserModel _user = groupProvider.users[index];
-          return CustomUserListTile(user: _user);
+          return CustomUserListTile(user: users[index]);
         },
       ),
     );

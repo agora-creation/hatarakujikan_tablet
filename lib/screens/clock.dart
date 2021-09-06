@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
-import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:intl/intl.dart';
 
 class Clock extends StatefulWidget {
-  final GroupProvider groupProvider;
+  final UserModel user;
 
-  Clock({@required this.groupProvider});
+  Clock({@required this.user});
 
   @override
   _ClockState createState() => _ClockState();
@@ -41,8 +40,6 @@ class _ClockState extends State<Clock> {
 
   @override
   Widget build(BuildContext context) {
-    UserModel _user = widget.groupProvider.currentUser;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -56,12 +53,12 @@ class _ClockState extends State<Clock> {
         ),
         SizedBox(height: 16.0),
         Text(
-          _user == null
+          widget.user == null
               ? '右のテンキーから暗証番号を入力してください'
-              : 'おはようございます、${_user?.name}さん',
+              : 'おはようございます、${widget.user?.name}さん',
           style: TextStyle(fontSize: 26.0),
         ),
-        _user != null
+        widget.user != null
             ? Text(
                 '下のボタンから選んで押してください',
                 style: TextStyle(fontSize: 26.0),
