@@ -44,7 +44,7 @@ class SectionProvider with ChangeNotifier {
   }
 
   Future<void> setSection(SectionModel section) async {
-    _group = await _groupService.select(id: section.id);
+    _group = await _groupService.select(id: section.groupId);
     _sections.clear();
     _section = section;
     _users.clear();
@@ -128,7 +128,7 @@ class SectionProvider with ChangeNotifier {
         _users.clear();
         _users = await _userService.selectList(userIds: _section.userIds);
         _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
-        _group = await _groupService.select(id: _section.id);
+        _group = await _groupService.select(id: _section.groupId);
       }
     }
     notifyListeners();

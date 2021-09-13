@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'package:hatarakujikan_tablet/providers/section.dart';
 import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/screens/home.dart';
 import 'package:hatarakujikan_tablet/screens/login.dart';
+import 'package:hatarakujikan_tablet/screens/section/home.dart';
 import 'package:hatarakujikan_tablet/screens/section/login.dart';
 import 'package:hatarakujikan_tablet/screens/splash.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +18,13 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  if (FirebaseAuth.instance.currentUser == null) {
+    await Future.any([
+      FirebaseAuth.instance.userChanges().firstWhere((e) => e != null),
+      Future.delayed(Duration(milliseconds: 3000)),
+    ]);
+  }
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
@@ -60,9 +69,11 @@ class _SplashControllerState extends State<SplashController> {
   bool _mode = true;
 
   void _init() async {
-    if (await getPrefs(key: 'groupId') != '') {
+    String _groupId = await getPrefs(key: 'groupId');
+    String _sectionId = await getPrefs(key: 'sectionId');
+    if (_groupId != '') {
       _mode = true;
-    } else if (await getPrefs(key: 'sectionId') != '') {
+    } else if (_sectionId != '') {
       _mode = false;
     }
   }
@@ -85,10 +96,6 @@ class _SplashControllerState extends State<SplashController> {
         case Status.Authenticating:
           return LoginScreen();
         case Status.Authenticated:
-          if (groupProvider.group == null) {
-            groupProvider.signOut();
-            return LoginScreen();
-          }
           return HomeScreen();
         default:
           return LoginScreen();
@@ -101,11 +108,7 @@ class _SplashControllerState extends State<SplashController> {
         case Status2.Authenticating:
           return SectionLoginScreen();
         case Status2.Authenticated:
-          if (sectionProvider.section == null) {
-            sectionProvider.signOut();
-            return SectionLoginScreen();
-          }
-          return HomeScreen();
+          return SectionHomeScreen();
         default:
           return SectionLoginScreen();
       }
