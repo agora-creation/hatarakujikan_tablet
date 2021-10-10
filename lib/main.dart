@@ -12,6 +12,7 @@ import 'package:hatarakujikan_tablet/screens/login.dart';
 import 'package:hatarakujikan_tablet/screens/section/home.dart';
 import 'package:hatarakujikan_tablet/screens/section/login.dart';
 import 'package:hatarakujikan_tablet/screens/splash.dart';
+import 'package:hatarakujikan_tablet/widgets/custom_text_button.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -61,6 +62,37 @@ class _SplashControllerState extends State<SplashController> {
   bool _mode = true;
 
   void _init() async {
+    await versionCheck().then((value) {
+      if (!value) return;
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text(
+            'アップデートのお知らせ',
+            style: TextStyle(fontSize: 18.0),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('各種パフォーマンスの改善および新機能を追加しました。最新バージョンへのアップデートをお願いします。'),
+              SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomTextButton(
+                    onPressed: () => launchUpdate(),
+                    label: 'アップデート',
+                    color: Colors.blue,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    });
     String _groupId = await getPrefs(key: 'groupId');
     String _sectionId = await getPrefs(key: 'sectionId');
     if (_groupId != '') {

@@ -1,8 +1,14 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void nextScreen(BuildContext context, Widget widget) {
   Navigator.push(
@@ -91,4 +97,56 @@ String subTime(String left, String right) {
   double _h = _diffM / 60;
   int _m = _diffM % 60;
   return '${twoDigits(_h.toInt())}:${twoDigits(_m)}';
+}
+
+// DateTime => Timestamp
+Timestamp convertTimestamp(DateTime date, bool end) {
+  String _dateTime = '${DateFormat('yyyy-MM-dd').format(date)} 00:00:00.000';
+  if (end) {
+    _dateTime = '${DateFormat('yyyy-MM-dd').format(date)} 23:59:59.999';
+  }
+  return Timestamp.fromMillisecondsSinceEpoch(
+    DateTime.parse(_dateTime).millisecondsSinceEpoch,
+  );
+}
+
+// バージョンチェック
+Future<bool> versionCheck() async {
+  final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  int currentVersion = int.parse(packageInfo.buildNumber);
+  final RemoteConfig remoteConfig = RemoteConfig.instance;
+  try {
+    await remoteConfig.fetch();
+    await remoteConfig.fetchAndActivate();
+    final remoteConfigAppVersionKey = Platform.isIOS
+        ? 'tablet_ios_required_semver'
+        : 'tablet_android_required_semver';
+    int newVersion = remoteConfig.getInt(remoteConfigAppVersionKey);
+    if (newVersion > currentVersion) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
+}
+
+// ストアURL
+const String iosUrl = 'https://itunes.apple.com/jp/app/id1571904972?mt=8';
+const String androidUrl =
+    'https://play.google.com/store/apps/details?id=com.agoracreation.hatarakujikan_tablet';
+
+void launchUpdate() async {
+  String _url;
+  if (Platform.isIOS) {
+    _url = iosUrl;
+  } else {
+    _url = androidUrl;
+  }
+  if (await canLaunch(_url)) {
+    await launch(_url);
+  } else {
+    throw 'Could not launch $_url';
+  }
 }
