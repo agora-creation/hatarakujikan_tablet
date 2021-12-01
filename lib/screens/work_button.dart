@@ -160,7 +160,7 @@ class WorkStartDialog extends StatelessWidget {
               CustomTextButton(
                 onPressed: () async {
                   if (!await workProvider.workStart(
-                    groupId: groupProvider.group?.id,
+                    group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
                     return;
@@ -220,7 +220,7 @@ class WorkEndDialog extends StatelessWidget {
               CustomTextButton(
                 onPressed: () async {
                   if (!await workProvider.workEnd(
-                    groupId: groupProvider.group?.id,
+                    group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
                     return;
@@ -280,7 +280,7 @@ class BreakStartDialog extends StatelessWidget {
               CustomTextButton(
                 onPressed: () async {
                   if (!await workProvider.breakStart(
-                    groupId: groupProvider.group?.id,
+                    group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
                     return;
@@ -340,7 +340,7 @@ class BreakEndDialog extends StatelessWidget {
               CustomTextButton(
                 onPressed: () async {
                   if (!await workProvider.breakEnd(
-                    groupId: groupProvider.group?.id,
+                    group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
                     return;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/models/breaks.dart';
+import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:hatarakujikan_tablet/models/work.dart';
 import 'package:hatarakujikan_tablet/services/user.dart';
@@ -11,16 +12,16 @@ class WorkProvider with ChangeNotifier {
   WorkService _workService = WorkService();
 
   Future<bool> workStart({
-    String groupId,
+    GroupModel group,
     UserModel user,
   }) async {
-    if (groupId == '') return false;
+    if (group == null) return false;
     if (user == null) return false;
     try {
       String _id = _workService.id();
       _workService.create({
         'id': _id,
-        'groupId': groupId,
+        'groupId': group?.id,
         'userId': user?.id,
         'startedAt': DateTime.now(),
         'startedLat': 0.0,
@@ -45,21 +46,38 @@ class WorkProvider with ChangeNotifier {
   }
 
   Future<bool> workEnd({
-    String groupId,
+    GroupModel group,
     UserModel user,
   }) async {
-    if (groupId == '') return false;
+    if (group == null) return false;
     if (user == null) return false;
     try {
       WorkModel _work = await _workService.select(id: user?.lastWorkId);
-      if (_work?.groupId != groupId) {
+      if (_work?.groupId != group?.id) {
         return false;
+      }
+      List<Map> _breaks = [];
+      for (BreaksModel breaks in _work?.breaks) {
+        _breaks.add(breaks.toMap());
+      }
+      if (group?.autoBreak == true) {
+        String _id = randomString(20);
+        _breaks.add({
+          'id': _id,
+          'startedAt': DateTime.now(),
+          'startedLat': 0.0,
+          'startedLon': 0.0,
+          'endedAt': DateTime.now().add(Duration(hours: 1)),
+          'endedLat': 0.0,
+          'endedLon': 0.0,
+        });
       }
       _workService.update({
         'id': user?.lastWorkId,
         'endedAt': DateTime.now(),
         'endedLat': 0.0,
         'endedLon': 0.0,
+        'breaks': _breaks,
       });
       _userService.update({
         'id': user?.id,
@@ -74,14 +92,14 @@ class WorkProvider with ChangeNotifier {
   }
 
   Future<bool> breakStart({
-    String groupId,
+    GroupModel group,
     UserModel user,
   }) async {
-    if (groupId == '') return false;
+    if (group == null) return false;
     if (user == null) return false;
     try {
       WorkModel _work = await _workService.select(id: user?.lastWorkId);
-      if (_work?.groupId != groupId) {
+      if (_work?.groupId != group?.id) {
         return false;
       }
       List<Map> _breaks = [];
@@ -115,14 +133,14 @@ class WorkProvider with ChangeNotifier {
   }
 
   Future<bool> breakEnd({
-    String groupId,
+    GroupModel group,
     UserModel user,
   }) async {
-    if (groupId == '') return false;
+    if (group == null) return false;
     if (user == null) return false;
     try {
       WorkModel _work = await _workService.select(id: user?.lastWorkId);
-      if (_work?.groupId != groupId) {
+      if (_work?.groupId != group?.id) {
         return false;
       }
       List<Map> _breaks = [];
