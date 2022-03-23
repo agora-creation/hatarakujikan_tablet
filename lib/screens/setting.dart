@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 class SettingScreen extends StatelessWidget {
   final GroupProvider groupProvider;
 
-  SettingScreen({@required this.groupProvider});
+  SettingScreen({required this.groupProvider});
 
   @override
   Widget build(BuildContext context) {

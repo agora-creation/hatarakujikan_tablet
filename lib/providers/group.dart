@@ -10,27 +10,27 @@ enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 class GroupProvider with ChangeNotifier {
   Status _status = Status.Uninitialized;
-  FirebaseAuth _auth;
-  User _fUser;
+  FirebaseAuth? _auth;
+  User? _fUser;
   GroupService _groupService = GroupService();
   UserService _userService = UserService();
   List<GroupModel> _groups = [];
-  GroupModel _group;
+  GroupModel? _group;
   List<UserModel> _users = [];
 
   Status get status => _status;
-  User get fUser => _fUser;
+  User? get fUser => _fUser;
   List<GroupModel> get groups => _groups;
-  GroupModel get group => _group;
+  GroupModel? get group => _group;
   List<UserModel> get users => _users;
 
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool isHidden = false;
-  UserModel currentUser;
+  UserModel? currentUser;
 
   GroupProvider.initialize() : _auth = FirebaseAuth.instance {
-    _auth.authStateChanges().listen(_onStateChanged);
+    _auth!.authStateChanges().listen(_onStateChanged);
   }
 
   void changeHidden() {
@@ -38,22 +38,22 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setGroup(GroupModel group) async {
+  Future<void> setGroup(GroupModel? group) async {
     _groups.clear();
     _group = group;
-    _users = await _userService.selectList(userIds: _group.userIds);
+    _users = await _userService.selectList(userIds: _group!.userIds);
     _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
-    await setPrefs(key: 'groupId', value: group.id);
+    await setPrefs(key: 'groupId', value: _group!.id);
     notifyListeners();
   }
 
   Future<bool> signIn() async {
-    if (email.text == null) return false;
-    if (password.text == null) return false;
+    if (email.text == '') return false;
+    if (password.text == '') return false;
     try {
       _status = Status.Authenticating;
       notifyListeners();
-      await _auth
+      await _auth!
           .signInWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
@@ -61,7 +61,7 @@ class GroupProvider with ChangeNotifier {
           .then((value) async {
         _groups.clear();
         _groups = await _groupService.selectListAdminUser(
-          adminUserId: value.user.uid,
+          adminUserId: value.user?.uid,
         );
         _users.clear();
       });
@@ -75,7 +75,7 @@ class GroupProvider with ChangeNotifier {
   }
 
   Future signOut() async {
-    await _auth.signOut();
+    await _auth!.signOut();
     _status = Status.Unauthenticated;
     _groups.clear();
     _group = null;
@@ -94,13 +94,13 @@ class GroupProvider with ChangeNotifier {
     String _groupId = await getPrefs(key: 'groupId');
     if (_groupId != '') {
       _group = await _groupService.select(id: _groupId);
-      _users = await _userService.selectList(userIds: _group.userIds);
+      _users = await _userService.selectList(userIds: _group!.userIds);
       _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
     }
     notifyListeners();
   }
 
-  Future<void> _onStateChanged(User firebaseUser) async {
+  Future<void> _onStateChanged(User? firebaseUser) async {
     if (firebaseUser == null) {
       _status = Status.Unauthenticated;
     } else {
@@ -115,7 +115,7 @@ class GroupProvider with ChangeNotifier {
         _status = Status.Authenticated;
         _groups.clear();
         _group = await _groupService.select(id: _groupId);
-        _users = await _userService.selectList(userIds: _group.userIds);
+        _users = await _userService.selectList(userIds: _group!.userIds);
         _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
       }
     }
@@ -123,18 +123,18 @@ class GroupProvider with ChangeNotifier {
   }
 
   Future<void> reloadUsers() async {
-    _users = await _userService.selectList(userIds: _group.userIds);
+    _users = await _userService.selectList(userIds: _group!.userIds);
     _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
     notifyListeners();
   }
 
-  Future<bool> currentUserChange({String recordPassword}) async {
+  Future<bool> currentUserChange({required String recordPassword}) async {
     if (recordPassword == '') return false;
     try {
       UserModel _user = _users.singleWhere(
         (e) => e.recordPassword == recordPassword,
       );
-      if (_user != null) {
+      if (_user.id != '') {
         currentUser = await _userService.select(id: _user.id);
         notifyListeners();
         return true;
@@ -149,7 +149,7 @@ class GroupProvider with ChangeNotifier {
 
   Future<void> currentUserReload() async {
     if (currentUser != null) {
-      currentUser = await _userService.select(id: currentUser.id);
+      currentUser = await _userService.select(id: currentUser!.id);
       notifyListeners();
     }
   }

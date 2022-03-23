@@ -53,17 +53,17 @@ String randomString(int length) {
   return String.fromCharCodes(codeUnits);
 }
 
-Future<String> getPrefs({String key}) async {
+Future<String> getPrefs({required String key}) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   return _prefs.getString(key) ?? '';
 }
 
-Future<void> setPrefs({String key, String value}) async {
+Future<void> setPrefs({required String key, required String value}) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   _prefs.setString(key, value);
 }
 
-Future<void> removePrefs({String key}) async {
+Future<void> removePrefs({required String key}) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   _prefs.remove(key);
 }
@@ -114,13 +114,13 @@ Timestamp convertTimestamp(DateTime date, bool end) {
 Future<bool> versionCheck() async {
   final PackageInfo packageInfo = await PackageInfo.fromPlatform();
   int currentVersion = int.parse(packageInfo.buildNumber);
-  final RemoteConfig remoteConfig = RemoteConfig.instance;
+  final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
   try {
     await remoteConfig.fetch();
     await remoteConfig.fetchAndActivate();
     final remoteConfigAppVersionKey = Platform.isIOS
-        ? 'tablet_ios_required_semver'
-        : 'tablet_android_required_semver';
+        ? 'app_ios_required_semver'
+        : 'app_android_required_semver';
     int newVersion = remoteConfig.getInt(remoteConfigAppVersionKey);
     if (newVersion > currentVersion) {
       return true;
@@ -149,4 +149,12 @@ void launchUpdate() async {
   } else {
     throw 'Could not launch $_url';
   }
+}
+
+String dateText(String format, DateTime? date) {
+  String _ret = '';
+  if (date != null) {
+    _ret = DateFormat(format, 'ja').format(date);
+  }
+  return _ret;
 }

@@ -15,16 +15,16 @@ import 'package:hatarakujikan_tablet/widgets/loading.dart';
 class History extends StatefulWidget {
   final GroupProvider groupProvider;
 
-  History({@required this.groupProvider});
+  History({required this.groupProvider});
 
   @override
   _HistoryState createState() => _HistoryState();
 }
 
 class _HistoryState extends State<History> {
-  Timer _timer;
+  Timer? _timer;
   int _seconds = 10;
-  int _currentSeconds;
+  int _currentSeconds = 0;
 
   Timer countTimer() {
     return Timer.periodic(Duration(seconds: 1), (timer) {
@@ -47,17 +47,18 @@ class _HistoryState extends State<History> {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timer!.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    GroupModel _group = widget.groupProvider.group;
-    UserModel _user = widget.groupProvider.currentUser;
-    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+    GroupModel? _group = widget.groupProvider.group;
+    UserModel? _user = widget.groupProvider.currentUser;
+    Stream<QuerySnapshot<Map<String, dynamic>>> _stream = FirebaseFirestore
+        .instance
         .collection('work')
-        .where('groupId', isEqualTo: _group?.id ?? 'error')
-        .where('userId', isEqualTo: _user?.id ?? 'error')
+        .where('groupId', isEqualTo: _group?.id)
+        .where('userId', isEqualTo: _user?.id)
         .orderBy('startedAt', descending: true)
         .snapshots();
     List<WorkModel> works = [];
@@ -70,14 +71,15 @@ class _HistoryState extends State<History> {
         ),
         CustomHeadListTile(),
         Expanded(
-          child: StreamBuilder<QuerySnapshot>(
+          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: _stream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Loading(color: Colors.teal);
               }
               works.clear();
-              for (DocumentSnapshot doc in snapshot.data.docs) {
+              for (DocumentSnapshot<Map<String, dynamic>> doc
+                  in snapshot.data!.docs) {
                 works.add(WorkModel.fromSnapshot(doc));
               }
               if (works.length > 0) {

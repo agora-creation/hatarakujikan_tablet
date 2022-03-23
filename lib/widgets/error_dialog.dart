@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_text_button.dart';
 
 class ErrorDialog extends StatelessWidget {
-  final String message;
+  final String? message;
 
   ErrorDialog(this.message);
 
@@ -22,7 +22,7 @@ class ErrorDialog extends StatelessWidget {
           ),
           SizedBox(height: 24.0),
           Text(
-            message,
+            message ?? '',
             style: TextStyle(fontSize: 20.0),
           ),
           SizedBox(height: 24.0),

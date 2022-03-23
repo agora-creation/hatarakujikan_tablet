@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomWorkBorderButton extends StatelessWidget {
-  final String label;
-  final Color color;
-  final Function() onPressed;
+  final String? label;
+  final Color? color;
+  final Function()? onPressed;
 
   CustomWorkBorderButton({
     this.label,
@@ -16,7 +16,7 @@ class CustomWorkBorderButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: Text(
-        label,
+        label ?? '',
         style: TextStyle(
           color: color,
           fontSize: 20.0,
@@ -25,7 +25,7 @@ class CustomWorkBorderButton extends StatelessWidget {
       style: TextButton.styleFrom(
         backgroundColor: Color(0xFFFEFFFA),
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: color, width: 1),
+          side: BorderSide(color: color!, width: 1),
           borderRadius: BorderRadius.zero,
         ),
         padding: EdgeInsets.all(32.0),

@@ -1,24 +1,24 @@
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
 
 class BreaksModel {
-  String _id;
-  DateTime startedAt;
-  double startedLat;
-  double startedLon;
-  DateTime endedAt;
-  double endedLat;
-  double endedLon;
+  String _id = '';
+  DateTime startedAt = DateTime.now();
+  double startedLat = 0;
+  double startedLon = 0;
+  DateTime endedAt = DateTime.now();
+  double endedLat = 0;
+  double endedLon = 0;
 
   String get id => _id;
 
   BreaksModel.fromMap(Map data) {
-    _id = data['id'];
-    startedAt = data['startedAt'].toDate();
-    startedLat = data['startedLat'].toDouble();
-    startedLon = data['startedLon'].toDouble();
-    endedAt = data['endedAt'].toDate();
-    endedLat = data['endedLat'].toDouble();
-    endedLon = data['endedLon'].toDouble();
+    _id = data['id'] ?? '';
+    startedAt = data['startedAt'].toDate() ?? DateTime.now();
+    startedLat = data['startedLat'].toDouble() ?? 0;
+    startedLon = data['startedLon'].toDouble() ?? 0;
+    endedAt = data['endedAt'].toDate() ?? DateTime.now();
+    endedLat = data['endedLat'].toDouble() ?? 0;
+    endedLon = data['endedLon'].toDouble() ?? 0;
   }
 
   Map toMap() => {

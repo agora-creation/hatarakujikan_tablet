@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomWorkBackgroundButton extends StatelessWidget {
-  final String label;
-  final Color backgroundColor;
-  final Function() onPressed;
+  final String? label;
+  final Color? backgroundColor;
+  final Function()? onPressed;
 
   CustomWorkBackgroundButton({
     this.label,
@@ -16,7 +16,7 @@ class CustomWorkBackgroundButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: Text(
-        label,
+        label ?? '',
         style: TextStyle(
           color: Color(0xFFFEFFFA),
           fontSize: 20.0,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomKeypadButton extends StatelessWidget {
-  final String label;
-  final Color color;
-  final Function onPressed;
+  final String? label;
+  final Color? color;
+  final Function()? onPressed;
 
   CustomKeypadButton({
     this.label,
@@ -16,7 +16,7 @@ class CustomKeypadButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: Text(
-        label,
+        label ?? '',
         style: TextStyle(
           color: Colors.black54,
           fontSize: 32.0,

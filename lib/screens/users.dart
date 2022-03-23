@@ -5,7 +5,7 @@ import 'package:hatarakujikan_tablet/widgets/custom_user_list_tile.dart';
 class UsersScreen extends StatelessWidget {
   final List<UserModel> users;
 
-  UsersScreen({@required this.users});
+  UsersScreen({required this.users});
 
   @override
   Widget build(BuildContext context) {

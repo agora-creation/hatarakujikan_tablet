@@ -5,7 +5,7 @@ import 'package:hatarakujikan_tablet/models/user.dart';
 class CustomUserListTile extends StatelessWidget {
   final UserModel user;
 
-  CustomUserListTile({this.user});
+  CustomUserListTile({required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class CustomUserListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        title: Text('${user.name}'),
+        title: Text(user.name),
         trailing: _workLv,
       ),
     );

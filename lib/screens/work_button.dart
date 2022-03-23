@@ -11,8 +11,8 @@ class WorkButton extends StatelessWidget {
   final WorkProvider workProvider;
 
   WorkButton({
-    @required this.groupProvider,
-    @required this.workProvider,
+    required this.groupProvider,
+    required this.workProvider,
   });
 
   @override
@@ -125,8 +125,8 @@ class WorkStartDialog extends StatelessWidget {
   final WorkProvider workProvider;
 
   WorkStartDialog({
-    @required this.groupProvider,
-    @required this.workProvider,
+    required this.groupProvider,
+    required this.workProvider,
   });
 
   @override
@@ -185,8 +185,8 @@ class WorkEndDialog extends StatelessWidget {
   final WorkProvider workProvider;
 
   WorkEndDialog({
-    @required this.groupProvider,
-    @required this.workProvider,
+    required this.groupProvider,
+    required this.workProvider,
   });
 
   @override
@@ -245,8 +245,8 @@ class BreakStartDialog extends StatelessWidget {
   final WorkProvider workProvider;
 
   BreakStartDialog({
-    @required this.groupProvider,
-    @required this.workProvider,
+    required this.groupProvider,
+    required this.workProvider,
   });
 
   @override
@@ -305,8 +305,8 @@ class BreakEndDialog extends StatelessWidget {
   final WorkProvider workProvider;
 
   BreakEndDialog({
-    @required this.groupProvider,
-    @required this.workProvider,
+    required this.groupProvider,
+    required this.workProvider,
   });
 
   @override

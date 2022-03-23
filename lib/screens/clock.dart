@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 class Clock extends StatefulWidget {
   final UserModel user;
 
-  Clock({@required this.user});
+  Clock({required this.user});
 
   @override
   _ClockState createState() => _ClockState();
@@ -53,12 +53,12 @@ class _ClockState extends State<Clock> {
         ),
         SizedBox(height: 16.0),
         Text(
-          widget.user == null
+          widget.user.id == ''
               ? '右のテンキーから暗証番号を入力してください'
-              : 'おはようございます、${widget.user?.name}さん',
+              : 'おはようございます、${widget.user.name}さん',
           style: TextStyle(fontSize: 26.0),
         ),
-        widget.user != null
+        widget.user.id != ''
             ? Text(
                 '下のボタンから選んで押してください',
                 style: TextStyle(fontSize: 26.0),

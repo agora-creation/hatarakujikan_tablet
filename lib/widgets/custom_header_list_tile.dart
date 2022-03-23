@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 
 class CustomHeaderListTile extends StatelessWidget {
-  final IconData iconData;
-  final String label;
+  final IconData? iconData;
+  final String? label;
 
   CustomHeaderListTile({
     this.iconData,
@@ -19,7 +19,7 @@ class CustomHeaderListTile extends StatelessWidget {
           children: [
             Icon(iconData, color: Colors.black54),
             SizedBox(width: 16.0),
-            Text(label, style: TextStyle(color: Colors.black54)),
+            Text(label ?? '', style: TextStyle(color: Colors.black54)),
           ],
         ),
       ),

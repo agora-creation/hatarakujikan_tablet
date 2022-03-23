@@ -9,7 +9,7 @@ import 'package:hatarakujikan_tablet/widgets/loading.dart';
 class SelectScreen extends StatefulWidget {
   final GroupProvider groupProvider;
 
-  SelectScreen({@required this.groupProvider});
+  SelectScreen({required this.groupProvider});
 
   @override
   _SelectScreenState createState() => _SelectScreenState();

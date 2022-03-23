@@ -5,7 +5,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 class QrScreen extends StatelessWidget {
   final GroupModel group;
 
-  QrScreen({@required this.group});
+  QrScreen({required this.group});
 
   @override
   Widget build(BuildContext context) {

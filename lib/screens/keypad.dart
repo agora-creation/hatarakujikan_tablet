@@ -8,7 +8,7 @@ import 'package:hatarakujikan_tablet/widgets/error_dialog.dart';
 class Keypad extends StatefulWidget {
   final GroupProvider groupProvider;
 
-  Keypad({@required this.groupProvider});
+  Keypad({required this.groupProvider});
 
   @override
   _KeypadState createState() => _KeypadState();

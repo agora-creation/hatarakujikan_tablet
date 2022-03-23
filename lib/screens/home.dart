@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             onPressed: () => overlayScreen(
               context,
-              QrScreen(group: groupProvider.group),
+              QrScreen(group: groupProvider.group!),
             ),
             icon: Icon(Icons.qr_code),
           ),
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                   child: Container(
                     color: Colors.teal.shade100,
                     width: double.infinity,
-                    child: Clock(user: groupProvider.currentUser),
+                    child: Clock(user: groupProvider.currentUser!),
                   ),
                 ),
                 Container(
