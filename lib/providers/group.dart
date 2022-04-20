@@ -16,21 +16,18 @@ class GroupProvider with ChangeNotifier {
   UserService _userService = UserService();
   List<GroupModel> _groups = [];
   GroupModel? _group;
-  List<UserModel> _users = [];
 
   Status get status => _status;
   User? get fUser => _fUser;
   List<GroupModel> get groups => _groups;
   GroupModel? get group => _group;
-  List<UserModel> get users => _users;
 
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool isHidden = false;
-  UserModel? currentUser;
 
   GroupProvider.initialize() : _auth = FirebaseAuth.instance {
-    _auth!.authStateChanges().listen(_onStateChanged);
+    _auth?.authStateChanges().listen(_onStateChanged);
   }
 
   void changeHidden() {
@@ -38,12 +35,11 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setGroup(GroupModel? group) async {
-    _groups.clear();
+  Future setGroup(GroupModel? group) async {
+    if (group == null) return;
     _group = group;
-    _users = await _userService.selectList(userIds: _group!.userIds);
-    _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
-    await setPrefs(key: 'groupId', value: _group!.id);
+    await setPrefs(key: 'groupId', value: _group.id);
+    _groups.clear();
     notifyListeners();
   }
 
@@ -63,7 +59,6 @@ class GroupProvider with ChangeNotifier {
         _groups = await _groupService.selectListAdminUser(
           adminUserId: value.user?.uid,
         );
-        _users.clear();
       });
       return true;
     } catch (e) {
@@ -79,7 +74,6 @@ class GroupProvider with ChangeNotifier {
     _status = Status.Unauthenticated;
     _groups.clear();
     _group = null;
-    _users.clear();
     await removePrefs(key: 'groupId');
     notifyListeners();
     return Future.delayed(Duration.zero);
@@ -90,46 +84,37 @@ class GroupProvider with ChangeNotifier {
     password.text = '';
   }
 
-  Future<void> reloadGroupModel() async {
-    String _groupId = await getPrefs(key: 'groupId');
-    if (_groupId != '') {
+  Future reloadGroupModel() async {
+    String? _groupId = await getPrefs(key: 'groupId');
+    if (_groupId != null) {
       _group = await _groupService.select(id: _groupId);
-      _users = await _userService.selectList(userIds: _group!.userIds);
-      _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
     }
     notifyListeners();
   }
 
-  Future<void> _onStateChanged(User? firebaseUser) async {
+  Future _onStateChanged(User? firebaseUser) async {
     if (firebaseUser == null) {
       _status = Status.Unauthenticated;
     } else {
       _fUser = firebaseUser;
-      String _groupId = await getPrefs(key: 'groupId');
-      if (_groupId == '') {
+      String? _groupId = await getPrefs(key: 'groupId');
+      if (_groupId == null) {
         _status = Status.Unauthenticated;
         _groups.clear();
         _group = null;
-        _users.clear();
       } else {
         _status = Status.Authenticated;
         _groups.clear();
         _group = await _groupService.select(id: _groupId);
-        _users = await _userService.selectList(userIds: _group!.userIds);
-        _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
       }
     }
     notifyListeners();
   }
 
-  Future<void> reloadUsers() async {
-    _users = await _userService.selectList(userIds: _group!.userIds);
-    _users.sort((a, b) => a.recordPassword.compareTo(b.recordPassword));
-    notifyListeners();
-  }
+  UserModel? currentUser;
 
-  Future<bool> currentUserChange({required String recordPassword}) async {
-    if (recordPassword == '') return false;
+  Future<bool> currentUserChange({String? recordPassword}) async {
+    if (recordPassword == null) return false;
     try {
       UserModel _user = _users.singleWhere(
         (e) => e.recordPassword == recordPassword,

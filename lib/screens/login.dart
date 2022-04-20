@@ -48,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                             Text('for タブレット', style: kSubTitleTextStyle),
                             SizedBox(height: 8.0),
                             Text(
-                              '会社/組織専用',
+                              '会社/組織の管理者のみ、メールアドレスとパスワードを入力してログインできます。',
                               style: TextStyle(color: Colors.white),
                             ),
                           ],
@@ -106,7 +106,6 @@ class LoginScreen extends StatelessWidget {
                           color: Colors.white,
                           backgroundColor: Colors.blue,
                         ),
-                        SizedBox(height: 40.0),
                       ],
                     ),
                   ),
