@@ -86,13 +86,17 @@ const TextStyle kTimeTextStyle = TextStyle(
   letterSpacing: 8.0,
 );
 
-const TextStyle kPasswordTextStyle = TextStyle(
+const TextStyle kHomeTextStyle = TextStyle(
+  fontSize: 26.0,
+);
+
+const TextStyle kKeypadTextStyle = TextStyle(
   fontSize: 40.0,
   fontWeight: FontWeight.bold,
   letterSpacing: 8.0,
 );
 
-const TextStyle kPassword2TextStyle = TextStyle(
+const TextStyle kKeypad2TextStyle = TextStyle(
   color: Colors.black26,
   fontSize: 40.0,
   fontWeight: FontWeight.bold,

@@ -38,7 +38,7 @@ class GroupProvider with ChangeNotifier {
   Future setGroup(GroupModel? group) async {
     if (group == null) return;
     _group = group;
-    await setPrefs(key: 'groupId', value: _group.id);
+    await setPrefs('groupId', group.id);
     _groups.clear();
     notifyListeners();
   }
@@ -57,7 +57,7 @@ class GroupProvider with ChangeNotifier {
           .then((value) async {
         _groups.clear();
         _groups = await _groupService.selectListAdminUser(
-          adminUserId: value.user?.uid,
+          userId: value.user?.uid,
         );
       });
       return true;
@@ -74,7 +74,7 @@ class GroupProvider with ChangeNotifier {
     _status = Status.Unauthenticated;
     _groups.clear();
     _group = null;
-    await removePrefs(key: 'groupId');
+    await removePrefs('groupId');
     notifyListeners();
     return Future.delayed(Duration.zero);
   }
@@ -85,7 +85,7 @@ class GroupProvider with ChangeNotifier {
   }
 
   Future reloadGroupModel() async {
-    String? _groupId = await getPrefs(key: 'groupId');
+    String? _groupId = await getPrefs('groupId');
     if (_groupId != null) {
       _group = await _groupService.select(id: _groupId);
     }
@@ -97,7 +97,7 @@ class GroupProvider with ChangeNotifier {
       _status = Status.Unauthenticated;
     } else {
       _fUser = firebaseUser;
-      String? _groupId = await getPrefs(key: 'groupId');
+      String? _groupId = await getPrefs('groupId');
       if (_groupId == null) {
         _status = Status.Unauthenticated;
         _groups.clear();
@@ -113,33 +113,31 @@ class GroupProvider with ChangeNotifier {
 
   UserModel? currentUser;
 
-  Future<bool> currentUserChange({String? recordPassword}) async {
-    if (recordPassword == null) return false;
+  Future<bool> setUser({required String recordPassword}) async {
     try {
-      UserModel _user = _users.singleWhere(
+      List<UserModel> _users = await _userService.selectList(
+        userIds: _group?.userIds ?? [],
+      );
+      UserModel? _user = _users.singleWhere(
         (e) => e.recordPassword == recordPassword,
       );
-      if (_user.id != '') {
-        currentUser = await _userService.select(id: _user.id);
-        notifyListeners();
-        return true;
-      } else {
-        return false;
-      }
+      currentUser = await _userService.select(id: _user.id);
+      notifyListeners();
+      return true;
     } catch (e) {
       print(e.toString());
       return false;
     }
   }
 
-  Future<void> currentUserReload() async {
+  Future currentUserReload() async {
     if (currentUser != null) {
-      currentUser = await _userService.select(id: currentUser!.id);
+      currentUser = await _userService.select(id: currentUser?.id);
       notifyListeners();
     }
   }
 
-  void currentUserClear() {
+  void clearUser() {
     currentUser = null;
     notifyListeners();
   }

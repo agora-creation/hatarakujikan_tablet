@@ -5,7 +5,7 @@ import 'package:hatarakujikan_tablet/models/breaks.dart';
 class WorkModel {
   String _id = '';
   String _groupId = '';
-  String _userId = '';
+  String userId = '';
   DateTime startedAt = DateTime.now();
   double startedLat = 0;
   double startedLon = 0;
@@ -13,19 +13,17 @@ class WorkModel {
   double endedLat = 0;
   double endedLon = 0;
   List<BreaksModel> breaks = [];
-  String _state = '';
+  String state = '';
   DateTime _createdAt = DateTime.now();
 
   String get id => _id;
   String get groupId => _groupId;
-  String get userId => _userId;
-  String get state => _state;
   DateTime get createdAt => _createdAt;
 
   WorkModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     _id = snapshot.data()!['id'] ?? '';
     _groupId = snapshot.data()!['groupId'] ?? '';
-    _userId = snapshot.data()!['userId'] ?? '';
+    userId = snapshot.data()!['userId'] ?? '';
     startedAt = snapshot.data()!['startedAt'].toDate() ?? DateTime.now();
     startedLat = snapshot.data()!['startedLat'].toDouble() ?? 0;
     startedLon = snapshot.data()!['startedLon'].toDouble() ?? 0;
@@ -33,7 +31,7 @@ class WorkModel {
     endedLat = snapshot.data()!['endedLat'].toDouble() ?? 0;
     endedLon = snapshot.data()!['endedLon'].toDouble() ?? 0;
     breaks = _convertBreaks(snapshot.data()!['breaks']);
-    _state = snapshot.data()!['state'] ?? '';
+    state = snapshot.data()!['state'] ?? '';
     _createdAt = snapshot.data()!['createdAt'].toDate() ?? DateTime.now();
   }
 

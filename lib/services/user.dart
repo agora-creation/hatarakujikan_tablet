@@ -21,20 +21,18 @@ class UserService {
     return _user;
   }
 
-  Future<List<UserModel>> selectList({List<String>? userIds}) async {
+  Future<List<UserModel>> selectList({required List<String> userIds}) async {
     List<UserModel> _users = [];
-    for (String _id in userIds!) {
-      await _firebaseFirestore
-          .collection(_collection)
-          .where('id', isEqualTo: _id)
-          .orderBy('recordPassword', descending: false)
-          .get()
-          .then((value) {
-        for (DocumentSnapshot<Map<String, dynamic>> _user in value.docs) {
-          _users.add(UserModel.fromSnapshot(_user));
-        }
-      });
-    }
+    await _firebaseFirestore
+        .collection(_collection)
+        .orderBy('recordPassword', descending: false)
+        .get()
+        .then((value) {
+      for (DocumentSnapshot<Map<String, dynamic>> _user in value.docs) {
+        UserModel user = UserModel.fromSnapshot(_user);
+        if (userIds.contains(user.id)) _users.add(user);
+      }
+    });
     return _users;
   }
 }

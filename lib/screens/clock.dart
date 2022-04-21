@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:intl/intl.dart';
 
@@ -45,11 +44,9 @@ class _ClockState extends State<Clock> {
       children: [
         Text(
           dateText,
-          style: kDateTextStyle,
         ),
         Text(
           timeText,
-          style: kTimeTextStyle,
         ),
         SizedBox(height: 16.0),
         Text(

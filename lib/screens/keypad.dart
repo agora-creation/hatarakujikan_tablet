@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
-import 'package:hatarakujikan_tablet/widgets/custom_header_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_keypad_button.dart';
-import 'package:hatarakujikan_tablet/widgets/error_dialog.dart';
+import 'package:hatarakujikan_tablet/widgets/icon_label.dart';
 
 class Keypad extends StatefulWidget {
   final GroupProvider groupProvider;
@@ -31,7 +29,7 @@ class _KeypadState extends State<Keypad> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomHeaderListTile(
+        IconLabel(
           iconData: Icons.dialpad,
           label: '暗証番号を入力してください',
         ),
@@ -46,11 +44,9 @@ class _KeypadState extends State<Keypad> {
                   recordPassword != ''
                       ? Text(
                           recordPassword,
-                          style: kPasswordTextStyle,
                         )
                       : Text(
                           '00000000',
-                          style: kPassword2TextStyle,
                         ),
                 ],
               ),
@@ -172,27 +168,7 @@ class _KeypadState extends State<Keypad> {
                 ),
                 Expanded(
                   child: CustomKeypadButton(
-                    onPressed: () async {
-                      if (recordPassword == '') {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (_) => ErrorDialog('暗証番号を入力してください。'),
-                        );
-                        return;
-                      }
-                      if (!await widget.groupProvider.currentUserChange(
-                        recordPassword: recordPassword,
-                      )) {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (_) => ErrorDialog('入力した暗証番号が間違っています。'),
-                        );
-                        return;
-                      }
-                      setState(() => recordPassword = '');
-                    },
+                    onPressed: () async {},
                     label: '確定',
                     color: Color(0xFFBBDEFB),
                   ),

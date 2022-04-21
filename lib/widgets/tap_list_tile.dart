@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 
-class CustomSelectListTile extends StatelessWidget {
-  final String? label;
+class TapListTile extends StatelessWidget {
+  final String? title;
+  final String? subtitle;
+  final IconData? iconData;
   final Function()? onTap;
 
-  CustomSelectListTile({
-    this.label,
+  TapListTile({
+    this.title,
+    this.subtitle,
+    this.iconData,
     this.onTap,
   });
 
@@ -15,9 +19,10 @@ class CustomSelectListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
+        title: Text(title ?? ''),
+        subtitle: Text(subtitle ?? ''),
+        trailing: onTap != null ? Icon(iconData) : null,
         onTap: onTap,
-        title: Text(label ?? ''),
-        trailing: Icon(Icons.chevron_right),
       ),
     );
   }

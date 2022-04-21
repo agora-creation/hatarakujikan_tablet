@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_tablet/helpers/define.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/models/breaks.dart';
 import 'package:hatarakujikan_tablet/models/group.dart';
@@ -30,7 +32,7 @@ class WorkProvider with ChangeNotifier {
         'endedLat': 0.0,
         'endedLon': 0.0,
         'breaks': [],
-        'state': '通常勤務',
+        'state': workStates.first,
         'createdAt': DateTime.now(),
       });
       _userService.update({
@@ -51,19 +53,18 @@ class WorkProvider with ChangeNotifier {
   }) async {
     if (group == null) return false;
     if (user == null) return false;
+    WorkModel? _work = await _workService.select(id: user.lastWorkId);
+    if (_work?.groupId != group.id) return false;
+    if (_work?.userId != user.id) return false;
     try {
-      WorkModel _work = await _workService.select(id: user.lastWorkId);
-      if (_work.groupId != group.id) {
-        return false;
-      }
       List<Map> _breaks = [];
-      for (BreaksModel breaks in _work.breaks) {
-        _breaks.add(breaks.toMap());
+      for (BreaksModel _breaksModel in _work?.breaks ?? []) {
+        _breaks.add(_breaksModel.toMap());
       }
       if (group.autoBreak == true) {
-        String _id = randomString(20);
+        String _breaksId = randomString(20);
         _breaks.add({
-          'id': _id,
+          'id': _breaksId,
           'startedAt': DateTime.now(),
           'startedLat': 0.0,
           'startedLon': 0.0,
@@ -73,7 +74,7 @@ class WorkProvider with ChangeNotifier {
         });
       }
       _workService.update({
-        'id': user.lastWorkId,
+        'id': _work?.id,
         'endedAt': DateTime.now(),
         'endedLat': 0.0,
         'endedLon': 0.0,
@@ -97,18 +98,17 @@ class WorkProvider with ChangeNotifier {
   }) async {
     if (group == null) return false;
     if (user == null) return false;
+    WorkModel? _work = await _workService.select(id: user.lastWorkId);
+    if (_work?.groupId != group.id) return false;
+    if (_work?.userId != user.id) return false;
     try {
-      WorkModel _work = await _workService.select(id: user.lastWorkId);
-      if (_work.groupId != group.id) {
-        return false;
-      }
       List<Map> _breaks = [];
-      for (BreaksModel breaks in _work.breaks) {
-        _breaks.add(breaks.toMap());
+      for (BreaksModel _breaksModel in _work?.breaks ?? []) {
+        _breaks.add(_breaksModel.toMap());
       }
-      String _id = randomString(20);
+      String _breaksId = randomString(20);
       _breaks.add({
-        'id': _id,
+        'id': _breaksId,
         'startedAt': DateTime.now(),
         'startedLat': 0.0,
         'startedLon': 0.0,
@@ -117,13 +117,13 @@ class WorkProvider with ChangeNotifier {
         'endedLon': 0.0,
       });
       _workService.update({
-        'id': user.lastWorkId,
+        'id': _work?.id,
         'breaks': _breaks,
       });
       _userService.update({
         'id': user.id,
         'workLv': 2,
-        'lastBreakId': _id,
+        'lastBreakId': _breaksId,
       });
       return true;
     } catch (e) {
@@ -138,22 +138,21 @@ class WorkProvider with ChangeNotifier {
   }) async {
     if (group == null) return false;
     if (user == null) return false;
+    WorkModel? _work = await _workService.select(id: user.lastWorkId);
+    if (_work?.groupId != group.id) return false;
+    if (_work?.userId != user.id) return false;
     try {
-      WorkModel _work = await _workService.select(id: user.lastWorkId);
-      if (_work.groupId != group.id) {
-        return false;
-      }
       List<Map> _breaks = [];
-      for (BreaksModel breaks in _work.breaks) {
-        if (breaks.id == user.lastBreakId) {
-          breaks.endedAt = DateTime.now();
-          breaks.endedLat = 0.0;
-          breaks.endedLon = 0.0;
+      for (BreaksModel _breaksModel in _work?.breaks ?? []) {
+        if (_breaksModel.id == user.lastBreakId) {
+          _breaksModel.endedAt = DateTime.now();
+          _breaksModel.endedLat = 0.0;
+          _breaksModel.endedLon = 0.0;
         }
-        _breaks.add(breaks.toMap());
+        _breaks.add(_breaksModel.toMap());
       }
       _workService.update({
-        'id': user.lastWorkId,
+        'id': _work?.id,
         'breaks': _breaks,
       });
       _userService.update({
@@ -166,5 +165,19 @@ class WorkProvider with ChangeNotifier {
       print(e.toString());
       return false;
     }
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? streamList({
+    String? groupId,
+    String? userId,
+  }) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? _ret;
+    _ret = FirebaseFirestore.instance
+        .collection('work')
+        .where('groupId', isEqualTo: groupId ?? 'error')
+        .where('userId', isEqualTo: userId ?? 'error')
+        .orderBy('startedAt', descending: true)
+        .snapshots();
+    return _ret;
   }
 }

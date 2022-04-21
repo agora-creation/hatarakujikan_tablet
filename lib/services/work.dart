@@ -6,8 +6,7 @@ class WorkService {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   String id() {
-    String _id = _firebaseFirestore.collection(_collection).doc().id;
-    return _id;
+    return _firebaseFirestore.collection(_collection).doc().id;
   }
 
   void create(Map<String, dynamic> values) {
@@ -18,7 +17,7 @@ class WorkService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<WorkModel> select({required String id}) async {
+  Future<WorkModel?> select({String? id}) async {
     WorkModel? _work;
     await _firebaseFirestore
         .collection(_collection)
@@ -27,6 +26,6 @@ class WorkService {
         .then((value) {
       _work = WorkModel.fromSnapshot(value);
     });
-    return _work!;
+    return _work;
   }
 }

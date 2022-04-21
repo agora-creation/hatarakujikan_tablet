@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 
-class CustomHeaderListTile extends StatelessWidget {
+class IconLabel extends StatelessWidget {
   final IconData? iconData;
   final String? label;
 
-  CustomHeaderListTile({
+  IconLabel({
     this.iconData,
     this.label,
   });

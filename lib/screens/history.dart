@@ -8,8 +8,8 @@ import 'package:hatarakujikan_tablet/models/work.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_footer_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_head_list_tile.dart';
-import 'package:hatarakujikan_tablet/widgets/custom_header_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_history_list_tile.dart';
+import 'package:hatarakujikan_tablet/widgets/icon_label.dart';
 import 'package:hatarakujikan_tablet/widgets/loading.dart';
 
 class History extends StatefulWidget {
@@ -30,7 +30,7 @@ class _HistoryState extends State<History> {
     return Timer.periodic(Duration(seconds: 1), (timer) {
       if (_currentSeconds < 1) {
         timer.cancel();
-        widget.groupProvider.currentUserClear();
+        widget.groupProvider.clearUser();
       } else {
         setState(() => _currentSeconds -= 1);
       }
@@ -65,7 +65,7 @@ class _HistoryState extends State<History> {
 
     return Column(
       children: [
-        CustomHeaderListTile(
+        IconLabel(
           iconData: Icons.list,
           label: '勤務履歴',
         ),
@@ -96,7 +96,7 @@ class _HistoryState extends State<History> {
           ),
         ),
         CustomFooterListTile(
-          onTap: () => widget.groupProvider.currentUserClear(),
+          onTap: () => widget.groupProvider.clearUser(),
           label: '$_currentSeconds秒後、入力に戻る',
         ),
       ],

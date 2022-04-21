@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_tablet/helpers/functions.dart';
+import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/providers/work.dart';
-import 'package:hatarakujikan_tablet/screens/clock.dart';
-import 'package:hatarakujikan_tablet/screens/history.dart';
-import 'package:hatarakujikan_tablet/screens/keypad.dart';
-import 'package:hatarakujikan_tablet/screens/qr.dart';
-import 'package:hatarakujikan_tablet/screens/setting.dart';
-import 'package:hatarakujikan_tablet/screens/users.dart';
-import 'package:hatarakujikan_tablet/screens/work_button.dart';
+import 'package:hatarakujikan_tablet/screens/home_left.dart';
+import 'package:hatarakujikan_tablet/screens/home_right.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -16,72 +11,36 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
     final workProvider = Provider.of<WorkProvider>(context);
+    GroupModel? group = groupProvider.group;
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(groupProvider.group?.name ?? ''),
+        title: Text(group?.name ?? ''),
         actions: [
           IconButton(
-            onPressed: () async {
-              await groupProvider.reloadUsers();
-            },
-            icon: Icon(Icons.refresh),
+            icon: Icon(Icons.notifications),
+            onPressed: () {},
           ),
           IconButton(
-            onPressed: () => overlayScreen(
-              context,
-              UsersScreen(users: groupProvider.users),
-            ),
-            icon: Icon(Icons.group),
+            icon: Icon(Icons.directions_run),
+            onPressed: () {},
           ),
           IconButton(
-            onPressed: () => overlayScreen(
-              context,
-              QrScreen(group: groupProvider.group!),
-            ),
             icon: Icon(Icons.qr_code),
+            onPressed: () {},
           ),
           IconButton(
-            onPressed: () => overlayScreen(
-              context,
-              SettingScreen(groupProvider: groupProvider),
-            ),
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {},
           ),
         ],
       ),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            flex: 2,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    color: Colors.teal.shade100,
-                    width: double.infinity,
-                    child: Clock(user: groupProvider.currentUser!),
-                  ),
-                ),
-                Container(
-                  color: Colors.teal.shade100,
-                  padding: EdgeInsets.all(40),
-                  child: WorkButton(
-                    groupProvider: groupProvider,
-                    workProvider: workProvider,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: groupProvider.currentUser == null
-                ? Keypad(groupProvider: groupProvider)
-                : History(groupProvider: groupProvider),
-          ),
+          HomeLeft(groupProvider: groupProvider, workProvider: workProvider),
+          HomeRight(groupProvider: groupProvider, workProvider: workProvider),
         ],
       ),
     );

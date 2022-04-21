@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_text_button.dart';
@@ -19,7 +18,6 @@ class WorkButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return groupProvider.currentUser != null
         ? Container(
-            decoration: kWorkButtonDecoration,
             child: Row(
               children: [
                 Expanded(
@@ -165,7 +163,6 @@ class WorkStartDialog extends StatelessWidget {
                   )) {
                     return;
                   }
-                  groupProvider.reloadUsers();
                   groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
@@ -225,7 +222,6 @@ class WorkEndDialog extends StatelessWidget {
                   )) {
                     return;
                   }
-                  groupProvider.reloadUsers();
                   groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
@@ -285,7 +281,6 @@ class BreakStartDialog extends StatelessWidget {
                   )) {
                     return;
                   }
-                  groupProvider.reloadUsers();
                   groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },
@@ -345,7 +340,6 @@ class BreakEndDialog extends StatelessWidget {
                   )) {
                     return;
                   }
-                  groupProvider.reloadUsers();
                   groupProvider.currentUserReload();
                   Navigator.pop(context);
                 },

@@ -92,7 +92,9 @@ class LoginScreen extends StatelessWidget {
                               showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                builder: (_) => ErrorDialog('ログインに失敗しました。'),
+                                builder: (_) => ErrorDialog(
+                                  'ログインに失敗しました。メールアドレスまたはパスワードが間違っている可能性があります。',
+                                ),
                               );
                               return;
                             }

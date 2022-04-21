@@ -3,8 +3,8 @@ import 'package:hatarakujikan_tablet/helpers/functions.dart';
 import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/screens/home.dart';
-import 'package:hatarakujikan_tablet/widgets/custom_select_list_tile.dart';
 import 'package:hatarakujikan_tablet/widgets/loading.dart';
+import 'package:hatarakujikan_tablet/widgets/tap_list_tile.dart';
 
 class SelectScreen extends StatefulWidget {
   final GroupProvider groupProvider;
@@ -16,18 +16,21 @@ class SelectScreen extends StatefulWidget {
 }
 
 class _SelectScreenState extends State<SelectScreen> {
-  bool _isLoading = false;
+  bool isLoading = false;
+
+  Future _next(GroupModel? group) async {
+    setState(() => isLoading = true);
+    await widget.groupProvider.setGroup(group);
+    Navigator.of(context, rootNavigator: true).pop();
+    changeScreen(context, HomeScreen());
+  }
 
   void _init() async {
-    setState(() => _isLoading = true);
     await Future.delayed(Duration(seconds: 2));
-    if (widget.groupProvider.groups.length == 1) {
-      await widget.groupProvider.setGroup(widget.groupProvider.groups.first);
-      setState(() => _isLoading = false);
-      Navigator.of(context, rootNavigator: true).pop();
-      changeScreen(context, HomeScreen());
+    List<GroupModel> _groups = widget.groupProvider.groups;
+    if (_groups.length == 1) {
+      await _next(_groups.first);
     }
-    setState(() => _isLoading = false);
   }
 
   @override
@@ -38,7 +41,7 @@ class _SelectScreenState extends State<SelectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoading
+    return isLoading
         ? Loading(color: Colors.teal)
         : Scaffold(
             appBar: AppBar(
@@ -46,10 +49,7 @@ class _SelectScreenState extends State<SelectScreen> {
               backgroundColor: Colors.teal,
               elevation: 0.0,
               centerTitle: true,
-              title: Text(
-                '会社/組織の選択',
-                style: TextStyle(color: Colors.white),
-              ),
+              title: Text('会社/組織の選択', style: TextStyle(color: Colors.white)),
               actions: [
                 IconButton(
                   onPressed: () {
@@ -65,15 +65,11 @@ class _SelectScreenState extends State<SelectScreen> {
               itemCount: widget.groupProvider.groups.length,
               itemBuilder: (_, index) {
                 GroupModel _group = widget.groupProvider.groups[index];
-                return CustomSelectListTile(
-                  onTap: () async {
-                    setState(() => _isLoading = true);
-                    await widget.groupProvider.setGroup(_group);
-                    setState(() => _isLoading = false);
-                    Navigator.of(context, rootNavigator: true).pop();
-                    changeScreen(context, HomeScreen());
-                  },
-                  label: '${_group.name}',
+                return TapListTile(
+                  title: '会社/組織名',
+                  subtitle: _group.name,
+                  iconData: Icons.chevron_right,
+                  onTap: () async => await _next(_group),
                 );
               },
             ),
