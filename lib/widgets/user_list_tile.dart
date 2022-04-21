@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
 
-class CustomUserListTile extends StatelessWidget {
+class UserListTile extends StatelessWidget {
   final UserModel user;
 
-  CustomUserListTile({required this.user});
+  UserListTile({required this.user});
 
   @override
   Widget build(BuildContext context) {

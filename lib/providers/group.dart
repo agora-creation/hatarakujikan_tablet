@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/helpers/functions.dart';
@@ -84,7 +85,7 @@ class GroupProvider with ChangeNotifier {
     password.text = '';
   }
 
-  Future reloadGroupModel() async {
+  Future reloadGroup() async {
     String? _groupId = await getPrefs('groupId');
     if (_groupId != null) {
       _group = await _groupService.select(id: _groupId);
@@ -130,7 +131,7 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future currentUserReload() async {
+  Future reloadUser() async {
     if (currentUser != null) {
       currentUser = await _userService.select(id: currentUser?.id);
       notifyListeners();
@@ -140,5 +141,14 @@ class GroupProvider with ChangeNotifier {
   void clearUser() {
     currentUser = null;
     notifyListeners();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? streamUsers() {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? _ret;
+    _ret = FirebaseFirestore.instance
+        .collection('user')
+        .orderBy('recordPassword', descending: false)
+        .snapshots();
+    return _ret;
   }
 }

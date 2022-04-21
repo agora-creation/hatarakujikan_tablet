@@ -66,7 +66,7 @@ class WorkButtons extends StatelessWidget {
                       backgroundColor:
                           user?.workLv == 2 ? Color(0xFFFEFFFA) : Colors.grey,
                       borderColor: user?.workLv == 2 ? Colors.orange : null,
-                      onPressed: user?.workLv == 2 ? breakStartOnPressed : null,
+                      onPressed: user?.workLv == 2 ? breakEndOnPressed : null,
                     ),
                   ),
                 ],

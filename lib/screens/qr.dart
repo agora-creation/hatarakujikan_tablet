@@ -3,9 +3,9 @@ import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrScreen extends StatelessWidget {
-  final GroupModel group;
+  final GroupModel? group;
 
-  QrScreen({required this.group});
+  QrScreen({this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +15,11 @@ class QrScreen extends StatelessWidget {
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('${group.name}のQRコード'),
+        title: Text('${group?.name ?? ''}のQRコード'),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             icon: Icon(Icons.close),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           ),
         ],
       ),
@@ -31,7 +31,7 @@ class QrScreen extends StatelessWidget {
             Expanded(
               child: Center(
                 child: QrImage(
-                  data: '${group.id}',
+                  data: group?.id ?? '',
                   version: QrVersions.auto,
                   size: 400.0,
                 ),
@@ -43,19 +43,19 @@ class QrScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'これは${group.name}の会社/組織IDが埋め込まれたQRコードです。別アプリ「はたらくじかん for スマートフォン」でこのQRコードを使用します。',
+                    'これは${group?.name ?? ''}の会社/組織IDが埋め込まれたQRコードです。別アプリ「はたらくじかんforスマートフォン」でこのQRコードを使用します。',
                   ),
                   SizedBox(height: 16.0),
                   Text(
                     '【会社/組織に入る時】',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text('① 「はたらくじかん for スマートフォン」を起動し、ログインしておく'),
+                  Text('① 「はたらくじかんforスマートフォン」を起動し、ログインしておく'),
                   Text('② 下部メニューから「会社/組織」をタップする'),
                   Text('③ 下部メニューの上の「会社/組織に入る(QRコード)」ボタンをタップする'),
                   Text('④ カメラが起動するので、枠内にこのQRコードを収めるように撮る'),
                   SizedBox(height: 16.0),
-                  group.qrSecurity
+                  group?.qrSecurity == true
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -63,7 +63,7 @@ class QrScreen extends StatelessWidget {
                               '【出退勤や休憩時間を記録する時】',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text('① 「はたらくじかん for スマートフォン」を起動し、ログインしておく'),
+                            Text('① 「はたらくじかんforスマートフォン」を起動し、ログインしておく'),
                             Text('② 下部メニューが「ホーム」になっているのを確認する'),
                             Text(
                                 '③ 「出勤」「退勤」「休憩開始」「休憩終了」のそれぞれボタンをタップした時にカメラが起動する'),

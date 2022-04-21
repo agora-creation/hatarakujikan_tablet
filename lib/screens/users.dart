@@ -1,14 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
-import 'package:hatarakujikan_tablet/widgets/custom_user_list_tile.dart';
+import 'package:hatarakujikan_tablet/providers/group.dart';
+import 'package:hatarakujikan_tablet/widgets/user_list_tile.dart';
 
 class UsersScreen extends StatelessWidget {
-  final List<UserModel> users;
+  final GroupProvider groupProvider;
 
-  UsersScreen({required this.users});
+  UsersScreen({required this.groupProvider});
 
   @override
   Widget build(BuildContext context) {
+    List<String> userIds = groupProvider.group?.userIds ?? [];
+    List<UserModel> users = [];
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -23,11 +28,26 @@ class UsersScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-        itemCount: users.length,
-        itemBuilder: (_, index) {
-          return CustomUserListTile(user: users[index]);
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: groupProvider.streamUsers(),
+        builder: (context, snapshot) {
+          users.clear();
+          if (snapshot.hasData) {
+            for (DocumentSnapshot<Map<String, dynamic>> doc
+                in snapshot.data!.docs) {
+              UserModel _user = UserModel.fromSnapshot(doc);
+              if (userIds.contains(_user.id)) {
+                users.add(_user);
+              }
+            }
+          }
+          return ListView.builder(
+            padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
+            itemCount: users.length,
+            itemBuilder: (_, index) {
+              return UserListTile(user: users[index]);
+            },
+          );
         },
       ),
     );
