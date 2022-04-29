@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "hatarakujikan-t",
+    "site": "hatarakujikan-t",
     "public": "build/web",
     "ignore": [
       "firebase.json",
