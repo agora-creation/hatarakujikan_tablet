@@ -122,7 +122,7 @@ class GroupProvider with ChangeNotifier {
       UserModel? _user = _users.singleWhere(
         (e) => e.recordPassword == recordPassword,
       );
-      currentUser = await _userService.select(id: _user.id);
+      currentUser = _user;
       notifyListeners();
       return true;
     } catch (e) {
