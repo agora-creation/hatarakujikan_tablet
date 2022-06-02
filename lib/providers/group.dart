@@ -116,6 +116,10 @@ class GroupProvider with ChangeNotifier {
 
   Future<bool> setUser({required String recordPassword}) async {
     try {
+      String? _groupId = await getPrefs('groupId');
+      if (_groupId != null) {
+        _group = await _groupService.select(id: _groupId);
+      }
       List<UserModel> _users = await _userService.selectList(
         userIds: _group?.userIds ?? [],
       );
