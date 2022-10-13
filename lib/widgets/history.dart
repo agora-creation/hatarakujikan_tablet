@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_tablet/models/work.dart';
@@ -24,33 +22,18 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  Timer? _timer;
-  int _seconds = 30;
-  int _currentSeconds = 0;
   List<WorkModel> works = [];
-
-  Timer countDown() {
-    return Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_currentSeconds < 1) {
-        timer.cancel();
-        widget.groupProvider.clearUser();
-      } else {
-        setState(() => _currentSeconds -= 1);
-      }
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    _currentSeconds = _seconds;
-    _timer = countDown();
+    widget.groupProvider.countStart();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _timer?.cancel();
+    widget.groupProvider.countStop();
   }
 
   @override
@@ -87,7 +70,7 @@ class _HistoryState extends State<History> {
           ),
         ),
         HistoryFooter(
-          currentSeconds: _currentSeconds,
+          currentSeconds: widget.groupProvider.currentSeconds,
           onTap: () => widget.groupProvider.clearUser(),
         ),
       ],

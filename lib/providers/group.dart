@@ -149,11 +149,13 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int seconds = 30;
+  Timer? timer;
+  int seconds = 10;
   int currentSeconds = 0;
 
-  Timer countDown() {
-    return Timer.periodic(Duration(seconds: 1), (timer) {
+  void countStart() {
+    currentSeconds = seconds;
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (currentSeconds < 1) {
         timer.cancel();
         currentUser = null;
@@ -163,6 +165,11 @@ class GroupProvider with ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  void countStop() {
+    timer?.cancel();
+    notifyListeners();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? streamUsers() {
