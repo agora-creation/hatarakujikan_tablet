@@ -57,6 +57,7 @@ class _HomeLeftState extends State<HomeLeft> {
           WorkButtons(
             user: widget.groupProvider.currentUser,
             workStartOnPressed: () {
+              widget.groupProvider.countStop();
               showDialog(
                 barrierDismissible: false,
                 context: context,
@@ -67,6 +68,7 @@ class _HomeLeftState extends State<HomeLeft> {
               );
             },
             workEndOnPressed: () {
+              widget.groupProvider.countStop();
               showDialog(
                 barrierDismissible: false,
                 context: context,
@@ -77,6 +79,7 @@ class _HomeLeftState extends State<HomeLeft> {
               );
             },
             breakStartOnPressed: () {
+              widget.groupProvider.countStop();
               showDialog(
                 barrierDismissible: false,
                 context: context,
@@ -87,6 +90,7 @@ class _HomeLeftState extends State<HomeLeft> {
               );
             },
             breakEndOnPressed: () {
+              widget.groupProvider.countStop();
               showDialog(
                 barrierDismissible: false,
                 context: context,
@@ -138,18 +142,23 @@ class WorkStartDialog extends StatelessWidget {
               CustomTextButton(
                 label: 'キャンセル',
                 color: Colors.grey,
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  groupProvider.countStart();
+                  Navigator.pop(context);
+                },
               ),
               CustomTextButton(
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
+                  groupProvider.countStart();
                   Navigator.pop(context);
                   showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
                   );
+                  groupProvider.countStop();
                   if (!await workProvider.workStart(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
@@ -163,6 +172,7 @@ class WorkStartDialog extends StatelessWidget {
                     return;
                   }
                   groupProvider.reloadUser();
+                  groupProvider.countStart();
                   Navigator.pop(context);
                 },
               ),
@@ -209,18 +219,23 @@ class WorkEndDialog extends StatelessWidget {
               CustomTextButton(
                 label: 'キャンセル',
                 color: Colors.grey,
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  groupProvider.countStart();
+                  Navigator.pop(context);
+                },
               ),
               CustomTextButton(
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
+                  groupProvider.countStart();
                   Navigator.pop(context);
                   showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
                   );
+                  groupProvider.countStop();
                   if (!await workProvider.workEnd(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
@@ -234,6 +249,7 @@ class WorkEndDialog extends StatelessWidget {
                     return;
                   }
                   groupProvider.reloadUser();
+                  groupProvider.countStart();
                   Navigator.pop(context);
                 },
               ),
@@ -280,18 +296,23 @@ class BreakStartDialog extends StatelessWidget {
               CustomTextButton(
                 label: 'キャンセル',
                 color: Colors.grey,
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  groupProvider.countStart();
+                  Navigator.pop(context);
+                },
               ),
               CustomTextButton(
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
+                  groupProvider.countStart();
                   Navigator.pop(context);
                   showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
                   );
+                  groupProvider.countStop();
                   if (!await workProvider.breakStart(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
@@ -305,6 +326,7 @@ class BreakStartDialog extends StatelessWidget {
                     return;
                   }
                   groupProvider.reloadUser();
+                  groupProvider.countStart();
                   Navigator.pop(context);
                 },
               ),
@@ -351,18 +373,23 @@ class BreakEndDialog extends StatelessWidget {
               CustomTextButton(
                 label: 'キャンセル',
                 color: Colors.grey,
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  groupProvider.countStart();
+                  Navigator.pop(context);
+                },
               ),
               CustomTextButton(
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
+                  groupProvider.countStart();
                   Navigator.pop(context);
                   showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
                   );
+                  groupProvider.countStop();
                   if (!await workProvider.breakEnd(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
@@ -376,6 +403,7 @@ class BreakEndDialog extends StatelessWidget {
                     return;
                   }
                   groupProvider.reloadUser();
+                  groupProvider.countStart();
                   Navigator.pop(context);
                 },
               ),

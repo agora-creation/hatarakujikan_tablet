@@ -41,9 +41,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 32
 //        versionCode flutterVersionCode.toInteger()
-        versionCode 22
+        versionCode 23
 //        versionName flutterVersionName
-        versionName '2.0.2'
+        versionName '2.0.3'
         multiDexEnabled true
     }
 
@@ -79,5 +79,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-analytics'
-    implementation "io.grpc:grpc-okhttp:1.32.2"
+    implementation "io.grpc:grpc-okhttp:1.48.1"
 }

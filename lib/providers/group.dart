@@ -158,8 +158,7 @@ class GroupProvider with ChangeNotifier {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (currentSeconds < 1) {
         timer.cancel();
-        currentUser = null;
-        notifyListeners();
+        clearUser();
       } else {
         currentSeconds -= 1;
         notifyListeners();
@@ -169,7 +168,6 @@ class GroupProvider with ChangeNotifier {
 
   void countStop() {
     timer?.cancel();
-    notifyListeners();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? streamUsers() {
