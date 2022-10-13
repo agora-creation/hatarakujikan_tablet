@@ -25,7 +25,7 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
   Timer? _timer;
-  int _seconds = 10;
+  int _seconds = 30;
   int _currentSeconds = 0;
   List<WorkModel> works = [];
 

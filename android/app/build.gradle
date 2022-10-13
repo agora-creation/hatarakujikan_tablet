@@ -79,4 +79,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-analytics'
+    implementation "io.grpc:grpc-okhttp:1.32.2"
 }

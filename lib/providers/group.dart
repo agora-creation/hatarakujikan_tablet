@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -145,6 +147,22 @@ class GroupProvider with ChangeNotifier {
   void clearUser() {
     currentUser = null;
     notifyListeners();
+  }
+
+  int seconds = 30;
+  int currentSeconds = 0;
+
+  Timer countDown() {
+    return Timer.periodic(Duration(seconds: 1), (timer) {
+      if (currentSeconds < 1) {
+        timer.cancel();
+        currentUser = null;
+        notifyListeners();
+      } else {
+        currentSeconds -= 1;
+        notifyListeners();
+      }
+    });
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? streamUsers() {

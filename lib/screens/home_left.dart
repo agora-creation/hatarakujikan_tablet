@@ -6,6 +6,8 @@ import 'package:hatarakujikan_tablet/providers/group.dart';
 import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/widgets/clock.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_text_button.dart';
+import 'package:hatarakujikan_tablet/widgets/error_dialog.dart';
+import 'package:hatarakujikan_tablet/widgets/wait_dialog.dart';
 import 'package:hatarakujikan_tablet/widgets/work_buttons.dart';
 
 class HomeLeft extends StatefulWidget {
@@ -142,10 +144,22 @@ class WorkStartDialog extends StatelessWidget {
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
+                  Navigator.pop(context);
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
+                  );
                   if (!await workProvider.workStart(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
+                    Navigator.pop(context);
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (_) => ErrorDialog('出勤時間の記録に失敗しました。'),
+                    );
                     return;
                   }
                   groupProvider.reloadUser();
@@ -201,10 +215,22 @@ class WorkEndDialog extends StatelessWidget {
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
+                  Navigator.pop(context);
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
+                  );
                   if (!await workProvider.workEnd(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
+                    Navigator.pop(context);
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (_) => ErrorDialog('退勤時間の記録に失敗しました。'),
+                    );
                     return;
                   }
                   groupProvider.reloadUser();
@@ -260,10 +286,22 @@ class BreakStartDialog extends StatelessWidget {
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
+                  Navigator.pop(context);
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
+                  );
                   if (!await workProvider.breakStart(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
+                    Navigator.pop(context);
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (_) => ErrorDialog('休憩開始時間の記録に失敗しました。'),
+                    );
                     return;
                   }
                   groupProvider.reloadUser();
@@ -319,10 +357,22 @@ class BreakEndDialog extends StatelessWidget {
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
+                  Navigator.pop(context);
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
+                  );
                   if (!await workProvider.breakEnd(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
+                    Navigator.pop(context);
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (_) => ErrorDialog('休憩開始時間の記録に失敗しました。'),
+                    );
                     return;
                   }
                   groupProvider.reloadUser();
