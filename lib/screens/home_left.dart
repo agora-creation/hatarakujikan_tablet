@@ -142,38 +142,41 @@ class WorkStartDialog extends StatelessWidget {
               CustomTextButton(
                 label: 'キャンセル',
                 color: Colors.grey,
-                onPressed: () {
-                  groupProvider.countStart();
+                onPressed: () async {
                   Navigator.pop(context);
+                  await Future.delayed(Duration(seconds: 1));
+                  groupProvider.countStart();
                 },
               ),
               CustomTextButton(
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
-                  groupProvider.countStart();
                   Navigator.pop(context);
                   showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
                   );
-                  groupProvider.countStop();
                   if (!await workProvider.workStart(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
                     Navigator.pop(context);
+                    await Future.delayed(Duration(seconds: 1));
+                    groupProvider.countStart();
                     showDialog(
                       barrierDismissible: false,
                       context: context,
                       builder: (_) => ErrorDialog('出勤時間の記録に失敗しました。'),
                     );
                     return;
+                  } else {
+                    groupProvider.reloadUser();
+                    Navigator.pop(context);
+                    await Future.delayed(Duration(seconds: 1));
+                    groupProvider.countStart();
                   }
-                  groupProvider.reloadUser();
-                  groupProvider.countStart();
-                  Navigator.pop(context);
                 },
               ),
             ],
@@ -247,10 +250,11 @@ class WorkEndDialog extends StatelessWidget {
                       builder: (_) => ErrorDialog('退勤時間の記録に失敗しました。'),
                     );
                     return;
+                  } else {
+                    groupProvider.reloadUser();
+                    groupProvider.countStart();
+                    Navigator.pop(context);
                   }
-                  groupProvider.reloadUser();
-                  groupProvider.countStart();
-                  Navigator.pop(context);
                 },
               ),
             ],
@@ -324,10 +328,11 @@ class BreakStartDialog extends StatelessWidget {
                       builder: (_) => ErrorDialog('休憩開始時間の記録に失敗しました。'),
                     );
                     return;
+                  } else {
+                    groupProvider.reloadUser();
+                    groupProvider.countStart();
+                    Navigator.pop(context);
                   }
-                  groupProvider.reloadUser();
-                  groupProvider.countStart();
-                  Navigator.pop(context);
                 },
               ),
             ],
@@ -401,10 +406,11 @@ class BreakEndDialog extends StatelessWidget {
                       builder: (_) => ErrorDialog('休憩開始時間の記録に失敗しました。'),
                     );
                     return;
+                  } else {
+                    groupProvider.reloadUser();
+                    groupProvider.countStart();
+                    Navigator.pop(context);
                   }
-                  groupProvider.reloadUser();
-                  groupProvider.countStart();
-                  Navigator.pop(context);
                 },
               ),
             ],
