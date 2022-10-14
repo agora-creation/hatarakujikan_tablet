@@ -163,13 +163,14 @@ class WorkStartDialog extends StatelessWidget {
                     user: groupProvider.currentUser,
                   )) {
                     Navigator.pop(context);
-                    await Future.delayed(Duration(seconds: 1));
-                    groupProvider.countStart();
                     showDialog(
                       barrierDismissible: false,
                       context: context,
                       builder: (_) => ErrorDialog('出勤時間の記録に失敗しました。'),
-                    );
+                    ).then((value) async {
+                      await Future.delayed(Duration(seconds: 1));
+                      groupProvider.countStart();
+                    });
                     return;
                   } else {
                     groupProvider.reloadUser();
@@ -222,23 +223,22 @@ class WorkEndDialog extends StatelessWidget {
               CustomTextButton(
                 label: 'キャンセル',
                 color: Colors.grey,
-                onPressed: () {
-                  groupProvider.countStart();
+                onPressed: () async {
                   Navigator.pop(context);
+                  await Future.delayed(Duration(seconds: 1));
+                  groupProvider.countStart();
                 },
               ),
               CustomTextButton(
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
-                  groupProvider.countStart();
                   Navigator.pop(context);
                   showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
                   );
-                  groupProvider.countStop();
                   if (!await workProvider.workEnd(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
@@ -248,12 +248,16 @@ class WorkEndDialog extends StatelessWidget {
                       barrierDismissible: false,
                       context: context,
                       builder: (_) => ErrorDialog('退勤時間の記録に失敗しました。'),
-                    );
+                    ).then((value) async {
+                      await Future.delayed(Duration(seconds: 1));
+                      groupProvider.countStart();
+                    });
                     return;
                   } else {
                     groupProvider.reloadUser();
-                    groupProvider.countStart();
                     Navigator.pop(context);
+                    await Future.delayed(Duration(seconds: 1));
+                    groupProvider.countStart();
                   }
                 },
               ),
@@ -300,23 +304,22 @@ class BreakStartDialog extends StatelessWidget {
               CustomTextButton(
                 label: 'キャンセル',
                 color: Colors.grey,
-                onPressed: () {
-                  groupProvider.countStart();
+                onPressed: () async {
                   Navigator.pop(context);
+                  await Future.delayed(Duration(seconds: 1));
+                  groupProvider.countStart();
                 },
               ),
               CustomTextButton(
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
-                  groupProvider.countStart();
                   Navigator.pop(context);
                   showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
                   );
-                  groupProvider.countStop();
                   if (!await workProvider.breakStart(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
@@ -326,12 +329,16 @@ class BreakStartDialog extends StatelessWidget {
                       barrierDismissible: false,
                       context: context,
                       builder: (_) => ErrorDialog('休憩開始時間の記録に失敗しました。'),
-                    );
+                    ).then((value) async {
+                      await Future.delayed(Duration(seconds: 1));
+                      groupProvider.countStart();
+                    });
                     return;
                   } else {
                     groupProvider.reloadUser();
-                    groupProvider.countStart();
                     Navigator.pop(context);
+                    await Future.delayed(Duration(seconds: 1));
+                    groupProvider.countStart();
                   }
                 },
               ),
@@ -378,23 +385,22 @@ class BreakEndDialog extends StatelessWidget {
               CustomTextButton(
                 label: 'キャンセル',
                 color: Colors.grey,
-                onPressed: () {
-                  groupProvider.countStart();
+                onPressed: () async {
                   Navigator.pop(context);
+                  await Future.delayed(Duration(seconds: 1));
+                  groupProvider.countStart();
                 },
               ),
               CustomTextButton(
                 label: 'はい',
                 color: Colors.blue,
                 onPressed: () async {
-                  groupProvider.countStart();
                   Navigator.pop(context);
                   showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
                   );
-                  groupProvider.countStop();
                   if (!await workProvider.breakEnd(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
@@ -404,12 +410,16 @@ class BreakEndDialog extends StatelessWidget {
                       barrierDismissible: false,
                       context: context,
                       builder: (_) => ErrorDialog('休憩開始時間の記録に失敗しました。'),
-                    );
+                    ).then((value) async {
+                      await Future.delayed(Duration(seconds: 1));
+                      groupProvider.countStart();
+                    });
                     return;
                   } else {
                     groupProvider.reloadUser();
-                    groupProvider.countStart();
                     Navigator.pop(context);
+                    await Future.delayed(Duration(seconds: 1));
+                    groupProvider.countStart();
                   }
                 },
               ),
