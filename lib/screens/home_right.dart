@@ -33,13 +33,7 @@ class _HomeRightState extends State<HomeRight> {
   }
 
   Future _submit() async {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (_) => WaitDialog('認証中です。しばらくお待ちください。'),
-    );
     if (recordPassword == '') {
-      Navigator.pop(context);
       showDialog(
         barrierDismissible: false,
         context: context,
@@ -47,6 +41,11 @@ class _HomeRightState extends State<HomeRight> {
       );
       return;
     } else {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => WaitDialog('認証中です。しばらくお待ちください。'),
+      );
       if (!await widget.groupProvider.setUser(recordPassword: recordPassword)) {
         Navigator.pop(context);
         showDialog(
@@ -57,8 +56,9 @@ class _HomeRightState extends State<HomeRight> {
         return;
       } else {
         Navigator.pop(context);
+        setState(() => recordPassword = '');
+        return;
       }
-      setState(() => recordPassword = '');
     }
   }
 

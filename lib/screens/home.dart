@@ -52,8 +52,14 @@ class HomeScreen extends StatelessWidget {
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          HomeLeft(groupProvider: groupProvider, workProvider: workProvider),
-          HomeRight(groupProvider: groupProvider, workProvider: workProvider),
+          HomeLeft(
+            groupProvider: groupProvider,
+            workProvider: workProvider,
+          ),
+          HomeRight(
+            groupProvider: groupProvider,
+            workProvider: workProvider,
+          ),
         ],
       ),
     );

@@ -7,7 +7,6 @@ import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/widgets/clock.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_text_button.dart';
 import 'package:hatarakujikan_tablet/widgets/error_dialog.dart';
-import 'package:hatarakujikan_tablet/widgets/wait_dialog.dart';
 import 'package:hatarakujikan_tablet/widgets/work_buttons.dart';
 
 class HomeLeft extends StatefulWidget {
@@ -153,16 +152,10 @@ class WorkStartDialog extends StatelessWidget {
                 color: Colors.blue,
                 onPressed: () async {
                   Navigator.pop(context);
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
-                  );
                   if (!await workProvider.workStart(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
-                    Navigator.pop(context);
                     showDialog(
                       barrierDismissible: false,
                       context: context,
@@ -174,9 +167,9 @@ class WorkStartDialog extends StatelessWidget {
                     return;
                   } else {
                     groupProvider.reloadUser();
-                    Navigator.pop(context);
                     await Future.delayed(Duration(seconds: 1));
                     groupProvider.countStart();
+                    return;
                   }
                 },
               ),
@@ -234,16 +227,10 @@ class WorkEndDialog extends StatelessWidget {
                 color: Colors.blue,
                 onPressed: () async {
                   Navigator.pop(context);
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
-                  );
                   if (!await workProvider.workEnd(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
-                    Navigator.pop(context);
                     showDialog(
                       barrierDismissible: false,
                       context: context,
@@ -255,9 +242,9 @@ class WorkEndDialog extends StatelessWidget {
                     return;
                   } else {
                     groupProvider.reloadUser();
-                    Navigator.pop(context);
                     await Future.delayed(Duration(seconds: 1));
                     groupProvider.countStart();
+                    return;
                   }
                 },
               ),
@@ -315,16 +302,10 @@ class BreakStartDialog extends StatelessWidget {
                 color: Colors.blue,
                 onPressed: () async {
                   Navigator.pop(context);
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
-                  );
                   if (!await workProvider.breakStart(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
                   )) {
-                    Navigator.pop(context);
                     showDialog(
                       barrierDismissible: false,
                       context: context,
@@ -336,9 +317,9 @@ class BreakStartDialog extends StatelessWidget {
                     return;
                   } else {
                     groupProvider.reloadUser();
-                    Navigator.pop(context);
                     await Future.delayed(Duration(seconds: 1));
                     groupProvider.countStart();
+                    return;
                   }
                 },
               ),
@@ -396,11 +377,6 @@ class BreakEndDialog extends StatelessWidget {
                 color: Colors.blue,
                 onPressed: () async {
                   Navigator.pop(context);
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (_) => WaitDialog('記録中です。しばらくお待ちください。'),
-                  );
                   if (!await workProvider.breakEnd(
                     group: groupProvider.group,
                     user: groupProvider.currentUser,
@@ -417,9 +393,9 @@ class BreakEndDialog extends StatelessWidget {
                     return;
                   } else {
                     groupProvider.reloadUser();
-                    Navigator.pop(context);
                     await Future.delayed(Duration(seconds: 1));
                     groupProvider.countStart();
+                    return;
                   }
                 },
               ),

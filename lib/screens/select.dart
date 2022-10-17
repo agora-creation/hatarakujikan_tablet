@@ -26,7 +26,7 @@ class _SelectScreenState extends State<SelectScreen> {
   }
 
   void _init() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 2));
     List<GroupModel> _groups = widget.groupProvider.groups;
     if (_groups.length == 1) {
       await _next(_groups.first);
