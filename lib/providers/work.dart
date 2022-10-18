@@ -19,8 +19,9 @@ class WorkProvider with ChangeNotifier {
   }) async {
     if (group == null) return false;
     if (user == null) return false;
+    String _id = _workService.id();
+    if (_id == '') return false;
     try {
-      String _id = _workService.id();
       _workService.create({
         'id': _id,
         'groupId': group.id,
@@ -53,6 +54,7 @@ class WorkProvider with ChangeNotifier {
   }) async {
     if (group == null) return false;
     if (user == null) return false;
+    if (user.lastWorkId == '') return false;
     WorkModel? _work = await _workService.select(id: user.lastWorkId);
     if (_work?.groupId != group.id) return false;
     if (_work?.userId != user.id) return false;
@@ -98,6 +100,7 @@ class WorkProvider with ChangeNotifier {
   }) async {
     if (group == null) return false;
     if (user == null) return false;
+    if (user.lastWorkId == '') return false;
     WorkModel? _work = await _workService.select(id: user.lastWorkId);
     if (_work?.groupId != group.id) return false;
     if (_work?.userId != user.id) return false;
@@ -138,6 +141,8 @@ class WorkProvider with ChangeNotifier {
   }) async {
     if (group == null) return false;
     if (user == null) return false;
+    if (user.lastWorkId == '') return false;
+    if (user.lastBreakId == '') return false;
     WorkModel? _work = await _workService.select(id: user.lastWorkId);
     if (_work?.groupId != group.id) return false;
     if (_work?.userId != user.id) return false;
