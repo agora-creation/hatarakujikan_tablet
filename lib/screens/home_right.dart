@@ -4,7 +4,6 @@ import 'package:hatarakujikan_tablet/providers/work.dart';
 import 'package:hatarakujikan_tablet/widgets/error_dialog.dart';
 import 'package:hatarakujikan_tablet/widgets/history.dart';
 import 'package:hatarakujikan_tablet/widgets/keypad.dart';
-import 'package:hatarakujikan_tablet/widgets/wait_dialog.dart';
 
 class HomeRight extends StatefulWidget {
   final GroupProvider groupProvider;
@@ -39,25 +38,15 @@ class _HomeRightState extends State<HomeRight> {
         context: context,
         builder: (_) => ErrorDialog('暗証番号を入力してください。'),
       );
-      return;
     } else {
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (_) => WaitDialog('認証中です。しばらくお待ちください。'),
-      );
       if (!await widget.groupProvider.setUser(recordPassword: recordPassword)) {
-        Navigator.pop(context);
         showDialog(
           barrierDismissible: false,
           context: context,
           builder: (_) => ErrorDialog('入力された暗証番号では認証できませんでした。'),
         );
-        return;
       } else {
-        Navigator.pop(context);
         setState(() => recordPassword = '');
-        return;
       }
     }
   }
