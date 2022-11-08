@@ -22,25 +22,54 @@ class WorkProvider with ChangeNotifier {
     String _id = _workService.id();
     if (_id == '') return false;
     try {
-      _workService.create({
-        'id': _id,
-        'groupId': group.id,
-        'userId': user.id,
-        'startedAt': DateTime.now(),
-        'startedLat': 0.0,
-        'startedLon': 0.0,
-        'endedAt': DateTime.now(),
-        'endedLat': 0.0,
-        'endedLon': 0.0,
-        'breaks': [],
-        'state': workStates.first,
-        'createdAt': DateTime.now(),
-      });
-      _userService.update({
-        'id': user.id,
-        'workLv': 1,
-        'lastWorkId': _id,
-      });
+      if (user.autoWorkEnd == true) {
+        DateTime startedAt = DateTime.now();
+        String _date = dateText('yyyy-MM-dd', DateTime.now());
+        String _time = '${user.autoWorkEndTime.padLeft(5, '0')}:00.000';
+        DateTime endedAt = DateTime.parse('$_date $_time');
+        if (startedAt.millisecondsSinceEpoch > endedAt.millisecondsSinceEpoch) {
+          endedAt.add(Duration(days: 1));
+        }
+        _workService.create({
+          'id': _id,
+          'groupId': group.id,
+          'userId': user.id,
+          'startedAt': startedAt,
+          'startedLat': 0.0,
+          'startedLon': 0.0,
+          'endedAt': endedAt,
+          'endedLat': 0.0,
+          'endedLon': 0.0,
+          'breaks': [],
+          'state': workStates.first,
+          'createdAt': DateTime.now(),
+        });
+        _userService.update({
+          'id': user.id,
+          'workLv': 0,
+          'lastWorkId': '',
+        });
+      } else {
+        _workService.create({
+          'id': _id,
+          'groupId': group.id,
+          'userId': user.id,
+          'startedAt': DateTime.now(),
+          'startedLat': 0.0,
+          'startedLon': 0.0,
+          'endedAt': DateTime.now(),
+          'endedLat': 0.0,
+          'endedLon': 0.0,
+          'breaks': [],
+          'state': workStates.first,
+          'createdAt': DateTime.now(),
+        });
+        _userService.update({
+          'id': user.id,
+          'workLv': 1,
+          'lastWorkId': _id,
+        });
+      }
       return true;
     } catch (e) {
       print(e.toString());

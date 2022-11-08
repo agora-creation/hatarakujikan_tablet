@@ -40,6 +40,15 @@ class Clock extends StatelessWidget {
                         '下のボタンから選んで押してください',
                         style: kHomeTextStyle,
                       ),
+                      user?.autoWorkEnd == true
+                          ? SizedBox(height: 16)
+                          : Container(),
+                      user?.autoWorkEnd == true
+                          ? Text(
+                              '※自動退勤が設定されています。出勤ボタンを押すと同時に「${user?.autoWorkEndTime ?? '00:00'}」に退勤したことになります。',
+                              style: TextStyle(color: Colors.red),
+                            )
+                          : Container(),
                     ],
                   ),
           ],
