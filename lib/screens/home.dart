@@ -11,7 +11,18 @@ import 'package:hatarakujikan_tablet/screens/users.dart';
 import 'package:hatarakujikan_tablet/widgets/custom_text_button.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    versionCheck(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);

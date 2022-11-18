@@ -102,3 +102,6 @@ const TextStyle kKeypad2TextStyle = TextStyle(
   fontWeight: FontWeight.bold,
   letterSpacing: 8.0,
 );
+
+const ANDROID_APP_ID = 'com.agoracreation.hatarakujikan_tablet';
+const IOS_BUNDLE_ID = 'com.agoracreation.hatarakujikanTablet';

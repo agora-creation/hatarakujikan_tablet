@@ -1,14 +1,12 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_tablet/helpers/style.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:package_info/package_info.dart';
+import 'package:new_version/new_version.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 void nextScreen(BuildContext context, Widget widget) {
   Navigator.push(
@@ -110,47 +108,6 @@ Timestamp convertTimestamp(DateTime date, bool end) {
   );
 }
 
-// バージョンチェック
-Future<bool> versionCheck() async {
-  final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  int currentVersion = int.parse(packageInfo.buildNumber);
-  final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-  try {
-    await remoteConfig.fetch();
-    await remoteConfig.fetchAndActivate();
-    final remoteConfigAppVersionKey = Platform.isIOS
-        ? 'app_ios_required_semver'
-        : 'app_android_required_semver';
-    int newVersion = remoteConfig.getInt(remoteConfigAppVersionKey);
-    if (newVersion > currentVersion) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (e) {
-    return false;
-  }
-}
-
-// ストアURL
-const String iosUrl = 'https://itunes.apple.com/jp/app/id1571904972?mt=8';
-const String androidUrl =
-    'https://play.google.com/store/apps/details?id=com.agoracreation.hatarakujikan_tablet';
-
-void launchUpdate() async {
-  String _url;
-  if (Platform.isIOS) {
-    _url = iosUrl;
-  } else {
-    _url = androidUrl;
-  }
-  if (await canLaunch(_url)) {
-    await launch(_url);
-  } else {
-    throw 'Could not launch $_url';
-  }
-}
-
 String dateText(String format, DateTime? date) {
   String _ret = '';
   if (date != null) {
@@ -163,4 +120,30 @@ void customSnackBar(BuildContext context, String? message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(content: Text(message ?? '')),
   );
+}
+
+void versionCheck(BuildContext context) {
+  final newVersion = NewVersion(
+    androidId: ANDROID_APP_ID,
+    iOSId: IOS_BUNDLE_ID,
+    iOSAppStoreCountry: 'JP',
+  );
+  _advancedStatusCheck(newVersion, context);
+}
+
+void _advancedStatusCheck(NewVersion newVersion, BuildContext context) async {
+  final status = await newVersion.getVersionStatus();
+  if (status != null && status.canUpdate) {
+    String storeVersion = status.storeVersion;
+    String releaseNote = status.releaseNotes.toString();
+    newVersion.showUpdateDialog(
+      context: context,
+      versionStatus: status,
+      dialogTitle: 'アップデートが必要です。',
+      dialogText:
+          'Ver.$storeVersionが公開されています。¥n最新バージョンにアップデートをお願いします。¥n¥nバージョンアップ内容は以下の通りです。¥n$releaseNote',
+      updateButtonText: 'アップデート',
+      allowDismissal: false,
+    );
+  }
 }

@@ -10,7 +10,18 @@ import 'package:hatarakujikan_tablet/widgets/loading.dart';
 import 'package:hatarakujikan_tablet/widgets/round_background_button.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+    versionCheck(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
