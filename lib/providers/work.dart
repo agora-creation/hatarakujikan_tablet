@@ -6,10 +6,12 @@ import 'package:hatarakujikan_tablet/models/breaks.dart';
 import 'package:hatarakujikan_tablet/models/group.dart';
 import 'package:hatarakujikan_tablet/models/user.dart';
 import 'package:hatarakujikan_tablet/models/work.dart';
+import 'package:hatarakujikan_tablet/services/log.dart';
 import 'package:hatarakujikan_tablet/services/user.dart';
 import 'package:hatarakujikan_tablet/services/work.dart';
 
 class WorkProvider with ChangeNotifier {
+  LogService _logService = LogService();
   UserService _userService = UserService();
   WorkService _workService = WorkService();
 
@@ -115,6 +117,24 @@ class WorkProvider with ChangeNotifier {
         'id': user.id,
         'workLv': 0,
         'lastWorkId': '',
+      });
+      String _logId = _logService.id();
+      String d = '';
+      d += '[出勤] ${dateText('yyyy/MM/dd HH:mm', _work?.startedAt)}\n';
+      d += '[退勤] ${dateText('yyyy/MM/dd HH:mm', _work?.endedAt)}\n';
+      for (BreaksModel _breaksModel in _work?.breaks ?? []) {
+        d += '[休憩開始] ${dateText('yyyy/MM/dd HH:mm', _breaksModel.startedAt)}\n';
+        d += '[休憩終了] ${dateText('yyyy/MM/dd HH:mm', _breaksModel.endedAt)}\n';
+      }
+      _logService.create({
+        'id': _logId,
+        'groupId': _work?.groupId,
+        'userId': _work?.userId,
+        'userName': user.name,
+        'workId': _work?.id,
+        'title': '勤怠データを記録しました',
+        'details': d.trim(),
+        'createdAt': DateTime.now(),
       });
       return true;
     } catch (e) {
