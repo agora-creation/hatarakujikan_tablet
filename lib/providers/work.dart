@@ -32,6 +32,19 @@ class WorkProvider with ChangeNotifier {
         if (startedAt.millisecondsSinceEpoch > endedAt.millisecondsSinceEpoch) {
           endedAt.add(Duration(days: 1));
         }
+        List<Map> _breaks = [];
+        if (group.autoBreak == true) {
+          String _breaksId = randomString(20);
+          _breaks.add({
+            'id': _breaksId,
+            'startedAt': DateTime.now(),
+            'startedLat': 0.0,
+            'startedLon': 0.0,
+            'endedAt': DateTime.now().add(Duration(hours: 1)),
+            'endedLat': 0.0,
+            'endedLon': 0.0,
+          });
+        }
         _workService.create({
           'id': _id,
           'groupId': group.id,
@@ -42,7 +55,7 @@ class WorkProvider with ChangeNotifier {
           'endedAt': endedAt,
           'endedLat': 0.0,
           'endedLon': 0.0,
-          'breaks': [],
+          'breaks': _breaks,
           'state': workStates.first,
           'createdAt': DateTime.now(),
         });

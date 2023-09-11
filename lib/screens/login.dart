@@ -17,12 +17,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
-  void initState() {
-    super.initState();
-    versionCheck(context);
-  }
-
-  @override
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
 
