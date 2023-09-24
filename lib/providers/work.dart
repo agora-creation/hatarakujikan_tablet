@@ -62,7 +62,6 @@ class WorkProvider with ChangeNotifier {
         _userService.update({
           'id': user.id,
           'workLv': 0,
-          'lastWorkId': '',
         });
       } else {
         _workService.create({

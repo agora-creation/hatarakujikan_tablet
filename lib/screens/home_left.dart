@@ -385,7 +385,7 @@ class BreakEndDialog extends StatelessWidget {
                     showDialog(
                       barrierDismissible: false,
                       context: context,
-                      builder: (_) => ErrorDialog('休憩開始時間の記録に失敗しました。'),
+                      builder: (_) => ErrorDialog('休憩終了時間の記録に失敗しました。'),
                     ).then((value) async {
                       await Future.delayed(Duration(seconds: 1));
                       groupProvider.countStart();
