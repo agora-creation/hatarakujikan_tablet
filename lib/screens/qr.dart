@@ -30,7 +30,7 @@ class QrScreen extends StatelessWidget {
           children: [
             Expanded(
               child: Center(
-                child: QrImage(
+                child: QrImageView(
                   data: group?.id ?? '',
                   version: QrVersions.auto,
                   size: 400.0,

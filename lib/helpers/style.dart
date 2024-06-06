@@ -17,8 +17,9 @@ ThemeData theme() {
       iconTheme: IconThemeData(color: Colors.black54),
     ),
     textTheme: TextTheme(
-      bodyText1: TextStyle(color: Colors.black54),
-      bodyText2: TextStyle(color: Colors.black54),
+      bodyLarge: TextStyle(color: Colors.black54),
+      bodyMedium: TextStyle(color: Colors.black54),
+      bodySmall: TextStyle(color: Colors.black54),
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
