@@ -13,16 +13,16 @@ import 'package:provider/provider.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyCCEn5twtEVssNBtIH3pxq_W-VNQryOCd8",
-      authDomain: "hatarakujikan.firebaseapp.com",
-      projectId: "hatarakujikan",
-      storageBucket: "hatarakujikan.appspot.com",
-      messagingSenderId: "433017475057",
-      appId: "1:433017475057:web:430c0d7883f7e6e0ebfe50",
-      measurementId: "G-LKWJP6K6D7",
-    ),
-  );
+      // options: FirebaseOptions(
+      //   apiKey: "AIzaSyCCEn5twtEVssNBtIH3pxq_W-VNQryOCd8",
+      //   authDomain: "hatarakujikan.firebaseapp.com",
+      //   projectId: "hatarakujikan",
+      //   storageBucket: "hatarakujikan.appspot.com",
+      //   messagingSenderId: "433017475057",
+      //   appId: "1:433017475057:web:430c0d7883f7e6e0ebfe50",
+      //   measurementId: "G-LKWJP6K6D7",
+      // ),
+      );
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,

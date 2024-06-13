@@ -9,7 +9,7 @@ class GroupService {
     GroupModel? _group;
     await _firebaseFirestore
         .collection(_collection)
-        .doc(id)
+        .doc(id ?? 'error')
         .get()
         .then((value) {
       _group = GroupModel.fromSnapshot(value);
@@ -21,7 +21,7 @@ class GroupService {
     List<GroupModel> _groups = [];
     await _firebaseFirestore
         .collection(_collection)
-        .where('adminUserId', isEqualTo: userId)
+        .where('adminUserId', isEqualTo: userId ?? 'error')
         .orderBy('createdAt', descending: true)
         .get()
         .then((value) {

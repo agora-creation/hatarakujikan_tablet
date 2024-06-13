@@ -13,7 +13,7 @@ class UserService {
     UserModel? _user;
     await _firebaseFirestore
         .collection(_collection)
-        .doc(id)
+        .doc(id ?? 'error')
         .get()
         .then((value) {
       _user = UserModel.fromSnapshot(value);

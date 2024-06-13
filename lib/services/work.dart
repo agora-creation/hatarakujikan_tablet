@@ -21,7 +21,7 @@ class WorkService {
     WorkModel? _work;
     await _firebaseFirestore
         .collection(_collection)
-        .doc(id)
+        .doc(id ?? 'error')
         .get()
         .then((value) {
       _work = WorkModel.fromSnapshot(value);
