@@ -36,8 +36,10 @@ class UsersScreen extends StatelessWidget {
             for (DocumentSnapshot<Map<String, dynamic>> doc
                 in snapshot.data!.docs) {
               UserModel _user = UserModel.fromSnapshot(doc);
-              if (userIds.contains(_user.id)) {
-                users.add(_user);
+              if (!_user.retired) {
+                if (userIds.contains(_user.id)) {
+                  users.add(_user);
+                }
               }
             }
           }
